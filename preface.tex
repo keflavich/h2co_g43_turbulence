@@ -1,0 +1,147 @@
+%\documentclass[defaultstyle,11pt]{thesis}
+\documentclass[]{report}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%  see documentation for information about  %%%%%%%%%%
+%%%%%%%%%%%  the options (11pt, defaultstyle, etc.)   %%%%%%%%%%
+%%%%%%%  http://www.colorado.edu/its/docs/latex/thesis/  %%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		\documentclass[typewriterstyle]{thesis}
+% 		\documentclass[modernstyle]{thesis}
+% 		\documentclass[modernstyle,11pt]{thesis}
+%	 	\documentclass[modernstyle,12pt]{thesis}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%    load any packages which are needed    %%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{deluxetable}
+\usepackage{latexsym}		% to get LASY symbols
+\usepackage{graphicx}		% to insert PostScript figures
+%\usepackage{deluxetable}
+\usepackage{rotating}		% for sideways tables/figures
+\usepackage{natbib}  % Requires natbib.sty, available from http://ads.harvard.edu/pubs/bibtex/astronat/
+\usepackage{savesym}
+\usepackage{amssymb}
+%\savesymbol{singlespace}
+\savesymbol{doublespace}
+%\usepackage{wrapfig}
+%\usepackage{setspace}
+\usepackage{xspace}
+\usepackage{color}
+\usepackage{multicol}
+\usepackage{mdframed}
+\usepackage{url}
+\usepackage{aastex_hack}
+\usepackage{subfigure}
+%\usepackage{emulateapj}
+\usepackage{lscape}
+\usepackage{grffile}
+\usepackage{standalone}
+\standalonetrue
+\usepackage{import}
+\usepackage[utf8]{inputenc}
+\usepackage{longtable}
+\usepackage{booktabs}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%       all the preamble material:       %%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \title{Star Formation in the Galaxy}
+% 
+% \author{Adam G.}{Ginsburg}
+% 
+% \otherdegrees{B.S., Rice University, 2007\\
+% 	      M.S., University of Colorado, Boulder, 2009}
+% 
+% \degree{Doctor of Philosophy}		%  #1 {long descr.}
+% 	{Ph.D., Rocket Science (ok, fine, astrophysics)}		%  #2 {short descr.}
+% 
+% \dept{Department of}			%  #1 {designation}
+% 	{Astrophysical and Planetary Sciences}		%  #2 {name}
+% 
+% \advisor{Prof.}				%  #1 {title}
+% 	{John Bally}			%  #2 {name}
+% 
+% \reader{Prof.~Jeremy Darling}		%  2nd person to sign thesis
+% \readerThree{Prof.~Jason Glenn}		%  3rd person to sign thesis
+% \readerFour{Prof.~Michael Shull}	%  4rd person to sign thesis
+% \readerFour{Prof.~Neal Evans}	%  4rd person to sign thesis
+% 
+% \abstract{  \OnePageChapter	% one page only ??
+% 
+%     I discovered dust in space.  
+% 
+% 	}
+% 
+% 
+% \dedication[Dedication]{	% NEVER use \OnePageChapter here.
+% 	To 1, the second number in binary.
+% 	}
+% 
+% \acknowledgements{	\OnePageChapter	% *MUST* BE ONLY ONE PAGE!
+% 	All y'all.
+% 	}
+% 
+% \ToCisShort	% a 1-page Table of Contents ??
+% 
+% \LoFisShort	% a 1-page List of Figures ??
+% %	\emptyLoF	% no List of Figures at all ??
+% 
+% \LoTisShort	% a 1-page List of Tables ??
+% %	\emptyLoT	% no List of Tables at all ??
+% 
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%       BEGIN DOCUMENT...         %%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% %%%%  footnote style; default=\arabic  (numbered 1,2,3...)
+% %%%%  others:  \roman, \Roman, \alph, \Alph, \fnsymbol
+% %	"\fnsymbol" uses asterisk, dagger, double-dagger, etc.
+% %	\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+% %	\setcounter{footnote}{0}
+
+\input{macros}		% file containing author's macro definitions
+
+\begin{document}
+% \input{introduction}
+% 
+% %\input{ch_iras05358}
+% \input{ch_w5}
+% \input{ch_h2co}
+% \input{ch_h2colarge}
+% \input{ch_boundhii}
+% 
+% %\input ch2.tex			% file with Chapter 2 contents
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%  Bibliography %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \bibliographystyle{plain}	% or "siam", or "alpha", or "abbrv"
+% 				% see other styles (.bst files) in
+% 				% $TEXHOME/texmf/bibtex/bst
+% 
+% \nocite{*}		% list all refs in database, cited or not.
+% 
+% \bibliography{thesis}		% bib database file refs.bib
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%  Appendices %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \appendix	% don't forget this line if you have appendices!
+% 
+% %\input appA.tex			% file with Appendix A contents
+% %\input appB.tex			% file with Appendix B contents
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%   THE END   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \end{document}
+% 
+% 
