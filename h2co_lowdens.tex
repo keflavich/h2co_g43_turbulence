@@ -189,19 +189,23 @@ Supersonic interstellar turbulence can be characterized by its driving mode,
 Mach number $\mathcal{M}$, and magnetic field strength.  The with of the turbulent density distribution
 is given by
 \begin{equation}
+    \label{eqn:sigmas}
     \sigma_s^2 = \ln\left(1+b^2 \mathcal{M}^2 \frac{\beta}{\beta+1}\right)
 \end{equation}
 where $\beta= 2 c_s^2/v_A^2 = 2 \mathcal{M}_A^2/\mathcal{M}^2$ and $b$ ranges
 from 1/3 (solenoidal, divergence-free forcing) to 1 (compressive, curl-free)
-forcing.
+forcing.  The parameter $s\equiv\rho/\rho_0$.
 
 The observed \formaldehyde ratio depends on the \emph{mass-weighted}
 probability distribution function (as opposed to the volume-weighted
 distribution function, which is typically reported in simulations)
 such that $p_m(s) = \rho \cdot p_s(s)$, or
 \begin{equation}
-    p_m(s) = \frac{\rho}{\sqrt{2 \pi \sigma_s^2}} \exp{\left(-\frac{(s-s_0)^2}{2 \sigma_s^2}\right)}
+    \label{eqn:lognormal}
+    p_m(s) = \frac{s}{\sqrt{2 \pi \sigma_s^2}} \exp{\left(-\frac{(s-s_0)^2}{2 \sigma_s^2}\right)}
 \end{equation}
+where we have assumed a lognormal form for $p_m(s)$.  Other forms of the density PDF will be
+addressed in Section \ref{sec:simpdfs}.
 
 We use LVG models of the \formaldehyde lines, which are computed assuming a
 fixed local density, as a starting point to model the observations of
@@ -218,10 +222,83 @@ column density of \ortho for the higher densities in Equation
 \ref{eqn:tauintegral}.  As long as the \formaldehyde lines are optically thin,
 this approach should yield the right \emph{ratio} of the two lines, although the
 absolute optical depths may be substantially smaller because of lower total
-\ortho columns.
+\ortho columns.  An example of this smoothing is shown in Figure
+\ref{fig:lvgsmooth}.
 
-\Figure{figures/lognormalsmooth_density_ratio_massweight_logopr-1.0_abund-9.png}
+\Figure{figures/lognormalsmooth_density_ratio_massweight_logopr0.0_abund-9.png}
+{The predicted \formaldehyde \oneone/\twotwo ratio as a function of \emph{mean}
+density for a fixed abundance relative to \hh $X(\ortho) = 10^{-9}$ and \hh
+ortho/para ratio 1.0.  The legend shows the effect of smoothing with different
+lognormal mass distributions as described in Equations \ref{eqn:sigmas} and
+\ref{eqn:lognormal}.  The solid line, labeled LVG, shows the predicted ratio
+with no smoothing.
+}
+{fig:lvgsmooth}{0.5}{0}
 
+\subsection{Turbulence and GRSMC 43.30-0.33}
+Assuming a temperature $T=10$ K, consistent with both the \formaldehyde and CO
+observations \citep{Plume2004a}, the sound speed in molecular gas is $c_s=0.25$
+\kms.  The observed line FWHM is 0.95 \kms for \formaldehyde and 1.7 \kms for
+\thirteenco 1-0, so the Mach number of the turbulence is $\mathcal{M} \approx
+3.8-6.8$.  Assuming the thermal dominates the magnetic pressure ($\beta>>1$),
+the allowed values of $\sigma_s$ range from 1.6-2.0 for $b=1$ and 1-1.3 for
+$b=1/3$.  If magnetic pressure is significant, the allowed values of $\sigma_s$
+drop.
+
+Given that the observed mean cloud density is $n(\hh)\sim10^2 \percc$, Figure
+\ref{fig:lvgsmooth} shows that only the most extreme values of $\sigma_s$ can
+explain the mean density.  Even if the cloud is extremely oblate, e.g. with a
+line-of-sight axis $0.1\times$ the plane-of-sky axes, $\sigma_s \gtrsim 1.5$ is
+required.
+
+These restrictions on $\sigma_s$ are strong indications that compressive
+forcing must be a significant, if not dominant, mode in this molecular cloud.
+If magnetic fields are in balance with or dominate thermal pressure in this
+cloud \todo{Look at Crutcher's measurements of B-field with Zeeman OH
+observations}, $\beta\gtrsim2/3$, the forcing must be predominantly
+compressive, with $b>0.8$.
+
+\subsection{Simulated PDFs}
+\label{sec:simpdfs}
+Real turbulent PDFs are not truly lognormal, though often they are
+well-approximated as lognormals.  We have used some of the PDFs from
+\citet{Federrath2012a} to perform additional smoothing and determine
+whether deviations from lognormal can explain the observed density contrasts.
+
+To perform the smoothing, we converted the simulation's volume-weighted PDF to
+a mass-weighted PDF using Equation \ref{eqn:lognormal} and used an identical
+PDF shape for each mean density (i.e., we kept the shape of the PDF the same
+but changed its mean for use in Equation \ref{eqn:tauintegral}).  Results of this process
+are shown in Figure \ref{fig:rescalepdfs}.
+
+\FigureTwoAA{figures/federrath_pdfs_volume_mach10.png}{figures/federrath_pdfs_recentered_massweighted_fitted_mach10.png}
+{PDFs from \citet{Federrath2012a}.  (a) Volume-weighted PDFs for various
+simulations with $\mathcal{M}=10$.  (b) Mass-weighted PDFs from the same
+simulations as (a).  These PDFs have been recentered such that they
+have a mean overdensity $s=0$.
+}{fig:rescalepdfs}{1}{5in}
+
+In order to simplify the application of these PDFs to the LVG models, we fit
+the asymmetric distributions with the sum of two lognormals with different
+means.  This approach allows for an easier exploration of parameter space.
+An example demonstrating that two lognormals is a good approximation of one of the
+compressive simulations is shown in Figure \ref{fig:fittedpdf}.
+
+\Figure{figures/federrath_mach10_rescaled_massweighted_fitted.png}
+{The Mach 10 compressive simulation PDF from \citet{Federrath2012a} is shown in
+blue with the best-fit single lognormal in green and sum of two lognormals in
+red.  The two-lognormal approximation is a good fit to the simulated PDF.}
+{fig:fittedpdf}{0.5}{0}
+
+To use these fitted two-lognormal distributions, we create new PDFs consisting
+of lognormals with the sample amplitude \& width ratios and the same mean
+differences as the fit in Figure \ref{fig:fittedpdf}, but with the total width
+scaled.  In Figure \ref{fig:compsmooth} [not included; see below], the reported widths for the
+``compressive'' distributions are the widths of the wider, lower distribution
+in \ref{fig:fittedpdf}.
+
+Upon further inspection, this approximation actually does a poor job as it
+fails to reproduce the tails, which are more important than the peak.
 
 \input{solobib}
 \end{document}
