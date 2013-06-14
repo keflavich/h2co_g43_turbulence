@@ -15,3 +15,4 @@ h2co_lowdens:
 	${LATEX} h2co_lowdens.tex
 	${BIBTEX} h2co_lowdens
 	${LATEX} h2co_lowdens.tex
+	cp h2co_lowdens.pdf h2co_turbulence_`date +%Y%m%d`.pdf
