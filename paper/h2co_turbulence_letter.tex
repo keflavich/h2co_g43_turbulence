@@ -554,28 +554,19 @@ moderately compatible with the observed Mach numbers.  Using the relation
 from \citet{Hopkins2013a} Figure 3, we can derive a lower limit $b>0.65$ at the
 95\% confidence level ($b>0.49$ at 99.9\% confidence).
 
-
-% Using the $\sigma_s=2.5$ distribution, which is
-% just barely consistent with the observations, $T=0.29$, and based on
-% \citet{Hopkins2013a} Figure 3, the compressive Mach number $\mathcal{M}_c ~ 20
-% T \approx 5.8$.   Compared to the Mach number restrictions from the line width,
-% this $\mathcal{M}_C$ implies a compressive-to-total ratio $b > 0.6$.
-% In [74]: hopkins_pdf.T_of_sigma(2.5)
-% Out[74]: 0.2906836447265763
-% 
-% In [75]: hopkins_pdf.T_of_sigma(2.5) * 20
-% Out[75]: 5.813672894531527
-% 
-% In [76]: hopkins_pdf.T_of_sigma(2.0)
-% Out[76]: 0.22018342653110817
-% 
-% In [77]: hopkins_pdf.T_of_sigma(2.0) * 20
-% Out[77]: 4.403668530622164
-
-
-The restrictions on $\sigma_s$ using either assumed density distribution are
+The measurements of $\sigma_s$ using either assumed density distribution are
 strong indications that compressive forcing must be a significant, if not
-dominant, mode in this molecular cloud.  
+dominant, mode in this molecular cloud.  All of the systematic uncertainties
+tend to require a \emph{greater} $b$ value, while we have already inferred a lower-limit
+that is higher than others have observed \citep{Brunt2011c,Kainulainen2013a}.
+Temperatures in GMCs are typically 10-20 K, and we assumed 10 K: warmer
+temperatures increase the sound speed and therefore decrease the Mach number. If
+the cloud is warmer, the $b$ values again must be higher to account for the measured
+$\sigma_s$.  Magnetic fields similarly have the inverse effect of $b$ on
+$\sigma_s$, with decreasing $\beta$ requiring higher $b$ for the same
+$\sigma_s$.
+
+
 % Since magnetic fields have the
 % opposite effect of compressive turbulence on the density distribution, magnetic
 % fields cannot explain the observations.
@@ -583,12 +574,6 @@ dominant, mode in this molecular cloud.
 % or dominate thermal pressure in this cloud, $\beta\gtrsim2/3$, the forcing must
 % be predominantly compressive, with $b>1/3$.
 % Crutcher & others seem not to have detected Zeeman splitting in this cloud
-All of the systematic uncertainties tend to require a \emph{greater} $b$
-value.  Temperatures in GMCs are typically 10-20 K: warmer temperatures
-increase the sound speed, decrease the Mach number, and therefore decrease
-$\sigma_s$.  Stronger (i.e. non-negligible) magnetic fields decrease
-$\sigma_s$.
-
 
 \Figure{figures/lognormalsmooth_density_distributions_sigma2.0.png}
 {Example volume- and mass-weighted density distributions with $\sigma_s=2.0$.

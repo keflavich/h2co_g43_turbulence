@@ -7,14 +7,13 @@ import numpy as np
 import hopkins_pdf
 import turbulent_pdfs
 from turbulent_pdfs import lognormal
-from scipy.optimize import curve_fit
 
 try:
     from agpy import readcol
     radtab = readcol('radex_data/1-1_2-2_XH2CO=1e-9_troscompt.dat',asRecArray=True)
 except ImportError:
-    import astropy.table 
-    radtab = table.read('radex_data/1-1_2-2_XH2CO=1e-9_troscompt.dat',format='ascii')
+    import astropy.table
+    radtab = astropy.table.read('radex_data/1-1_2-2_XH2CO=1e-9_troscompt.dat',format='ascii')
 
 # plotting stuff
 import pylab as pl
