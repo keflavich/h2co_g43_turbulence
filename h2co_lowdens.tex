@@ -494,42 +494,71 @@ observations \citep{Plume2004a}, the sound speed in molecular gas is $c_s=0.19$
 \thirteenco 1-0,
 % \citep[although warm gas tracers have a larger linewidth, FWHM(H$_2$$^{18}$O) and FWHM(C I) = 3.2
 % \kms;][]{Plume2004a},
-so the 1-D Mach number of the turbulence is
-$\mathcal{M}_{1D} \approx 5.1-9.1$ and $\mathcal{M}_{3D} \approx 8.7 - 15.8$.  
+so the 3-D Mach number of the turbulence is
+$$\mathcal{M}_{3D} \equiv 3^{1/2} \mathcal{M}_{1D} \approx \frac{3^{1/3}}{(8\ln 2)^{1/2}} FWHM / c_s $$
+or $\mathcal{M}_{3D} = 3.8 - 6.6 $
 
 % sigma^2 = (1.5-2.2) = ln ( 1 + b^2 M^2 ) 
 % TODO: The 3D mach number allows for MUCH higher sigma and requires LOW b;
 % this is bad for my hypothesis.  That misinterpretation could cost a lot...
 
-\todo{Below this point, calculations are done assuming the 1D Mach number 5.1-9.1;
-if the 3D is used in its place, the $b$ value is lower, $\sim1/3 - 0.5$.
-However, if $\sigma$ is used in place of the FWHM, the 3D Mach range is
-$3.7-6.6$ and $b$ is higher.}
+% \todo{Below this point, calculations are done assuming the 1D Mach number 5.1-9.1;
+% if the 3D is used in its place, the $b$ value is lower, $\sim1/3 - 0.5$.
+% However, if $\sigma$ is used in place of the FWHM, the 3D Mach range is
+% $3.7-6.6$ and $b$ is higher.}
 
-If we assume the density distribution is lognormal, we can determine the values
-of the `compressibility coefficient' $b$ from Equation \ref{eqn:sigmas}.
-Assuming the thermal dominates the magnetic pressure ($\beta>>1$),
-the allowed values of $\sigma_s$ given the line-width based limits on
-$\mathcal{M}$ range from 1.8-2.1 for $b=1$ and 1.2-1.5 for $b=1/3$.  If
-magnetic pressure is significant, the allowed values of $\sigma_s$ drop.
+Assuming the thermal dominates the magnetic pressure ($\beta>>1$), we can fit
+$\sigma_s$ from the measurement in Figure \ref{fig:lvgsmooth.}.  With a
+measured ratio $\tau_{\oneone}/\tau_{twotwo} = 6.65 \pm 0.5$, assuming a lognormal
+distribution, the best-fit
+$\sigma_s=2.8$, with a 95\% confidence interval $2.36 < \sigma_s < 3.49$.
 
-Given that the observed mean cloud density is $n(\hh)\lesssim10^2 \percc$, Figure
-\ref{fig:lvgsmooth} shows that only the most extreme values of $\sigma_s$ can
-explain the mean density.  Even if the cloud is extremely oblate, e.g. with a
-line-of-sight axis $0.1\times$ the plane-of-sky axes, $\sigma_s > 1.5$ is
-required.
+In principle, we should be able to then measure the compressibility coefficient
+$b$ using our constraints on $\mathcal{M}$ and Equation \ref{eqn:sigmas}.
+However, even if we select the low end of the $\sigma_s$ values $\sigma_s=2.36$
+and the highest Mach number $\mathcal{M} = 6.6$, the $b$ values are
+unrealistic: we have measured a lower-limit $b>2.45$!  This likely indicates
+that the lognormal distribution is inadequate to describe the turbulence we
+observe.
+% the allowed values of $\sigma_s$ given the line-width based limits on
+% $\mathcal{M}$ range from 1.8-2.1 for $b=1$ and 1.2-1.5 for $b=1/3$.  If
+% magnetic pressure is significant, the allowed values of $\sigma_s$ drop.
 
-In order to achieve a self-consistent mass and volume PDF, we use the
+% Given that the observed mean cloud density is $n(\hh)\lesssim10^2 \percc$, Figure
+% \ref{fig:lvgsmooth} shows that only the most extreme values of $\sigma_s$ can
+% explain the mean density.  Even if the cloud is extremely oblate, e.g. with a
+% line-of-sight axis $0.1\times$ the plane-of-sky axes, $\sigma_s > 1.5$ is
+% required.
+
+As one possible alternative, we use the
 \citet{Hopkins2013a} distribution with $T-\sigma_s$ and $T-\mathcal{M}_C$
 relations fitted to measurements from a series of simulations
 \citep{Kowal2007a,Kritsuk2007a,Schmidt2009a,Federrath2010a,Federrath2012a,Konstandin2012a,Molina2012a}.
-We infer a $T$ value from $T = 0.25 \ln (1+0.25 \sigma_s^4 (1+T)^{-6}$, where
-$T$ is an ``intermittency'' parameter that indicates the deviation of the
-distribution from lognormal.  Using the $\sigma_s=2.5$ distribution, which is
-just barely consistent with the observations, $T=0.29$, and based on
-\citet{Hopkins2013a} Figure 3, the compressive Mach number $\mathcal{M}_c ~ 20
-T \approx 5.8$.   Compared to the Mach number restrictions from the line width,
-this $\mathcal{M}_C$ implies a compressive-to-total ratio $b > 0.6$.
+We derive a $T$ value from 
+\begin{equation} 
+    \label{eqn:Tsgima}
+    T(\sigma_s) = 0.25 \ln (1+0.25 \sigma_s^4 (1+T)^{-6})
+\end{equation}
+where $T$ is an ``intermittency'' parameter that indicates the
+deviation of the distribution from lognormal\footnote{Equation \ref{eqn:Tsigma}
+is a transcendental equation, so we use root-finding to determine $T$.}.  
+
+Using the \citet{Hopkins2013a} distribution, we find $\sigma_s=2.44$, with
+a 95\% confidence interval $2.01 < \sigma_s < 3.52$.  These values are at least
+moderately compatible with the observed Mach numbers.  Using the relation 
+\begin{equation}
+    \label{eqn:McMT}
+    b \mathcal{M} = \mathcal{M}_c  \approx 20 T
+\end{equation}
+from \citet{Hopkins2013a} Figure 3, we can derive a lower limit $b>0.65$ at the
+95\% confidence level ($b>0.49$ at 99.9\% confidence).
+
+
+% Using the $\sigma_s=2.5$ distribution, which is
+% just barely consistent with the observations, $T=0.29$, and based on
+% \citet{Hopkins2013a} Figure 3, the compressive Mach number $\mathcal{M}_c ~ 20
+% T \approx 5.8$.   Compared to the Mach number restrictions from the line width,
+% this $\mathcal{M}_C$ implies a compressive-to-total ratio $b > 0.6$.
 % In [74]: hopkins_pdf.T_of_sigma(2.5)
 % Out[74]: 0.2906836447265763
 % 
