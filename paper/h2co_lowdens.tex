@@ -459,6 +459,7 @@ The blue errorbars show the G43.17 \formaldehyde measurement and the GSRMC
 {fig:lvgsmooth}{0.5}{0}
 
 \subsection{Turbulence and GRSMC 43.30-0.33}
+\label{sec:grsmcturb}
 We use the density measurements in GSRMC 43.30-0.33 to infer properties of that
 cloud's density distribution.
 
@@ -671,5 +672,26 @@ all molecular clouds.
 {\it Facilities:} \facility{GBT}, \facility{Arecibo}, \facility{VLA},
 \facility{FCRAO}, \facility{CSO}
 
+
 \input{solobib}
+
+\section{Appendix}
+In Section \ref{sec:grsmcturb}, we performed fits to the data using a
+Markov-Chain Monte-Carlo fitting approach written in pymc.  The spectral line
+data were fit using standard approaches implemented in \texttt{pyspeckit}
+(\url{pyspeckit.bitbucket.org}).  The \texttt{pyspeckit} fits yielded an
+estimate of the optical depth ratio $R = \tau_{\oneone}/\tau_{\twotwo}$ with
+Gaussian error bars, so the ratio R was implemented as a normally distributed
+random variable.
+
+The Mach number determinations from the \formaldehyde and CO lines disagree by
+a factor of nearly two, so we treated the Mach number as a normally distributed
+variable with $\mu=5.1$ and $\sigma=1.4$ such that an intermediate value
+between the CO ($\mathcal{M}_{3d} = 6.6$) and \formaldehyde ($\mathcal{M}_{3d}
+= 3.7$) measurement is weakly favored, but both measured values are allowed.
+
+In the interest of reproducibility, the code for these models is publicly
+released
+
+
 \end{document}
