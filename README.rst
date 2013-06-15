@@ -22,4 +22,5 @@ hopkins_pdf.py
 A python implementation of the `Hopkins 2013
 <http://adsabs.harvard.edu/abs/2013MNRAS.430.1880H>`_ PDF.  See `this blog post
 <http://keflavich.github.io/blog/hopkins-pdf-generalization.html>`__ for a
-detailed description.
+detailed description.  Note that this code generalizes the Hopkins distribution
+to :math:`\rho_0 \ne 1`.
