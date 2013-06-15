@@ -430,6 +430,18 @@ $X(\ortho)=10^{-9}$, where the x-axis shows $\rho_0 = n(\hh)$ and the Y-axis
 shows the observable optical depth ratio of the two \formaldehyde centimeter
 lines.
 
+% Abundance limits: 
+% At n=24553, logc=12.38 (best fit)
+% tex=5.66
+% tau=1.92
+% N = 2.6e14 integral(tex * tau / (1-exp(-5.3/tex)))
+%   = 2.6e14 * 1.92 ... no
+% tau_13 = -log(1-0.189 T_A / ((exp(5.3/tex)-1)^-1-0.16))
+%        = 
+%
+%
+% ... "measuring" abundance yields X=-8.26
+
 
 %% pp removed: we don't really need to worry about the effect on the column density
 %% for the theoretically computed plot since we have constraints on the column...
@@ -454,7 +466,6 @@ The solid line, labeled LVG, shows the predicted ratio
 with no smoothing (i.e., a $\delta$-function density distribution).
 The blue errorbars show the G43.17 \formaldehyde measurement and the GSRMC
 43.30-0.33 mean density.
-\todo{TODO: extrapolate to $n<10$ by assuming $\tau=\tau(10)$}
 }
 {fig:lvgsmooth}{0.5}{0}
 
@@ -576,10 +587,11 @@ $\sigma_s$.
 % Crutcher & others seem not to have detected Zeeman splitting in this cloud
 
 \Figure{figures/lognormalsmooth_density_distributions_sigma2.0.png}
-{Example volume- and mass-weighted density distributions with $\sigma_s=2.0$.
-The vertical dashed lines show $\rho = 15$ and $\rho=10^4$, approximately
-corresponding to the volume-averaged mean density of GRSMC 43.30 and the
-\formaldehyde-derived density}
+{\todo{CUT in final version; this is just a demonstration of the different
+distributions.}  Example volume- and mass-weighted density distributions with
+$\sigma_s=2.0$.  The vertical dashed lines show $\rho = 15$ and $\rho=10^4$,
+approximately corresponding to the volume-averaged mean density of GRSMC 43.30
+and the \formaldehyde-derived density}
 {fig:distributions}{0.5}{0}
 
 % For G43.16-0.03:
@@ -660,7 +672,7 @@ all molecular clouds.
 
 \input{solobib}
 
-\section{Appendix}
+\section{Data Fitting: Summary of the Bayesian approach}
 In Section \ref{sec:grsmcturb}, we performed fits to the data using a
 Markov-Chain Monte-Carlo fitting approach written in pymc.  The spectral line
 data were fit using standard approaches implemented in \texttt{pyspeckit}
@@ -677,6 +689,26 @@ between the CO ($\mathcal{M}_{3d} = 6.6$) and \formaldehyde ($\mathcal{M}_{3d}
 
 In the interest of reproducibility, the code for these models is publicly
 released at \url{https://bitbucket.org/keflavich/h2co-turbulence/overview}.
+
+\section{Abundance}
+\todo{This is a summary of work in progress; it is not intended to be kept in
+the submitted document in this form.}
+In the context of the LVG model, the largest remaining uncertainty is the
+abundance.  We can take a few different approaches to minimize the effect of
+this uncertainty.
+
+\begin{enumerate}
+ \item we can assess what measurements come out of using different abundances
+ \item we can attempt to measure the abundance of H2CO relative to 13CO and use
+     that as an input to the LVG models
+\end{enumerate}
+
+I've begun both efforts.  Using the least-squares fit of the formaldehyde model,
+the \ortho abundance relative to \thirteenco is -2.5, or relative to \hh, -8.26.
+This analysis is done using eqn. 2 and 3 from \citet{Roman-Duval2010a} by
+assuming $T_{ex}=const$ at the value reported for GRSMC 43.30-0.33.
+
+The important question is then - what are the effects of higher abundance?
 
 
 \end{document}
