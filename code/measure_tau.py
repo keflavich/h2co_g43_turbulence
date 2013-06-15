@@ -3,67 +3,34 @@ Smooth the LVG models with distributions to get tau, then fit it with
 optimization procedures.
 """
 
-from agpy import readcol
 import numpy as np
 import hopkins_pdf
 import turbulent_pdfs
 from turbulent_pdfs import lognormal
 from scipy.optimize import curve_fit
 
-radtab = readcol('/Users/adam/work/h2co/radex/troscompt_April2013_linearXH2CO/1-1_2-2_XH2CO=1e-9_troscompt.dat',asStruct=True)
+try:
+    from agpy import readcol
+    radtab = readcol('radex_data/1-1_2-2_XH2CO=1e-9_troscompt.dat',asRecArray=True)
+except ImportError:
+    import astropy.table 
+    radtab = table.read('radex_data/1-1_2-2_XH2CO=1e-9_troscompt.dat',format='ascii')
 
 # plotting stuff
 import pylab as pl
 pl.rc('font',size=20)
 
 
-def select_data(abundance=-9, opr=1, temperature=20, tolerance=0.1, extrapolate=False, mindens=-1, maxdens=8, dens_fit_uplim=1.5, dens_fit_lolim=7.5):
-    OKtem = radtab.Temperature == temperature
-    OKopr = radtab.opr == opr
-    OKabund = np.abs((radtab.log10col - radtab.log10dens - np.log10(3.08e18)) - abundance) < tolerance
+def select_data(abundance=-9, opr=1, temperature=20, tolerance=0.1):
+    OKtem = radtab['Temperature'] == temperature
+    OKopr = radtab['opr'] == opr
+    OKabund = np.abs((radtab['log10col'] - radtab['log10dens'] - np.log10(3.08e18)) - abundance) < tolerance
     OK = OKtem * OKopr * OKabund
 
-    tau1x = radtab.TauLow[OK]
-    tau2x = radtab.TauUpp[OK]
-    dens = radtab.log10dens[OK]
-    col = radtab.log10col[OK]
-
-    if extrapolate: # extrapolation is not trustworthy
-        def f(x,a,b):
-            return a*x+b
-        def f_exp(x,a,b):
-            return a*np.exp(b*x)
-        fitdata_lo = dens<dens_fit_uplim
-        pars1x_lo = np.polyfit(dens[fitdata_lo], np.log10(tau1x[fitdata_lo]), 5)
-        pars2x_lo = np.polyfit(dens[fitdata_lo], np.log10(tau2x[fitdata_lo]), 5)
-        #DEBUG print "lo:", pars1x_lo,pars2x_lo
-        fitdata_hi = dens>dens_fit_lolim
-        pars1x_hi,cov = curve_fit(f_exp, dens[fitdata_hi], tau1x[fitdata_hi],p0=(1.4e-6,2.3),maxfev=2500)
-        pars2x_hi,cov = curve_fit(f_exp, dens[fitdata_hi], tau2x[fitdata_hi],p0=(1.6e-6,2.3),maxfev=2500)
-        #DEBUG print "hi:", pars1x_hi,pars2x_hi
-        dens_spacing = dens[1]-dens[0]
-        #new_size = dens.size + (dens[0]-mindens)/dens_spacing + (maxdens-dens[-1])/dens_spacing
-        newdens = np.arange((mindens),(maxdens),dens_spacing,dtype='float')
-        newcol = newdens - (dens-col).mean()
-        #import pdb; pdb.set_trace()
-
-        newtau1x = np.interp(newdens, dens, tau1x, left=-np.inf, right=np.inf)
-        leftside=np.isinf(newtau1x) * (newtau1x < 0)
-        #newtau1x[leftside] = 10**f(newdens[leftside],*pars1x_lo)
-        newtau1x[leftside] = 10**np.polyval(pars1x_lo,newdens[leftside])
-        rightside=np.isinf(newtau1x) * (newtau1x > 0)
-        newtau1x[rightside] = f_exp(newdens[rightside],*pars1x_hi)
-
-        newtau2x = np.interp(newdens, dens, tau2x, left=-np.inf, right=np.inf)
-        leftside=np.isinf(newtau2x) * (newtau2x < 0)
-        #newtau2x[leftside] = 10**f(newdens[leftside],*pars2x_lo)
-        newtau2x[leftside] = 10**np.polyval(pars2x_lo,newdens[leftside])
-        rightside=np.isinf(newtau2x) * (newtau2x > 0)
-        newtau2x[rightside] = f_exp(newdens[rightside],*pars2x_hi)
-        if np.any(np.isnan(newtau1x)) or np.any(np.isnan(newtau2x)):
-            raise ValueError("Invalid values in tau array.")
-
-        return newtau1x,newtau2x,newdens,newcol
+    tau1x = radtab['TauLow'][OK]
+    tau2x = radtab['TauUpp'][OK]
+    dens = radtab['log10dens'][OK]
+    col = radtab['log10col'][OK]
 
     return tau1x,tau2x,dens,col
 
