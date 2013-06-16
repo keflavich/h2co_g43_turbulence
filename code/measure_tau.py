@@ -20,7 +20,8 @@ import pylab as pl
 pl.rc('font',size=20)
 
 
-def select_data(abundance=-9, opr=1, temperature=20, tolerance=0.1):
+def select_data(abundance=-9, opr=1, temperature=20):
+    tolerance = {-10:0.1, -9.5: 0.3, -9: 0.1, -8:0.1, -8.5: 0.3}[abundance]
     OKtem = radtab['Temperature'] == temperature
     OKopr = radtab['opr'] == opr
     OKabund = np.abs((radtab['log10col'] - radtab['log10dens'] - np.log10(3.08e18)) - abundance) < tolerance
@@ -191,9 +192,12 @@ if __name__ == "__main__":
         print 'mc_hopkins        m: ',mc_hopkins.stats()['mach_mu']['quantiles']
 
     if do_paperfigure:
-        for abundance in [-9,-8.5,-9]:
+        for abundance in [-9,-8.5,-8]:
             opr = 1
-            tau1x,tau2x,dens,col = select_data(abundance=abundance, opr=opr, temperature=20, tolerance=0.1)
+            temperature = 20
+            tau1x,tau2x,dens,col = select_data(abundance=abundance, opr=opr, temperature=temperature)
+            tau,vtau,vtau_ratio = generate_tau_functions(abundance=abundance, opr=opr, temperature=temperature)
+            print len(tau1x)
 
             pl.figure(30)
             pl.clf()
@@ -215,9 +219,9 @@ if __name__ == "__main__":
             ax.axis([-1,7,0,15])
             ax.set_xlabel('$\\log_{10}$($n($H$_2)$ [cm$^{-3}$])',fontsize=24)
             ax.set_ylabel('$\\tau_{1-1}/\\tau_{2-2}$',fontsize=24)
-            ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%i.png' % (np.log10(opr),abundance),bbox_inches='tight')
+            ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
 
             ax.errorbar([np.log10(15)],[6.65],xerr=np.array([[0.33,1]]).T,yerr=np.array([[0.5,0.5]]).T,
                         label="G43.16-0.03", color=(0,0,1,0.5), alpha=0.5, marker='o',
                         linewidth=2)
-            ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%i_withG43.png' % (np.log10(opr),abundance),bbox_inches='tight')
+            ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s_withG43.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
