@@ -86,8 +86,8 @@ if __name__ == "__main__":
     from agpy import pymc_plotting
     import itertools
 
-    dolognormal=True
-    dohopkins=True
+    dolognormal=False
+    dohopkins=False
     do_paperfigure=True
 
     if dolognormal:
@@ -191,33 +191,33 @@ if __name__ == "__main__":
         print 'mc_hopkins        m: ',mc_hopkins.stats()['mach_mu']['quantiles']
 
     if do_paperfigure:
-        abundance = -9
-        opr = 1
-        tau1x,tau2x,dens,col = select_data(abundance=abundance, opr=opr, temperature=20, tolerance=0.1, extrapolate=False, mindens=-2, maxdens=9, )
+        for abundance in [-9,-8.5,-9]:
+            opr = 1
+            tau1x,tau2x,dens,col = select_data(abundance=abundance, opr=opr, temperature=20, tolerance=0.1)
 
-        pl.figure(30)
-        pl.clf()
-        ax = pl.gca()
-        ax.plot(dens,tau1x/tau2x,'k',linewidth=3.0,label='LVG',alpha=0.75)
+            pl.figure(30)
+            pl.clf()
+            ax = pl.gca()
+            ax.plot(dens,tau1x/tau2x,'k',linewidth=3.0,label='LVG',alpha=0.75)
 
-        logmeandens = np.linspace(-2,7,300)
-        meandens = 10**logmeandens
+            logmeandens = np.linspace(-2,7,300)
+            meandens = 10**logmeandens
 
-        stylecycle = itertools.cycle(('-','-.','--',':'))
-        dashcycle = itertools.cycle(((None,None),(20,10),(20,20),(10,10),(20,10,40,10)))
+            stylecycle = itertools.cycle(('-','-.','--',':'))
+            dashcycle = itertools.cycle(((None,None),(20,10),(20,20),(10,10),(20,10,40,10)))
 
-        for sigma in np.arange(0.5,4.0,1):
-            ax.plot(logmeandens,tauratio(meandens,sigma=sigma),color='k',linewidth=2, alpha=0.5,  label='$\\sigma_s=%0.1f$' % sigma, dashes=dashcycle.next())
-        for sigma in np.arange(0.5,4.0,1):
-            ax.plot(logmeandens,tauratio_hopkins(meandens,sigma=sigma),color='orange', label='$\\sigma_s=%0.1f$ Hopkins' % sigma, linewidth=2, alpha=0.5, dashes=dashcycle.next())
+            for sigma in np.arange(0.5,4.0,1):
+                ax.plot(logmeandens,tauratio(meandens,sigma=sigma),color='k',linewidth=2, alpha=0.5,  label='$\\sigma_s=%0.1f$' % sigma, dashes=dashcycle.next())
+            for sigma in np.arange(0.5,4.0,1):
+                ax.plot(logmeandens,tauratio_hopkins(meandens,sigma=sigma),color='orange', label='$\\sigma_s=%0.1f$ Hopkins' % sigma, linewidth=2, alpha=0.5, dashes=dashcycle.next())
 
-        ax.legend(loc='best',prop={'size':18})
-        ax.axis([-1,7,0,15])
-        ax.set_xlabel('$\\log_{10}$($n($H$_2)$ [cm$^{-3}$])',fontsize=24)
-        ax.set_ylabel('$\\tau_{1-1}/\\tau_{2-2}$',fontsize=24)
-        ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%i.png' % (np.log10(opr),abundance),bbox_inches='tight')
+            ax.legend(loc='best',prop={'size':18})
+            ax.axis([-1,7,0,15])
+            ax.set_xlabel('$\\log_{10}$($n($H$_2)$ [cm$^{-3}$])',fontsize=24)
+            ax.set_ylabel('$\\tau_{1-1}/\\tau_{2-2}$',fontsize=24)
+            ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%i.png' % (np.log10(opr),abundance),bbox_inches='tight')
 
-        ax.errorbar([np.log10(15)],[6.65],xerr=np.array([[0.33,1]]).T,yerr=np.array([[0.5,0.5]]).T,
-                    label="G43.16-0.03", color=(0,0,1,0.5), alpha=0.5, marker='o',
-                    linewidth=2)
-        ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%i_withG43.png' % (np.log10(opr),abundance),bbox_inches='tight')
+            ax.errorbar([np.log10(15)],[6.65],xerr=np.array([[0.33,1]]).T,yerr=np.array([[0.5,0.5]]).T,
+                        label="G43.16-0.03", color=(0,0,1,0.5), alpha=0.5, marker='o',
+                        linewidth=2)
+            ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%i_withG43.png' % (np.log10(opr),abundance),bbox_inches='tight')
