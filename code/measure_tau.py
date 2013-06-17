@@ -20,7 +20,7 @@ import pylab as pl
 pl.rc('font',size=20)
 
 
-def select_data(abundance=-9, opr=1, temperature=20):
+def select_data(abundance=-8.5, opr=1, temperature=20):
     tolerance = {-10:0.1, -9.5: 0.3, -9: 0.1, -8:0.1, -8.5: 0.3}[abundance]
     OKtem = radtab['Temperature'] == temperature
     OKopr = radtab['opr'] == opr
@@ -86,9 +86,10 @@ if __name__ == "__main__":
     import pymc
     from agpy import pymc_plotting
     import itertools
+    import pymc_tools
 
-    dolognormal=False
-    dohopkins=False
+    dolognormal=True
+    dohopkins=True
     do_paperfigure=True
 
     if dolognormal:
@@ -141,6 +142,9 @@ if __name__ == "__main__":
             pl.title("Lognormal - just tauratio")
             pl.savefig(savepath+"LognormalJustTau_%s_v_%s_mcmc.png" % (p1,p2))
 
+        lognormal_statstable = pymc_tools.stats_table(mc_lognormal)
+        lognormal_simple_statstable = pymc_tools.stats_table(mc_simple)
+
     if dohopkins:
         d = {}
         d['meandens'] = pymc.Uniform(name='meandens',lower=8,upper=150,value=15, observed=False)
@@ -185,11 +189,15 @@ if __name__ == "__main__":
         print "Some statistics used in the paper: "
         print 'mc_lognormal_simple sigma: ',mc_simple.stats()['sigma']['quantiles']
         print 'mc_lognormal        sigma: ',mc_lognormal.stats()['sigma']['quantiles']
+        print 'mc_lognormal        b: ',mc_lognormal.stats(quantiles=(0.1,1,2.5,5,50))['b']['quantiles']
         print 'mc_hopkins_simple sigma: ',mc_hopkins_simple.stats()['sigma']['quantiles']
         print 'mc_hopkins        sigma: ',mc_hopkins.stats()['sigma']['quantiles']
         print 'mc_hopkins        Tval: ',mc_hopkins.stats()['Tval']['quantiles']
         print 'mc_hopkins        b: ',mc_hopkins.stats(quantiles=(0.1,1,2.5,5,50))['b']['quantiles']
         print 'mc_hopkins        m: ',mc_hopkins.stats()['mach_mu']['quantiles']
+
+        hopkins_statstable = pymc_tools.stats_table(mc_hopkins)
+        hopkins_simple_statstable = pymc_tools.stats_table(mc_hopkins_simple)
 
     if do_paperfigure:
         for abundance in [-9,-8.5,-8]:
@@ -225,3 +233,13 @@ if __name__ == "__main__":
                         label="G43.16-0.03", color=(0,0,1,0.5), alpha=0.5, marker='o',
                         linewidth=2)
             ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s_withG43.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
+
+    if do_tables:
+        # clearly not done yet
+        with open('distribution_fit_table.tex','w') as f:
+            for table in [hopkins_statstable,hopkins_simple_statstable,lognormal_statstable,lognormal_simple_statstable]:
+                for row in table:
+                    for k in ['q2.5','q50','q97.5']:
+                        print >>f, row[k]
+
+    print "Abundance %f done" % abundance
