@@ -79,7 +79,7 @@ def save_traces(mc, filename, clobber=False):
     keys = [v.__name__ for v in mc.variables if hasattr(v,'observed') and not v.observed]
     traces = {k:np.concatenate([v.squeeze() for v in mc.trace(k)._trace.values()])
             for k in keys}
-    shape = len(traces[k])
+    shape = len(traces[keys[0]])
     arr = np.empty(shape, dtype=[(k,np.float) for k in keys])
     for k in keys:
         arr[k] = traces[k]
@@ -104,10 +104,10 @@ if __name__ == "__main__":
     import itertools
     import pymc_tools
 
-    dolognormal=True
-    dohopkins=True
+    dolognormal=False
+    dohopkins=False
     do_paperfigure=True
-    do_tables=True
+    do_tables=False
 
     if dolognormal:
         d = {}
@@ -251,10 +251,12 @@ if __name__ == "__main__":
             meandens = 10**logmeandens
 
             stylecycle = itertools.cycle(('-','-.','--',':'))
-            dashcycle = itertools.cycle(((None,None),(10,5),(10,10),(2,2),(10,5,20,5)))
+            dashcycle = itertools.cycle(((None,None),(6,2),(10,4),(2,2),(5,5)))
 
             for sigma in np.arange(0.5,4.0,1):
                 ax.plot(logmeandens,tauratio(meandens,sigma=sigma),color='k',linewidth=2, alpha=0.5,  label='$\\sigma_s=%0.1f$' % sigma, dashes=dashcycle.next())
+
+            dashcycle = itertools.cycle(((None,None),(6,2),(10,4),(2,2),(5,5)))
             for sigma in np.arange(0.5,4.0,1):
                 ax.plot(logmeandens,tauratio_hopkins(meandens,sigma=sigma),color='orange', label='$\\sigma_s=%0.1f$ Hopkins' % sigma, linewidth=2, alpha=0.5, dashes=dashcycle.next())
 
@@ -274,6 +276,7 @@ if __name__ == "__main__":
         one_sided = ['b']
         two_sided = ['sigma','Tval']
         tex = {'b':r'$b$', 'sigma': r'$\sigma_s | M$', 'Tval':r'$T$', 'sigmab':r'$\sigma_s$'}
+        fmt = {'b':r'%0.2f', 'sigma': r'%0.1f', 'Tval':r'%0.2f', 'sigmab':r'%0.1f'}
         with open('distribution_fit_table.tex','w') as f:
             for v in one_sided:
                 line = [tex[v]]
@@ -281,27 +284,27 @@ if __name__ == "__main__":
                     if v in table['variable name']:
                         row = table[table['variable name']==v]
                         #line += ["%0.1g" % x for x in (row['q0.1'],row['q1.0'],row['q5.0'])]
-                        line += ["","$>%0.2g$" % row['q5.0']]
+                        line += ["-",fmt[v] % row['q5.0']]
                     else:
-                        line += [""] * 2
+                        line += ["-"] * 2
                 print >>f,"&".join(line),r"\\"
             v='sigma'
             line = [tex['sigmab']]
             for table in [lognormal_simple_statstable,hopkins_simple_statstable]:
                 if v in table['variable name']:
                     row = table[table['variable name']==v]
-                    line += ["%0.1f" % row['q50.0'], "$^{%0.1f}_{%0.1f}$" % (row['q2.5'],row['q97.5'])]
+                    line += [fmt[v] % row['q50.0'], ("$^{"+fmt[v]+"}_{"+fmt[v]+"}$") % (row['q2.5'],row['q97.5'])]
                 else:
-                    line += [""] * 2
+                    line += ["-"] * 2
             print >>f,"&".join(line),r"\\"
             for v in two_sided:
                 line = [tex[v]]
                 for table in [lognormal_statstable,hopkins_statstable,]:
                     if v in table['variable name']:
                         row = table[table['variable name']==v]
-                        line += ["%0.1f" % row['q50.0'], "$^{%0.1f}_{%0.1f}$" % (row['q2.5'],row['q97.5'])]
+                        line += [fmt[v] % row['q50.0'], ("$^{"+fmt[v]+"}_{"+fmt[v]+"}$") % (row['q2.5'],row['q97.5'])]
                     else:
-                        line += [""] * 2
+                        line += ["-"] * 2
                 print >>f,"&".join(line),r"\\"
 
 
