@@ -53,9 +53,10 @@ simulation is capable of including all of the physical processes and spatial
 scales relevant to turbulence.  Observations are required to provide additional
 constraints on properties of interstellar turbulence and guide simulators
 towards the most useful conditions and processes to include.
-\citet{Brunt2010c,Kainulainen2012a} and \citet{Kainulainen2013a} provide some of the first
-observational constraints on the mode of turbulent driving, finding
-$b\approx0.4-0.5$, i.e. that there is a mix of solenoidal and compressive modes.
+\citet{Brunt2010c,Kainulainen2012a} and \citet{Kainulainen2013a} provide some
+of the first observational constraints on the mode of turbulent driving,
+finding $b\approx0.4-0.5$, i.e. that there is a mix of solenoidal and
+compressive modes.
 % However, these observations still attempted to characterize a lognormal
 % distribution.
 
@@ -424,23 +425,12 @@ consistent with CO abundances.  \formaldehyde deficiency is also most likely to
 occur on the outskirts of clouds where the total gas density is expected to be
 lower, so our measurements should be largely unaffected by abundance variation
 within the cloud.}.
+
 Figure \ref{fig:lvgsmooth}
 shows the result of this integral for an abundance of \ortho relative to \hh, 
 $X(\ortho)=10^{-9}$, where the x-axis shows $\rho_0 = n(\hh)$ and the Y-axis
 shows the observable optical depth ratio of the two \formaldehyde centimeter
 lines.
-
-% Abundance limits: 
-% At n=24553, logc=12.38 (best fit)
-% tex=5.66
-% tau=1.92
-% N = 2.6e14 integral(tex * tau / (1-exp(-5.3/tex)))
-%   = 2.6e14 * 1.92 ... no
-% tau_13 = -log(1-0.189 T_A / ((exp(5.3/tex)-1)^-1-0.16))
-%        = 
-%
-%
-% ... "measuring" abundance yields X=-8.26
 
 
 %% pp removed: we don't really need to worry about the effect on the column density
@@ -457,9 +447,10 @@ lines.
 % path: /Volumes/disk5/Users/adam/work/h2co/pilot/figures/models/lognormalsmooth_density_ratio_massweight_logopr0.0_abund-9.png
 % cp ~/work/h2co/pilot/figures/models/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-9.png figures/
 % cp ~/work/h2co/pilot/figures/models/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-9_withG43.png figures/
-\Figure{figures/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-9_withG43.png}
+\FigureTwo{figures/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-9_withG43.png}
+          {figures/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-8.25_withG43.png}
 {The predicted \formaldehyde \oneone/\twotwo ratio as a function of volume-weighted mean
-density for a fixed abundance relative to \hh $X(\ortho) = 10^{-9}$ and \hh
+density for a fixed abundance relative to \hh $X(\ortho) = 10^{-9}$ (left) and $X(\ortho)=10^{-8.25}$ (right) with \hh
 ortho/para ratio 1.0.  The legend shows the effect of smoothing with different
 lognormal mass distributions as described in Equation \ref{eqn:sigmas}.  % and \ref{eqn:lognormal}.  
 The solid line, labeled LVG, shows the predicted ratio
@@ -467,10 +458,9 @@ with no smoothing (i.e., a $\delta$-function density distribution).
 The blue errorbars show the G43.17 \formaldehyde measurement and the GSRMC
 43.30-0.33 mean density.
 }
-{fig:lvgsmooth}{0.5}{0}
+{fig:lvgsmooth}{1}{0}
 
 \subsection{Turbulence and GRSMC 43.30-0.33}
-\label{sec:grsmcturb}
 We use the density measurements in GSRMC 43.30-0.33 to infer properties of that
 cloud's density distribution.
 
@@ -565,19 +555,28 @@ moderately compatible with the observed Mach numbers.  Using the relation
 from \citet{Hopkins2013a} Figure 3, we can derive a lower limit $b>0.65$ at the
 95\% confidence level ($b>0.49$ at 99.9\% confidence).
 
-The measurements of $\sigma_s$ using either assumed density distribution are
+
+% Using the $\sigma_s=2.5$ distribution, which is
+% just barely consistent with the observations, $T=0.29$, and based on
+% \citet{Hopkins2013a} Figure 3, the compressive Mach number $\mathcal{M}_c ~ 20
+% T \approx 5.8$.   Compared to the Mach number restrictions from the line width,
+% this $\mathcal{M}_C$ implies a compressive-to-total ratio $b > 0.6$.
+% In [74]: hopkins_pdf.T_of_sigma(2.5)
+% Out[74]: 0.2906836447265763
+% 
+% In [75]: hopkins_pdf.T_of_sigma(2.5) * 20
+% Out[75]: 5.813672894531527
+% 
+% In [76]: hopkins_pdf.T_of_sigma(2.0)
+% Out[76]: 0.22018342653110817
+% 
+% In [77]: hopkins_pdf.T_of_sigma(2.0) * 20
+% Out[77]: 4.403668530622164
+
+
+The restrictions on $\sigma_s$ using either assumed density distribution are
 strong indications that compressive forcing must be a significant, if not
-dominant, mode in this molecular cloud.  All of the systematic uncertainties
-tend to require a \emph{greater} $b$ value, while we have already inferred a lower-limit
-that is higher than others have observed \citep{Brunt2011c,Kainulainen2013a}.
-Temperatures in GMCs are typically 10-20 K, and we assumed 10 K: warmer
-temperatures increase the sound speed and therefore decrease the Mach number. If
-the cloud is warmer, the $b$ values again must be higher to account for the measured
-$\sigma_s$.  Magnetic fields similarly have the inverse effect of $b$ on
-$\sigma_s$, with decreasing $\beta$ requiring higher $b$ for the same
-$\sigma_s$.
-
-
+dominant, mode in this molecular cloud.  
 % Since magnetic fields have the
 % opposite effect of compressive turbulence on the density distribution, magnetic
 % fields cannot explain the observations.
@@ -585,13 +584,18 @@ $\sigma_s$.
 % or dominate thermal pressure in this cloud, $\beta\gtrsim2/3$, the forcing must
 % be predominantly compressive, with $b>1/3$.
 % Crutcher & others seem not to have detected Zeeman splitting in this cloud
+All of the systematic uncertainties tend to require a \emph{greater} $b$
+value.  Temperatures in GMCs are typically 10-20 K: warmer temperatures
+increase the sound speed, decrease the Mach number, and therefore decrease
+$\sigma_s$.  Stronger (i.e. non-negligible) magnetic fields decrease
+$\sigma_s$.
+
 
 \Figure{figures/lognormalsmooth_density_distributions_sigma2.0.png}
-{\todo{CUT in final version; this is just a demonstration of the different
-distributions.}  Example volume- and mass-weighted density distributions with
-$\sigma_s=2.0$.  The vertical dashed lines show $\rho = 15$ and $\rho=10^4$,
-approximately corresponding to the volume-averaged mean density of GRSMC 43.30
-and the \formaldehyde-derived density}
+{Example volume- and mass-weighted density distributions with $\sigma_s=2.0$.
+The vertical dashed lines show $\rho = 15$ and $\rho=10^4$, approximately
+corresponding to the volume-averaged mean density of GRSMC 43.30 and the
+\formaldehyde-derived density}
 {fig:distributions}{0.5}{0}
 
 % For G43.16-0.03:
@@ -669,51 +673,5 @@ all molecular clouds.
 {\it Facilities:} \facility{GBT}, \facility{Arecibo}, \facility{VLA},
 \facility{FCRAO}, \facility{CSO}
 
-
 \input{solobib}
-
-\section{Data Fitting: Summary of the Bayesian approach}
-In Section \ref{sec:grsmcturb}, we performed fits to the data using a
-Markov-Chain Monte-Carlo fitting approach written in pymc.  The spectral line
-data were fit using standard approaches implemented in \texttt{pyspeckit}
-(\url{pyspeckit.bitbucket.org}).  The \texttt{pyspeckit} fits yielded an
-estimate of the optical depth ratio $R = \tau_{\oneone}/\tau_{\twotwo}$ with
-Gaussian error bars, so the ratio $R$ was implemented as a normally distributed
-random variable.
-
-The Mach number determinations from the \formaldehyde and CO lines disagree by
-a factor of nearly two, so we treated the Mach number as a normally distributed
-variable with $\mu=5.1$ and $\sigma=1.4$ such that an intermediate value
-between the CO ($\mathcal{M}_{3d} = 6.6$) and \formaldehyde ($\mathcal{M}_{3d}
-= 3.7$) measurement is weakly favored, but both measured values are allowed.
-The uncertainty in the Mach number also reflects the general difficulty in determining
-a Mach number from spectral line data, as noted in \citet{Schneider2013a}.
-
-In the interest of reproducibility, the code for these models is publicly
-released at \url{https://bitbucket.org/keflavich/h2co-turbulence/overview}.
-
-\section{Abundance}
-\todo{This is a summary of work in progress; it is not intended to be kept in
-the submitted document in this form.}
-In the context of the LVG model, the largest remaining uncertainty is the
-abundance.  We can take a few different approaches to minimize the effect of
-this uncertainty.
-
-\begin{enumerate}
- \item we can assess what measurements come out of using different abundances
- \item we can attempt to measure the abundance of H2CO relative to 13CO and use
-     that as an input to the LVG models
-\end{enumerate}
-
-I've begun both efforts.  Using the least-squares fit of the formaldehyde model,
-the \ortho abundance relative to \thirteenco is -2.5, or relative to \hh, -8.26.
-This analysis is done using eqn. 2 and 3 from \citet{Roman-Duval2010a} by
-assuming $T_{ex}=const$ at the value reported for GRSMC 43.30-0.33.
-
-The important question is then - what are the effects of higher abundance?
-Unfortunately, it appears that higher abundance shifts the curves a bit down
-and left in Figure \ref{fig:lvgsmooth},  implying that lower $\sigma_s$ values
-are possible, so perhaps it will be possible to accommodate lognormal.
-
-
 \end{document}
