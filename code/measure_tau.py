@@ -19,8 +19,10 @@ except ImportError:
 import pylab as pl
 pl.rc('font',size=20)
 
+import astropy.io.fits as pyfits
 
-def select_data(abundance=-8.25, opr=1, temperature=20, tolerance=0.1):
+
+def select_data(abundance=-9.0, opr=1, temperature=20, tolerance=0.1):
     #tolerance = {-10:0.1, -9.5: 0.3, -9: 0.1, -8:0.1, -8.5: 0.3}[abundance]
     OKtem = radtab['Temperature'] == temperature
     OKopr = radtab['opr'] == opr
@@ -73,11 +75,16 @@ def generate_tau_functions(**kwargs):
     return tau,vtau,vtau_ratio
 
 # pymc tool
-def save_traces(mc, filename):
+def save_traces(mc, filename, clobber=False):
     keys = [v.__name__ for v in mc.variables if hasattr(v,'observed') and not v.observed]
     traces = {k:np.concatenate([v.squeeze() for v in mc.trace(k)._trace.values()])
             for k in keys}
-    np.savez(filename,**traces)
+    shape = len(traces[k])
+    arr = np.empty(shape, dtype=[(k,np.float) for k in keys])
+    for k in keys:
+        arr[k] = traces[k]
+    hdu = pyfits.BinTableHDU(arr)
+    hdu.writeto(filename, clobber=clobber)
     return traces
 
 if __name__ == "__main__":
@@ -259,10 +266,36 @@ if __name__ == "__main__":
 
     if do_tables:
         # clearly not done yet
+        one_sided = ['b']
+        two_sided = ['sigma','Tval']
         with open('distribution_fit_table.tex','w') as f:
-            for table in [hopkins_statstable,hopkins_simple_statstable,lognormal_statstable,lognormal_simple_statstable]:
-                for row in table:
-                    for k in ['q2.5','q50','q97.5']:
-                        print >>f, row[k]
+            for v in one_sided:
+                line = [v]
+                for table in [lognormal_statstable,hopkins_statstable,]:
+                    if v in table['variable name']:
+                        row = table[table['variable name']==v]
+                        line += ["%0.1g" % x for x in (row['q0.1'],row['q1.0'],row['q5.0'])]
+                    else:
+                        line += [""] * 3
+                print >>f,"&".join(line),r"\\"
+            v='sigma'
+            line = ['sigma (simple)']
+            for table in [lognormal_simple_statstable,hopkins_simple_statstable]:
+                if v in table['variable name']:
+                    row = table[table['variable name']==v]
+                    line += ["%0.1f" % x for x in (row['q50.0'],row['q2.5'],row['q97.5'])]
+                else:
+                    line += [""] * 3
+            print >>f,"&".join(line),r"\\"
+            for v in two_sided:
+                line = [v]
+                for table in [lognormal_statstable,hopkins_statstable,]:
+                    if v in table['variable name']:
+                        row = table[table['variable name']==v]
+                        line += ["%0.1f" % x for x in (row['q50.0'],row['q2.5'],row['q97.5'])]
+                    else:
+                        line += [""] * 3
+                print >>f,"&".join(line),r"\\"
+
 
     print "Abundance %f done" % abundance

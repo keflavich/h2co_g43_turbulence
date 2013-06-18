@@ -412,7 +412,7 @@ line by averaging over the mass-weighted density distribution, $P_M\equiv\rho P_
 \begin{eqnarray}
     \label{eqn:tauintegral}
     \tau(\rho_0) &=& \int_{0}^\infty \frac{\tau_p(\rho)}{N_p} P_M(\ln \rho/\rho_0) d \ln \rho\\
-                 &=& \int_{0}^\infty \frac{\tau_p(s\rho_0)}{N_p} P_M(s) d s
+                 &=& \int_{0}^\infty \frac{\tau_p(\rho_0 e^s)}{N_p} P_M(s) d s
 \end{eqnarray} % there's too much spoo in my fleem http://dilbert.com/strips/comic/1997-04-27/
 $\tau_p(\rho)/N_p$ is the optical depth \emph{per particle} at a given density, where $N_p$ is the column
 density (\perkmspc) from the LVG model.
@@ -447,10 +447,9 @@ lines.
 % path: /Volumes/disk5/Users/adam/work/h2co/pilot/figures/models/lognormalsmooth_density_ratio_massweight_logopr0.0_abund-9.png
 % cp ~/work/h2co/pilot/figures/models/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-9.png figures/
 % cp ~/work/h2co/pilot/figures/models/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-9_withG43.png figures/
-\FigureTwo{figures/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-9_withG43.png}
-          {figures/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-8.25_withG43.png}
+\Figure{figures/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-9_withG43.png}
 {The predicted \formaldehyde \oneone/\twotwo ratio as a function of volume-weighted mean
-density for a fixed abundance relative to \hh $X(\ortho) = 10^{-9}$ (left) and $X(\ortho)=10^{-8.25}$ (right) with \hh
+density for a fixed abundance relative to \hh $X(\ortho) = 10^{-9}$  with \hh
 ortho/para ratio 1.0.  The legend shows the effect of smoothing with different
 lognormal mass distributions as described in Equation \ref{eqn:sigmas}.  % and \ref{eqn:lognormal}.  
 The solid line, labeled LVG, shows the predicted ratio
@@ -458,15 +457,15 @@ with no smoothing (i.e., a $\delta$-function density distribution).
 The blue errorbars show the G43.17 \formaldehyde measurement and the GSRMC
 43.30-0.33 mean density.
 }
-{fig:lvgsmooth}{1}{0}
+{fig:lvgsmooth}{0.5}{0}
 
 \subsection{Turbulence and GRSMC 43.30-0.33}
 We use the density measurements in GSRMC 43.30-0.33 to infer properties of that
 cloud's density distribution.
 
 We measure the abundances of \ortho relative to \thirteenco,
-$X(\ortho/\thirteenco) = 3.2\ee{-4}$ and 9.8\ee{-4} for G43.16 and G43.17
-respectively, or relative to \hh, 5.8\ee{-10} and 1.7\ee{-9}, which are
+$X(\ortho/\thirteenco) = 3.2\ee{-4}$ and 3.5\ee{-4} for G43.16 and G43.17
+respectively, or relative to \hh, 5.8\ee{-10} and 6.2\ee{-10} \todo{TODO: Correct G43.16 numbers; G43.17 is accurate}, which are
 entirely consistent with other measurements of $X_{\ortho}$
 \citep{Johnstone2003a} and allow us to use constant abundance LVG models for this
 analysis\footnote{Higher abundances of \formaldehyde have rarely been observed,
@@ -485,10 +484,24 @@ density to be ``refrigerated'' into absorption, any spread of the density
 distribution effectively increases the \twotwo line without decreasing the
 \oneone line and therefore decreases the \oneone/\twotwo ratio.  The observed
 ratio for GRSMC 43.30-0.33 with conservative error bars is shown as a blue
-point.  Very wide distributions are required to match the observations; we use
-$\sigma_s=2.5$ as the ``best fit'' distribution, but note that any value in the
-range $1.5<\sigma_s<2.2$ \todo{TODO: CHECK PRECISE VALUES} is permissible for the
-lognormal distribution or $2.3 < \sigma_s < 3$ for the Hopkins distribution.
+point.  Very wide distributions are required to match the observations.
+
+\Table{ccccccc}
+{Fitted Distribution Parameters}
+{Parameter & Lognormal & Hopkins}
+{tab:datafits}
+{
+b&0.3&0.4&0.6&0.3&0.4&0.5 \\
+sigma&1.8&1.5&2.0&2.5&1.9&3.3&1.9&1.5&2.6&2.0&1.5&3.0 \\
+Tval&0.2&0.1&0.3 \\
+}
+{\\ footnote}
+
+
+% we use
+% $\sigma_s=2.5$ as the ``best fit'' distribution, but note that any value in the
+% range $1.5<\sigma_s<2.2$ \todo{TODO: CHECK PRECISE VALUES} is permissible for the
+% lognormal distribution or $2.3 < \sigma_s < 3$ for the Hopkins distribution.
 
 Assuming a temperature $T=10$ K, consistent with both the \formaldehyde and CO
 observations \citep{Plume2004a}, the sound speed in molecular gas is $c_s=0.19$
