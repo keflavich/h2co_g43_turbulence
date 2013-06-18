@@ -20,8 +20,8 @@ import pylab as pl
 pl.rc('font',size=20)
 
 
-def select_data(abundance=-8.5, opr=1, temperature=20):
-    tolerance = {-10:0.1, -9.5: 0.3, -9: 0.1, -8:0.1, -8.5: 0.3}[abundance]
+def select_data(abundance=-8.25, opr=1, temperature=20, tolerance=0.1):
+    #tolerance = {-10:0.1, -9.5: 0.3, -9: 0.1, -8:0.1, -8.5: 0.3}[abundance]
     OKtem = radtab['Temperature'] == temperature
     OKopr = radtab['opr'] == opr
     OKabund = np.abs((radtab['log10col'] - radtab['log10dens'] - np.log10(3.08e18)) - abundance) < tolerance
@@ -72,6 +72,14 @@ def generate_tau_functions(**kwargs):
 
     return tau,vtau,vtau_ratio
 
+# pymc tool
+def save_traces(mc, filename):
+    keys = [v.__name__ for v in mc.variables if hasattr(v,'observed') and not v.observed]
+    traces = {k:np.concatenate([v.squeeze() for v in mc.trace(k)._trace.values()])
+            for k in keys}
+    np.savez(filename,**traces)
+    return traces
+
 if __name__ == "__main__":
     savepath = "/Users/adam/work/h2co/lowdens/figures/"
     # load defaults by default
@@ -88,9 +96,10 @@ if __name__ == "__main__":
     import itertools
     import pymc_tools
 
-    dolognormal=True
-    dohopkins=True
+    dolognormal=False
+    dohopkins=False
     do_paperfigure=True
+    do_tables=False
 
     if dolognormal:
         d = {}
@@ -101,7 +110,7 @@ if __name__ == "__main__":
         d['sigma'] = pymc.Uniform(name='sigma',lower=0,upper=25)
         d['tauratio_mu'] = pymc.Deterministic(name='tauratio_mu', eval=tauratio, parents={'meandens':d['meandens'],'sigma':d['sigma']}, doc='tauratio')
         # the observed values.  f=tau ratio = 6.65.  tau might be too high, but the "best fits" were tau=9 before, which is just not possible
-        d['tauratio'] = pymc.Normal(name='tauratio',mu=d['tauratio_mu'],tau=4,value=6.65,observed=True)
+        d['tauratio'] = pymc.Normal(name='tauratio',mu=d['tauratio_mu'],tau=1./0.76**2,value=6.61,observed=True)
         mc_simple = pymc.MCMC(d)
         mc_simple.sample(100000)
 
@@ -145,12 +154,19 @@ if __name__ == "__main__":
         lognormal_statstable = pymc_tools.stats_table(mc_lognormal)
         lognormal_simple_statstable = pymc_tools.stats_table(mc_simple)
 
+        mc_lognormal_traces = save_traces(mc_lognormal, "mc_lognormal_traces")
+        mc_lognormal_simple_traces = save_traces(mc_simple, "mc_lognormal_simple_traces")
+
+        pl.figure(33); pl.clf()
+        pl.title("Lognormal")
+        pymc_plotting.plot_mc_hist(mc_lognormal,'b',lolim=True,alpha=0.5,bins=25,legloc='lower right')
+
     if dohopkins:
         d = {}
         d['meandens'] = pymc.Uniform(name='meandens',lower=8,upper=150,value=15, observed=False)
         d['sigma'] = pymc.Uniform(name='sigma',lower=0,upper=25)
         d['tauratio_mu'] = pymc.Deterministic(name='tauratio_mu', eval=tauratio_hopkins, parents=d, doc='tauratio_hopkins')
-        d['tauratio'] = pymc.Normal(name='tauratio',mu=d['tauratio_mu'],tau=4,value=6.65,observed=True)
+        d['tauratio'] = pymc.Normal(name='tauratio',mu=d['tauratio_mu'],tau=1./0.76**2,value=6.61,observed=True)
         mc_hopkins_simple = pymc.MCMC(d)
         mc_hopkins_simple.sample(1e5)
 
@@ -199,8 +215,15 @@ if __name__ == "__main__":
         hopkins_statstable = pymc_tools.stats_table(mc_hopkins)
         hopkins_simple_statstable = pymc_tools.stats_table(mc_hopkins_simple)
 
+        save_traces(mc_hopkins, "mc_hopkins_traces")
+        save_traces(mc_hopkins_simple, "mc_hopkins_simple_traces")
+
+        pl.figure(32); pl.clf()
+        pl.title("Hopkins")
+        pymc_plotting.plot_mc_hist(mc_hopkins,'b',lolim=True,alpha=0.5,bins=25,legloc='lower right')
+
     if do_paperfigure:
-        for abundance in [-9,-8.5,-8]:
+        for abundance in [-9,-8.5,-8.25,-8.0]:
             opr = 1
             temperature = 20
             tau1x,tau2x,dens,col = select_data(abundance=abundance, opr=opr, temperature=temperature)
@@ -216,7 +239,7 @@ if __name__ == "__main__":
             meandens = 10**logmeandens
 
             stylecycle = itertools.cycle(('-','-.','--',':'))
-            dashcycle = itertools.cycle(((None,None),(20,10),(20,20),(10,10),(20,10,40,10)))
+            dashcycle = itertools.cycle(((None,None),(10,5),(10,10),(2,2),(10,5,20,5)))
 
             for sigma in np.arange(0.5,4.0,1):
                 ax.plot(logmeandens,tauratio(meandens,sigma=sigma),color='k',linewidth=2, alpha=0.5,  label='$\\sigma_s=%0.1f$' % sigma, dashes=dashcycle.next())

@@ -1,6 +1,7 @@
 import pymc
 import numpy as np
 import astropy.table as table
+import sys
 
 def stats_table(mc,quantiles=(0.1,1,2.5, 25, 50, 75, 97.5, 99, 99.9)):
     stats = mc.stats(quantiles=quantiles)
@@ -23,3 +24,23 @@ def stats_table(mc,quantiles=(0.1,1,2.5, 25, 50, 75, 97.5, 99, 99.9)):
 
     T = table.Table(data=data,names=names,dtypes=dtypes)
     return T
+
+def make_table_row(parameter, stats, prettyname=None, lolim=False, outf=sys.stdout):
+    """
+    start=10000
+    stats = mc.stats(start)
+    """
+    statd = stats[parameter]
+
+    if prettyname is None:
+        prettyname = parameter
+
+    print >>outf,"%25s" % prettyname,
+    if lolim:
+        print >>outf," & ".join(['%10.1f' % statd['quantiles'][v] 
+                                 for v in statd['quantiles']
+                                 if v < 50]),
+    else:
+        print >>outf," & ".join([statd['mean'],statd['quantiles'][2.5],statd['quantiles'][97.5]]),
+    print >>outf," \\"
+
