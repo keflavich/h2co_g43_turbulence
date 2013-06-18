@@ -90,7 +90,8 @@ def save_traces(mc, filename, clobber=False):
 if __name__ == "__main__":
     savepath = "/Users/adam/work/h2co/lowdens/figures/"
     # load defaults by default
-    tau,vtau,vtau_ratio = generate_tau_functions()
+    abundance = -9
+    tau,vtau,vtau_ratio = generate_tau_functions(abundance=abundance)
 
     def tauratio(meandens, sigma):
         return vtau_ratio(np.log10(meandens), sigma=sigma)
@@ -103,10 +104,10 @@ if __name__ == "__main__":
     import itertools
     import pymc_tools
 
-    dolognormal=False
-    dohopkins=False
+    dolognormal=True
+    dohopkins=True
     do_paperfigure=True
-    do_tables=False
+    do_tables=True
 
     if dolognormal:
         d = {}
@@ -159,7 +160,9 @@ if __name__ == "__main__":
             pl.savefig(savepath+"LognormalJustTau_%s_v_%s_mcmc.png" % (p1,p2))
 
         lognormal_statstable = pymc_tools.stats_table(mc_lognormal)
+        lognormal_statstable.write('lognormal_statstable_abundance%s.fits' % abundance, overwrite=True)
         lognormal_simple_statstable = pymc_tools.stats_table(mc_simple)
+        lognormal_statstable.write('lognormal_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
 
         mc_lognormal_traces = save_traces(mc_lognormal, "mc_lognormal_traces")
         mc_lognormal_simple_traces = save_traces(mc_simple, "mc_lognormal_simple_traces")
@@ -220,7 +223,9 @@ if __name__ == "__main__":
         print 'mc_hopkins        m: ',mc_hopkins.stats()['mach_mu']['quantiles']
 
         hopkins_statstable = pymc_tools.stats_table(mc_hopkins)
+        hopkins_statstable.write('hopkins_statstable_abundance%s.fits' % abundance, overwrite=True)
         hopkins_simple_statstable = pymc_tools.stats_table(mc_hopkins_simple)
+        hopkins_statstable.write('hopkins_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
 
         save_traces(mc_hopkins, "mc_hopkins_traces")
         save_traces(mc_hopkins_simple, "mc_hopkins_simple_traces")
@@ -268,33 +273,35 @@ if __name__ == "__main__":
         # clearly not done yet
         one_sided = ['b']
         two_sided = ['sigma','Tval']
+        tex = {'b':r'$b$', 'sigma': r'$\sigma_s | M$', 'Tval':r'$T$', 'sigmab':r'$\sigma_s$'}
         with open('distribution_fit_table.tex','w') as f:
             for v in one_sided:
-                line = [v]
+                line = [tex[v]]
                 for table in [lognormal_statstable,hopkins_statstable,]:
                     if v in table['variable name']:
                         row = table[table['variable name']==v]
-                        line += ["%0.1g" % x for x in (row['q0.1'],row['q1.0'],row['q5.0'])]
+                        #line += ["%0.1g" % x for x in (row['q0.1'],row['q1.0'],row['q5.0'])]
+                        line += ["","$>%0.2g$" % row['q5.0']]
                     else:
-                        line += [""] * 3
+                        line += [""] * 2
                 print >>f,"&".join(line),r"\\"
             v='sigma'
-            line = ['sigma (simple)']
+            line = [tex['sigmab']]
             for table in [lognormal_simple_statstable,hopkins_simple_statstable]:
                 if v in table['variable name']:
                     row = table[table['variable name']==v]
-                    line += ["%0.1f" % x for x in (row['q50.0'],row['q2.5'],row['q97.5'])]
+                    line += ["%0.1f" % row['q50.0'], "$^{%0.1f}_{%0.1f}$" % (row['q2.5'],row['q97.5'])]
                 else:
-                    line += [""] * 3
+                    line += [""] * 2
             print >>f,"&".join(line),r"\\"
             for v in two_sided:
-                line = [v]
+                line = [tex[v]]
                 for table in [lognormal_statstable,hopkins_statstable,]:
                     if v in table['variable name']:
                         row = table[table['variable name']==v]
-                        line += ["%0.1f" % x for x in (row['q50.0'],row['q2.5'],row['q97.5'])]
+                        line += ["%0.1f" % row['q50.0'], "$^{%0.1f}_{%0.1f}$" % (row['q2.5'],row['q97.5'])]
                     else:
-                        line += [""] * 3
+                        line += [""] * 2
                 print >>f,"&".join(line),r"\\"
 
 

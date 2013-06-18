@@ -488,12 +488,10 @@ point.  Very wide distributions are required to match the observations.
 
 \Table{ccccccc}
 {Fitted Distribution Parameters}
-{Parameter & Lognormal & Hopkins}
+{Parameter & Lognormal & 95\% CI & Hopkins & 95\% CI}
 {tab:datafits}
 {
-b&0.3&0.4&0.6&0.3&0.4&0.5 \\
-sigma&1.8&1.5&2.0&2.5&1.9&3.3&1.9&1.5&2.6&2.0&1.5&3.0 \\
-Tval&0.2&0.1&0.3 \\
+\input{distribution_fit_table}
 }
 {\\ footnote}
 
@@ -523,8 +521,8 @@ or $\mathcal{M}_{3D} = 3.8 - 6.6 $
 % $3.7-6.6$ and $b$ is higher.}
 
 Assuming the thermal dominates the magnetic pressure ($\beta>>1$), we can fit
-$\sigma_s$ from the measurement in Figure \ref{fig:lvgsmooth.}.  With a
-measured ratio $\tau_{\oneone}/\tau_{twotwo} = 6.65 \pm 0.5$, assuming a lognormal
+$\sigma_s$ from the measurement in Figure \ref{fig:lvgsmooth}.  With a
+measured ratio $\tau_{\oneone}/\tau_{\twotwo} = 6.65 \pm 0.5$, assuming a lognormal
 distribution, the best-fit
 $\sigma_s=2.8$, with a 95\% confidence interval $2.36 < \sigma_s < 3.49$.
 
@@ -551,7 +549,7 @@ relations fitted to measurements from a series of simulations
 \citep{Kowal2007a,Kritsuk2007a,Schmidt2009a,Federrath2010a,Federrath2012a,Konstandin2012a,Molina2012a}.
 We derive a $T$ value from 
 \begin{equation} 
-    \label{eqn:Tsgima}
+    \label{eqn:Tsigma}
     T(\sigma_s) = 0.25 \ln (1+0.25 \sigma_s^4 (1+T)^{-6})
 \end{equation}
 where $T$ is an ``intermittency'' parameter that indicates the

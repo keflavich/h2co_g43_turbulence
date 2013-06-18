@@ -3,7 +3,7 @@ import numpy as np
 import astropy.table as table
 import sys
 
-def stats_table(mc,quantiles=(0.1,1,2.5,5.0, 25, 50, 75, 97.5, 99, 99.9)):
+def stats_table(mc,quantiles=(0.1,1,2.5,5.0, 0.15865525393145707, 25, 0.31731050786291415, 50, 75, 0.84134474606854293, 97.5, 99, 99.9)):
     stats = mc.stats(quantiles=quantiles)
     keys = ['n', 'standard deviation', 'mc error', 'mean']
     stats_keys = keys+[]  # copy that will not include the others...
