@@ -74,6 +74,23 @@ def generate_tau_functions(**kwargs):
 
     return tau,vtau,vtau_ratio
 
+def generate_simpletools(**kwargs):
+    tau,vtau,vtau_ratio = generate_tau_functions(**kwargs)
+
+    def tauratio(meandens, sigma):
+        return vtau_ratio(np.log10(meandens), sigma=sigma)
+
+    def tauratio_hopkins(meandens, sigma):
+        return vtau_ratio(np.log10(meandens), sigma=sigma, hopkins=True)
+
+    def tau(meandens, sigma, line):
+        return vtau(np.log10(meandens), sigma=sigma, line=line)
+
+    def tau_hopkins(meandens, sigma, line):
+        return vtau(np.log10(meandens), sigma=sigma, hopkins=True, line=line)
+
+    return tauratio,tauratio_hopkins,tau,tau_hopkins
+
 # pymc tool
 def save_traces(mc, filename, clobber=False):
     keys = [v.__name__ for v in mc.variables if hasattr(v,'observed') and not v.observed]
@@ -91,23 +108,18 @@ if __name__ == "__main__":
     savepath = "/Users/adam/work/h2co/lowdens/figures/"
     # load defaults by default
     abundance = -9
-    tau,vtau,vtau_ratio = generate_tau_functions(abundance=abundance)
 
-    def tauratio(meandens, sigma):
-        return vtau_ratio(np.log10(meandens), sigma=sigma)
-
-    def tauratio_hopkins(meandens, sigma):
-        return vtau_ratio(np.log10(meandens), sigma=sigma, hopkins=True)
+    tauratio,tauratio_hopkins,tau,tau_hopkins = generate_simpletools(abundance=abundance)
 
     import pymc
     from agpy import pymc_plotting
     import itertools
     import pymc_tools
 
-    dolognormal=True
-    dohopkins=True
+    dolognormal=False
+    dohopkins=False
     do_paperfigure=True
-    do_tables=True
+    do_tables=False
 
     if dolognormal:
         d = {}
@@ -239,13 +251,13 @@ if __name__ == "__main__":
             opr = 1
             temperature = 20
             tau1x,tau2x,dens,col = select_data(abundance=abundance, opr=opr, temperature=temperature)
-            tau,vtau,vtau_ratio = generate_tau_functions(abundance=abundance, opr=opr, temperature=temperature)
+            tauratio,tauratio_hopkins,tau,tau_hopkins = generate_simpletools(abundance=abundance, opr=opr, temperature=temperature)
             print len(tau1x)
 
             pl.figure(30)
             pl.clf()
             ax = pl.gca()
-            ax.plot(dens,tau1x/tau2x,'k',linewidth=3.0,label='LVG',alpha=0.75)
+            ax.plot(dens,tau1x/tau2x,'k',linewidth=3.0,label=r'Dirac $\delta$',alpha=0.75)
 
             logmeandens = np.linspace(-2,7,300)
             meandens = 10**logmeandens
@@ -271,12 +283,43 @@ if __name__ == "__main__":
                         linewidth=2)
             ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s_withG43.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
 
+            for ii,(line,taux) in enumerate(zip(('oneone','twotwo'),(tau1x,tau2x))):
+                pl.figure(31+ii)
+                pl.clf()
+                ax = pl.gca()
+                ax.semilogy(dens,tau1x,'k',linewidth=3.0,label=r'Dirac $\delta$',alpha=0.75)
+
+                logmeandens = np.linspace(-2,7,300)
+                meandens = 10**logmeandens
+
+                stylecycle = itertools.cycle(('-','-.','--',':'))
+                dashcycle = itertools.cycle(((None,None),(6,2),(10,4),(2,2),(5,5)))
+
+                for sigma in np.arange(0.5,4.0,1):
+                    ax.semilogy(logmeandens,tau(meandens,sigma=sigma,line=taux),color='k',linewidth=2, alpha=0.5,  label='$\\sigma_s=%0.1f$' % sigma, dashes=dashcycle.next())
+
+                dashcycle = itertools.cycle(((None,None),(6,2),(10,4),(2,2),(5,5)))
+                for sigma in np.arange(0.5,4.0,1):
+                    ax.semilogy(logmeandens,tau_hopkins(meandens,sigma=sigma,line=taux),color='orange', label='$\\sigma_s=%0.1f$ Hopkins' % sigma, linewidth=2, alpha=0.5, dashes=dashcycle.next())
+
+                ax.legend(loc='best',prop={'size':18})
+                ax.axis([-2,7,1e-3,10])
+                ax.set_xlabel('$\\log_{10}$($n($H$_2)$ [cm$^{-3}$])',fontsize=24)
+                ax.set_ylabel('$\\tau_{1-1}/\\tau_{2-2}$',fontsize=24)
+                ax.figure.savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')
+
+                tau_meas = {'oneone': [0.113,0.0011], 'twotwo':[0.0162,0.00052]}
+                ax.errorbar([np.log10(15)],tau_meas[line][0],xerr=np.array([[0.33,1]]).T,yerr=tau_meas[line][1],
+                            label="G43.17+0.01", color=(0,0,1,0.5), alpha=0.5, marker='o',
+                            linewidth=2)
+                ax.figure.savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s_withG43.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')
+
     if do_tables:
         # clearly not done yet
         one_sided = ['b']
         two_sided = ['sigma','Tval']
         tex = {'b':r'$b$', 'sigma': r'$\sigma_s | M$', 'Tval':r'$T$', 'sigmab':r'$\sigma_s$'}
-        fmt = {'b':r'%0.2f', 'sigma': r'%0.1f', 'Tval':r'%0.2f', 'sigmab':r'%0.1f'}
+        fmt = {'b':r'>%0.2f', 'sigma': r'%0.1f', 'Tval':r'%0.2f', 'sigmab':r'%0.1f'}
         with open('distribution_fit_table.tex','w') as f:
             for v in one_sided:
                 line = [tex[v]]
