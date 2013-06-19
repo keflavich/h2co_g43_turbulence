@@ -104,10 +104,10 @@ if __name__ == "__main__":
     import itertools
     import pymc_tools
 
-    dolognormal=False
-    dohopkins=False
+    dolognormal=True
+    dohopkins=True
     do_paperfigure=True
-    do_tables=False
+    do_tables=True
 
     if dolognormal:
         d = {}
@@ -118,7 +118,7 @@ if __name__ == "__main__":
         d['sigma'] = pymc.Uniform(name='sigma',lower=0,upper=25)
         d['tauratio_mu'] = pymc.Deterministic(name='tauratio_mu', eval=tauratio, parents={'meandens':d['meandens'],'sigma':d['sigma']}, doc='tauratio')
         # the observed values.  f=tau ratio = 6.65.  tau might be too high, but the "best fits" were tau=9 before, which is just not possible
-        d['tauratio'] = pymc.Normal(name='tauratio',mu=d['tauratio_mu'],tau=1./0.76**2,value=6.61,observed=True)
+        d['tauratio'] = pymc.Normal(name='tauratio',mu=d['tauratio_mu'],tau=1./0.235**2,value=6.98,observed=True)
         mc_simple = pymc.MCMC(d)
         mc_simple.sample(100000)
 
@@ -164,8 +164,8 @@ if __name__ == "__main__":
         lognormal_simple_statstable = pymc_tools.stats_table(mc_simple)
         lognormal_statstable.write('lognormal_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
 
-        mc_lognormal_traces = save_traces(mc_lognormal, "mc_lognormal_traces")
-        mc_lognormal_simple_traces = save_traces(mc_simple, "mc_lognormal_simple_traces")
+        mc_lognormal_traces = save_traces(mc_lognormal, "mc_lognormal_traces", clobber=True)
+        mc_lognormal_simple_traces = save_traces(mc_simple, "mc_lognormal_simple_traces", clobber=True)
 
         pl.figure(33); pl.clf()
         pl.title("Lognormal")
@@ -176,7 +176,7 @@ if __name__ == "__main__":
         d['meandens'] = pymc.Uniform(name='meandens',lower=8,upper=150,value=15, observed=False)
         d['sigma'] = pymc.Uniform(name='sigma',lower=0,upper=25)
         d['tauratio_mu'] = pymc.Deterministic(name='tauratio_mu', eval=tauratio_hopkins, parents=d, doc='tauratio_hopkins')
-        d['tauratio'] = pymc.Normal(name='tauratio',mu=d['tauratio_mu'],tau=1./0.76**2,value=6.61,observed=True)
+        d['tauratio'] = pymc.Normal(name='tauratio',mu=d['tauratio_mu'],tau=1./0.235**2,value=6.98,observed=True)
         mc_hopkins_simple = pymc.MCMC(d)
         mc_hopkins_simple.sample(1e5)
 
@@ -227,8 +227,8 @@ if __name__ == "__main__":
         hopkins_simple_statstable = pymc_tools.stats_table(mc_hopkins_simple)
         hopkins_statstable.write('hopkins_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
 
-        save_traces(mc_hopkins, "mc_hopkins_traces")
-        save_traces(mc_hopkins_simple, "mc_hopkins_simple_traces")
+        save_traces(mc_hopkins, "mc_hopkins_traces", clobber=True)
+        save_traces(mc_hopkins_simple, "mc_hopkins_simple_traces", clobber=True)
 
         pl.figure(32); pl.clf()
         pl.title("Hopkins")
@@ -266,7 +266,7 @@ if __name__ == "__main__":
             ax.set_ylabel('$\\tau_{1-1}/\\tau_{2-2}$',fontsize=24)
             ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
 
-            ax.errorbar([np.log10(15)],[6.65],xerr=np.array([[0.33,1]]).T,yerr=np.array([[0.5,0.5]]).T,
+            ax.errorbar([np.log10(15)],[6.98],xerr=np.array([[0.33,1]]).T,yerr=np.array([[0.36,0.36]]).T,
                         label="G43.16-0.03", color=(0,0,1,0.5), alpha=0.5, marker='o',
                         linewidth=2)
             ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s_withG43.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')

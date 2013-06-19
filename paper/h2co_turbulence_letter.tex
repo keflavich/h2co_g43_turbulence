@@ -435,6 +435,19 @@ $X(\ortho)=10^{-9}$, where the X-axis shows $\rho_0 = n(\hh)$ and the Y-axis
 shows the observable optical depth ratio of the two \formaldehyde centimeter
 lines.
 
+% Abundance limits: 
+% At n=24553, logc=12.38 (best fit)
+% tex=5.66
+% tau=1.92
+% N = 2.6e14 integral(tex * tau / (1-exp(-5.3/tex)))
+%   = 2.6e14 * 1.92 ... no
+% tau_13 = -log(1-0.189 T_A / ((exp(5.3/tex)-1)^-1-0.16))
+%        = 
+%
+%
+% ... "measuring" abundance yields X=-8.26
+% EXCEPT THAT'S WRONG!!! I forgot to integrate the line...
+
 
 %% pp removed: we don't really need to worry about the effect on the column density
 %% for the theoretically computed plot since we have constraints on the column...
@@ -463,6 +476,7 @@ The blue errorbars show the G43.17 \formaldehyde measurement and the GSRMC
 {fig:lvgsmooth}{0.5}{0}
 
 \subsection{Turbulence and GRSMC 43.30-0.33}
+\label{sec:grsmcturb}
 We use the density measurements in GSRMC 43.30-0.33 to infer properties of that
 cloud's density distribution.
 
@@ -569,14 +583,14 @@ deviation of the distribution from lognormal\footnote{Equation \ref{eqn:Tsigma}
 is a transcendental equation, so we use root-finding to determine $T$.}.  
 
 Using the \citet{Hopkins2013a} distribution, we find $\sigma_s=2.4$, with
-a 95\% confidence interval $2.0 < \sigma_s < 3.5$.  These values are
+a 95\% credible interval $2.0 < \sigma_s < 3.5$.  These values are
 compatible with the observed Mach numbers.  Using the relation 
 \begin{equation}
     \label{eqn:McMT}
     b \mathcal{M} = \mathcal{M}_c  \approx 20 T
 \end{equation}
 from \citet{Hopkins2013a} Figure 3, we can derive a lower limit $b>0.64$ at the
-95\% confidence level.% ($b>0.49$ at 99.9\% confidence).
+95\% credible level.% ($b>0.49$ at 99.9\% confidence).
 
 
 % Using the $\sigma_s=2.5$ distribution, which is
@@ -596,7 +610,6 @@ from \citet{Hopkins2013a} Figure 3, we can derive a lower limit $b>0.64$ at the
 % In [77]: hopkins_pdf.T_of_sigma(2.0) * 20
 % Out[77]: 4.403668530622164
 
-
 The restrictions on $\sigma_s$ using either assumed density distribution are
 strong indications that compressive forcing must be a significant, if not
 dominant, mode in this molecular cloud.  
@@ -608,19 +621,24 @@ dominant, mode in this molecular cloud.
 % be predominantly compressive, with $b>1/3$.
 % Crutcher & others seem not to have detected Zeeman splitting in this cloud
 All of the systematic uncertainties tend to require a \emph{greater} $b$
-value.  Temperatures in GMCs are typically 10-20 K: warmer temperatures
-increase the sound speed, decrease the Mach number, and therefore decrease
-$\sigma_s$.  Stronger (i.e. non-negligible) magnetic fields decrease
-$\sigma_s$ via the $\beta$ parameter.  Lower abundance shifts all curves in
-Figure \ref{fig:lvgsmooth} up and to the right, again decreasing $\sigma_s$.
+value, while we have already inferred a lower-limit
+that is higher than others have observed \citep{Brunt2010c,Kainulainen2013a}.
+Temperatures in GMCs are typically 10-20 K, and we assumed 10 K: warmer
+temperatures increase the sound speed and therefore decrease the Mach number. If
+the cloud is warmer, the $b$ values again must be higher to account for the measured
+$\sigma_s$.  Magnetic fields similarly have the inverse effect of $b$ on
+$\sigma_s$, with decreasing $\beta$ requiring higher $b$ for the same
+$\sigma_s$.
+Lower abundance shifts all curves in Figure
+\ref{fig:lvgsmooth} up and to the right, again decreasing $\sigma_s$.
 
-
-% \Figure{figures/lognormalsmooth_density_distributions_sigma2.0.png}
-% {Example volume- and mass-weighted density distributions with $\sigma_s=2.0$.
-% The vertical dashed lines show $\rho = 15$ and $\rho=10^4$, approximately
-% corresponding to the volume-averaged mean density of GRSMC 43.30 and the
-% \formaldehyde-derived density}
-% {fig:distributions}{0.5}{0}
+\Figure{figures/lognormalsmooth_density_distributions_sigma2.0.png}
+{\todo{CUT in final version; this is just a demonstration of the different
+distributions.}  Example volume- and mass-weighted density distributions with
+$\sigma_s=2.0$.  The vertical dashed lines show $\rho = 15$ and $\rho=10^4$,
+approximately corresponding to the volume-averaged mean density of GRSMC 43.30
+and the \formaldehyde-derived density}
+{fig:distributions}{0.5}{0}
 
 % For G43.16-0.03:
 % {'std': 0.11326554809612598, 'med': 4.3331511700465288, 'CI': [9368.5009376639355, 21535.312095032383, 11915.556844413139], 'quantiles': {2.5: 4.08517676736491, 97.5: 4.5244074037392616, 75: 4.4038773064784564, 84.134474606854297: 4.4358245264528868, 50: 4.3331511700465288, 15.865525393145708: 4.2122132860734167, 2.2750131948179195: 4.078075142949765, 25: 4.2563141956721111, 97.724986805182084: 4.5273461301744797}, 'mad': 0.10889113037076946, 'mean': 4.3251999406282646, 'logCI': [0.24797440268161886, 4.3331511700465288, 0.19125623369273281]}
@@ -665,6 +683,10 @@ non-star-forming giant molecular cloud.  Such high compression in a fairly
 typical GMC indicates that compressive driving is probably a common feature of
 all molecular clouds.
 
+Our data also indicate that a lognormal distribution is inadequate to describe
+the density PDF.  Instead, an intermittent distribution such as that presented
+in \citet{Hopkins2013a} is an acceptable fit to the data.
+
 % \FigureTwoAA{figures/federrath_pdfs_volume_mach10.png}{figures/federrath_pdfs_recentered_massweighted_fitted_mach10.png}
 % {PDFs from \citet{Federrath2012a}.  (a) Volume-weighted PDFs for various
 % simulations with $\mathcal{M}=10$.  (b) Mass-weighted PDFs from the same
@@ -698,4 +720,51 @@ all molecular clouds.
 \facility{FCRAO}, \facility{CSO}
 
 \input{solobib}
+
+\section{Data Fitting: Summary of the Bayesian approach}
+In Section \ref{sec:grsmcturb}, we performed fits to the data using a
+Markov-Chain Monte-Carlo fitting approach written in \texttt{pymc}.  The spectral line
+data were fit using standard approaches implemented in \texttt{pyspeckit}
+(\url{pyspeckit.bitbucket.org}).  The \texttt{pyspeckit} fits yielded an
+estimate of the optical depth ratio $R = \tau_{\oneone}/\tau_{\twotwo}$ with approximately
+Gaussian error bars, so the ratio $R$ was implemented as a normally distributed
+random variable.
+
+The Mach number determinations from the \formaldehyde and CO lines disagree by
+a factor of nearly two, so we treated the Mach number as a normally distributed
+variable with $\mu=5.1$ and $\sigma=1.4$ such that an intermediate value
+between the CO ($\mathcal{M}_{3d} = 6.6$) and \formaldehyde ($\mathcal{M}_{3d}
+= 3.7$) measurement is weakly favored, but both measured values are allowed.
+The uncertainty in the Mach number also reflects the general difficulty in determining
+a Mach number from spectral line data, as noted in \citet{Schneider2013a}.
+
+In the interest of reproducibility, the code for these models is publicly
+released at \url{https://bitbucket.org/keflavich/h2co-turbulence/overview}.
+\todo{The repository is currently private but if you would like access to the
+source code just send me your e-mail address and I'll open it to you}.
+
+% \section{Abundance}
+% \todo{This is a summary of work in progress; it is not intended to be kept in
+% the submitted document in this form.}
+% In the context of the LVG model, the largest remaining uncertainty is the
+% abundance.  We can take a few different approaches to minimize the effect of
+% this uncertainty.
+% 
+% \begin{enumerate}
+%  \item we can assess what measurements come out of using different abundances
+%  \item we can attempt to measure the abundance of H2CO relative to 13CO and use
+%      that as an input to the LVG models
+% \end{enumerate}
+% 
+% I've begun both efforts.  Using the least-squares fit of the formaldehyde model,
+% the \ortho abundance relative to \thirteenco is -2.5, or relative to \hh, -8.26.
+% This analysis is done using eqn. 2 and 3 from \citet{Roman-Duval2010a} by
+% assuming $T_{ex}=const$ at the value reported for GRSMC 43.30-0.33.
+% 
+% The important question is then - what are the effects of higher abundance?
+% Unfortunately, it appears that higher abundance shifts the curves a bit down
+% and left in Figure \ref{fig:lvgsmooth},  implying that lower $\sigma_s$ values
+% are possible, so perhaps it will be possible to accommodate lognormal.
+
+
 \end{document}
