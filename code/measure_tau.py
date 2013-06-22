@@ -137,7 +137,7 @@ if __name__ == "__main__":
     do_paperfigure=True
     do_tables=True
 
-    if dolognormal:
+    def mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo):
         d = {}
         # fit values for GSRMC 43.30
         # meandens is "observed" but we want to trace it and let it vary...
@@ -153,13 +153,17 @@ if __name__ == "__main__":
         def tau_ratio(oneone=d['tauoneone_mu'], twotwo=d['tautwotwo_mu']):
             return oneone/twotwo
         d['tau_ratio'] = tau_ratio
-        mc_simple = pymc.MCMC(d)
+        return d
+
+    if dolognormal:
+        mc_simple = pymc.MCMC(mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo))
         mc_simple.sample(100000)
 
         graph_lognormal_simple = pymc.graph.graph(mc_simple)
         graph_lognormal_simple.write_pdf(savepath+"mc_lognormal_simple_graph.pdf")
         graph_lognormal_simple.write_png(savepath+"mc_lognormal_simple_graph.png")
 
+        d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo)
         d['b'] = pymc.Uniform(name='b', value=0.5, lower=0.3, upper=1, observed=False)
         @pymc.deterministic(plot=True,trace=True)
         def mach(sigma=d['sigma'], b=d['b']):
@@ -176,12 +180,12 @@ if __name__ == "__main__":
         graph_lognormal.write_png(savepath+"mc_lognormal_graph.png")
 
         varslice=(10000,None,None)
-        for fignum,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','sigma','meandens','b','mach'),2)):
+        for fignum,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens','b','mach'),2)):
             pymc_plotting.hist2d(mc_lognormal, p1, p2, bins=30, clear=True, fignum=fignum, varslice=varslice, colorbar=True)
             pl.title("Lognormal with Mach")
             pl.savefig(savepath+"LognormalWithMach_%s_v_%s_mcmc.png" % (p1,p2))
 
-        for fignum2,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','sigma','meandens'),2)):
+        for fignum2,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens'),2)):
             pymc_plotting.hist2d(mc_simple, p1, p2, bins=30, clear=True, fignum=fignum+fignum2+1, varslice=varslice, colorbar=True)
             pl.title("Lognormal - just $\\tau$ fits")
             pl.savefig(savepath+"LognormalJustTau_%s_v_%s_mcmc.png" % (p1,p2))
@@ -201,18 +205,8 @@ if __name__ == "__main__":
         pl.savefig('LognormalWithMach_b_1D_restrictions.png')
 
     if dohopkins:
-        d = {}
-        d['meandens'] = pymc.Uniform(name='meandens',lower=8,upper=150,value=15, observed=False)
-        d['sigma'] = pymc.Uniform(name='sigma',lower=0,upper=25)
-        parents = {k:d[k] for k in ('meandens','sigma')}
-        d['tauoneone_mu'] = pymc.Deterministic(name='tauoneone_mu', eval=tauoneone_hopkins, parents=parents, doc='tauoneone_hopkins')
-        d['tauoneone'] = pymc.Normal(name='tauoneone',mu=d['tauoneone_mu'],tau=1./0.001165**2,value=0.1133,observed=True)
-        d['tautwotwo_mu'] = pymc.Deterministic(name='tautwotwo_mu', eval=tautwotwo_hopkins, parents=parents, doc='tautwotwo_hopkins')
-        d['tautwotwo'] = pymc.Normal(name='tautwotwo',mu=d['tautwotwo_mu'],tau=1./0.000525**2,value=0.01623,observed=True)
-        @pymc.deterministic(trace=True,plot=True)
-        def tau_ratio(oneone=d['tauoneone_mu'], twotwo=d['tautwotwo_mu']):
-            return oneone/twotwo
-        d['tau_ratio'] = tau_ratio
+        # Hopkins - NO Mach number restrictions
+        d = mcmc_sampler_dict(tauoneone=tauoneone_hopkins,tautwotwo=tautwotwo_hopkins)
         mc_hopkins_simple = pymc.MCMC(d)
         mc_hopkins_simple.sample(1e5)
 
@@ -220,6 +214,8 @@ if __name__ == "__main__":
         graph_hopkins_simple.write_pdf(savepath+"mc_hopkins_simple_graph.pdf")
         graph_hopkins_simple.write_png(savepath+"mc_hopkins_simple_graph.png")
 
+        # Hopkins - with Mach number restrictions
+        d = mcmc_sampler_dict(tauoneone=tauoneone_hopkins,tautwotwo=tautwotwo_hopkins)
         def Tval(sigma):
             return hopkins_pdf.T_of_sigma(sigma, logform=True)
         d['Tval'] = pymc.Deterministic(name='Tval', eval=Tval, parents={'sigma':d['sigma']}, doc='Intermittency parameter T')
@@ -238,12 +234,12 @@ if __name__ == "__main__":
 
         varslice=(1000,None,None)
 
-        for fignum,(p1,p2) in enumerate(itertools.combinations(('tauonone_mu','tautwotwo_mu','sigma','meandens','Tval','b','mach_mu'),2)):
+        for fignum,(p1,p2) in enumerate(itertools.combinations(('tauonone_mu','tautwotwo_mu','tau_ratio','sigma','meandens','Tval','b','mach_mu'),2)):
             pymc_plotting.hist2d(mc_hopkins, p1, p2, bins=30, clear=True, fignum=fignum, varslice=varslice, colorbar=True)
             pl.title("Hopkins with Mach")
             pl.savefig(savepath+"HopkinsWithMach_%s_v_%s_mcmc.png" % (p1,p2))
 
-        for fignum2,(p1,p2) in enumerate(itertools.combinations(('tauonone_mu','tautwotwo_mu','sigma','meandens'),2)):
+        for fignum2,(p1,p2) in enumerate(itertools.combinations(('tauonone_mu','tautwotwo_mu','tau_ratio','sigma','meandens'),2)):
             pymc_plotting.hist2d(mc_hopkins_simple, p1, p2, bins=30, clear=True, fignum=fignum+fignum2+1, varslice=varslice, colorbar=True)
             pl.title("Hopkins - just $\\tau$ fits")
             pl.savefig(savepath+"HopkinsJustTau_%s_v_%s_mcmc.png" % (p1,p2))
