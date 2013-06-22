@@ -150,7 +150,7 @@ if __name__ == "__main__":
         d['tautwotwo_mu'] = pymc.Deterministic(name='tautwotwo_mu', eval=tautwotwo, parents={'meandens':d['meandens'],'sigma':d['sigma']}, doc='tautwotwo')
         d['tautwotwo'] = pymc.Normal(name='tautwotwo',mu=d['tautwotwo_mu'],tau=1./0.000525**2,value=0.01623,observed=True)
         @pymc.deterministic(trace=True,plot=True)
-        def tau_ratio(oneone=d['tauoneone_mu'], twotwo=d['tau_twotwo_mu']):
+        def tau_ratio(oneone=d['tauoneone_mu'], twotwo=d['tautwotwo_mu']):
             return oneone/twotwo
         d['tau_ratio'] = tau_ratio
         mc_simple = pymc.MCMC(d)
@@ -210,7 +210,7 @@ if __name__ == "__main__":
         d['tautwotwo_mu'] = pymc.Deterministic(name='tautwotwo_mu', eval=tautwotwo_hopkins, parents=parents, doc='tautwotwo_hopkins')
         d['tautwotwo'] = pymc.Normal(name='tautwotwo',mu=d['tautwotwo_mu'],tau=1./0.000525**2,value=0.01623,observed=True)
         @pymc.deterministic(trace=True,plot=True)
-        def tau_ratio(oneone=d['tauoneone_mu'], twotwo=d['tau_twotwo_mu']):
+        def tau_ratio(oneone=d['tauoneone_mu'], twotwo=d['tautwotwo_mu']):
             return oneone/twotwo
         d['tau_ratio'] = tau_ratio
         mc_hopkins_simple = pymc.MCMC(d)
