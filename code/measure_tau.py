@@ -133,7 +133,7 @@ if __name__ == "__main__":
     import pymc_tools
 
     dolognormal=True
-    dohopkins=False
+    dohopkins=True
     do_paperfigure=True
     do_tables=True
 
@@ -149,41 +149,24 @@ if __name__ == "__main__":
         d['tauoneone'] = pymc.Normal(name='tauoneone',mu=d['tauoneone_mu'],tau=1./0.001165**2,value=0.1133,observed=True)
         d['tautwotwo_mu'] = pymc.Deterministic(name='tautwotwo_mu', eval=tautwotwo, parents={'meandens':d['meandens'],'sigma':d['sigma']}, doc='tautwotwo')
         d['tautwotwo'] = pymc.Normal(name='tautwotwo',mu=d['tautwotwo_mu'],tau=1./0.000525**2,value=0.01623,observed=True)
-        #mc_simple = pymc.MCMC(d)
-        #mc_simple.sample(100000)
+        @pymc.deterministic(trace=True,plot=True)
+        def tau_ratio(oneone=d['tauoneone_mu'], twotwo=d['tau_twotwo_mu']):
+            return oneone/twotwo
+        d['tau_ratio'] = tau_ratio
+        mc_simple = pymc.MCMC(d)
+        mc_simple.sample(100000)
 
         graph_lognormal_simple = pymc.graph.graph(mc_simple)
         graph_lognormal_simple.write_pdf(savepath+"mc_lognormal_simple_graph.pdf")
         graph_lognormal_simple.write_png(savepath+"mc_lognormal_simple_graph.png")
 
-        # even though this is observed, without giving a parent unobserved
-        # value for, e.g., the "mean", it is not possible to stochastically
-        # sample the mach number.
-        @pymc.stochastic(dtype=float, observed=False, trace=True)
-        def mach(value=5.1, lolim=3.7, uplim=6.6, width=0.1):
-            if value < lolim:
-                return pymc.half_normal_like(lolim-value, 1./width**2)
-            elif value > uplim: 
-                return pymc.half_normal_like(value-uplim, 1./width**2)
-            else:
-                return pymc.uniform_like(value, lolim, uplim)
+        d['b'] = pymc.Uniform(name='b', value=0.5, lower=0.3, upper=1, observed=False)
+        @pymc.deterministic(plot=True,trace=True)
+        def mach(sigma=d['sigma'], b=d['b']):
+            return np.sqrt((np.exp(sigma**2) - 1)/b**2)
+        
         d['mach'] = mach
-        d['mach_uncertainty'] = pymc.Uniform(name='mach_uncertainty', lower=0, upper=20)
-        d['mach_observed'] = pymc.Normal(name='mach_observed', mu=mach, tau=d['mach_uncertainty'], value=5.1, observed=True)
-
-        @pymc.deterministic(plot=True, trace=True)
-        def b(sigma=d['sigma'], mach=d['mach']):
-            return ((np.exp(sigma**2)-1)/mach**2)**0.5
-        d['b'] = b
-
-        d['sigma'].value = 1.2
-
-        @pymc.potential
-        def b_restrictions(b=d['b']):
-            if b<0.3 or b>1:
-                return -np.inf
-            else:
-                return 0
+        d['mach_observed'] = pymc.Normal(name='mach_observed', mu=mach, tau=1./0.2**2, value=5.1, observed=True)
 
         mc_lognormal = pymc.MCMC(d)
         mc_lognormal.sample(100000)
@@ -226,6 +209,10 @@ if __name__ == "__main__":
         d['tauoneone'] = pymc.Normal(name='tauoneone',mu=d['tauoneone_mu'],tau=1./0.001165**2,value=0.1133,observed=True)
         d['tautwotwo_mu'] = pymc.Deterministic(name='tautwotwo_mu', eval=tautwotwo_hopkins, parents=parents, doc='tautwotwo_hopkins')
         d['tautwotwo'] = pymc.Normal(name='tautwotwo',mu=d['tautwotwo_mu'],tau=1./0.000525**2,value=0.01623,observed=True)
+        @pymc.deterministic(trace=True,plot=True)
+        def tau_ratio(oneone=d['tauoneone_mu'], twotwo=d['tau_twotwo_mu']):
+            return oneone/twotwo
+        d['tau_ratio'] = tau_ratio
         mc_hopkins_simple = pymc.MCMC(d)
         mc_hopkins_simple.sample(1e5)
 
