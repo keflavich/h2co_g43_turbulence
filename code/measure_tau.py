@@ -21,20 +21,27 @@ pl.rc('font',size=20)
 
 import astropy.io.fits as pyfits
 
+_datacache = {}
 
 def select_data(abundance=-9.0, opr=1, temperature=20, tolerance=0.1):
-    #tolerance = {-10:0.1, -9.5: 0.3, -9: 0.1, -8:0.1, -8.5: 0.3}[abundance]
-    OKtem = radtab['Temperature'] == temperature
-    OKopr = radtab['opr'] == opr
-    OKabund = np.abs((radtab['log10col'] - radtab['log10dens'] - np.log10(3.08e18)) - abundance) < tolerance
-    OK = OKtem * OKopr * OKabund
+    key = (abundance, opr, temperature, tolerance)
+    if key in _datacache:
+        return _datacache[key]
+    else:
+        #tolerance = {-10:0.1, -9.5: 0.3, -9: 0.1, -8:0.1, -8.5: 0.3}[abundance]
+        OKtem = radtab['Temperature'] == temperature
+        OKopr = radtab['opr'] == opr
+        OKabund = np.abs((radtab['log10col'] - radtab['log10dens'] - np.log10(3.08e18)) - abundance) < tolerance
+        OK = OKtem * OKopr * OKabund
 
-    tau1x = radtab['TauLow'][OK]
-    tau2x = radtab['TauUpp'][OK]
-    dens = radtab['log10dens'][OK]
-    col = radtab['log10col'][OK]
+        tau1x = radtab['TauLow'][OK]
+        tau2x = radtab['TauUpp'][OK]
+        dens = radtab['log10dens'][OK]
+        col = radtab['log10col'][OK]
 
-    return tau1x,tau2x,dens,col
+        _datacache[key] = tau1x,tau2x,dens,col
+
+        return tau1x,tau2x,dens,col
 
 def generate_tau_functions(**kwargs):
     tau1x,tau2x,dens,col = select_data(**kwargs)
@@ -110,49 +117,79 @@ if __name__ == "__main__":
     abundance = -9
 
     tauratio,tauratio_hopkins,tau,tau_hopkins = generate_simpletools(abundance=abundance)
+    tau1x,tau2x,dens,col = select_data(abundance=abundance)
+    def tauoneone(meandens, sigma):
+        return tau(meandens, sigma, line=tau1x)
+    def tautwotwo(meandens, sigma):
+        return tau(meandens, sigma, line=tau2x)
+    def tauoneone_hopkins(meandens, sigma):
+        return tau_hopkins(meandens, sigma, line=tau1x)
+    def tautwotwo_hopkins(meandens, sigma):
+        return tau_hopkins(meandens, sigma, line=tau2x)
 
     import pymc
     from agpy import pymc_plotting
     import itertools
     import pymc_tools
 
-    dolognormal=False
+    dolognormal=True
     dohopkins=False
-    do_paperfigure=True
+    do_paperfigure=False
     do_tables=False
 
-    if dolognormal:
+    def mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=False):
+        """
+        Generator for the MCMC parameters
+
+        truncate_at_5sigma will reject all "solutions" that are 5-sigma deviant
+        from the measured optical depths
+        """
         d = {}
         # fit values for GSRMC 43.30
         # meandens is "observed" but we want to trace it and let it vary...
         # with meandens observed=False,  'sigma': {'95% HPD interval': array([ 2.89972948,  3.69028675]),
         d['meandens'] = pymc.Uniform(name='meandens',lower=8,upper=150,value=15, observed=False)
-        d['sigma'] = pymc.Uniform(name='sigma',lower=0,upper=25)
-        d['tauratio_mu'] = pymc.Deterministic(name='tauratio_mu', eval=tauratio, parents={'meandens':d['meandens'],'sigma':d['sigma']}, doc='tauratio')
+        d['sigma'] = pymc.Uniform(name='sigma',lower=0,upper=25,value=2.88)
         # the observed values.  f=tau ratio = 6.65.  tau might be too high, but the "best fits" were tau=9 before, which is just not possible
-        d['tauratio'] = pymc.Normal(name='tauratio',mu=d['tauratio_mu'],tau=1./0.235**2,value=6.98,observed=True)
-        mc_simple = pymc.MCMC(d)
+        tau11 = 0.1133
+        etau11=0.001165
+        tau22 = 0.01623
+        etau22 = 0.000525
+        d['tauoneone_mu'] = pymc.Deterministic(name='tauoneone_mu', eval=tauoneone, parents={'meandens':d['meandens'],'sigma':d['sigma']}, doc='tauoneone')
+        d['tautwotwo_mu'] = pymc.Deterministic(name='tautwotwo_mu', eval=tautwotwo, parents={'meandens':d['meandens'],'sigma':d['sigma']}, doc='tautwotwo')
+        if truncate_at_5sigma:
+            d['sigma'].value = 2.88
+            d['meandens'].value = 33
+            d['tauoneone'] = pymc.TruncatedNormal(name='tauoneone',mu=d['tauoneone_mu'],tau=1./etau11**2,value=tau11,
+                    a=tau11-5*etau11,b=tau11+5*etau11, observed=True)
+            d['tautwotwo'] = pymc.TruncatedNormal(name='tautwotwo',mu=d['tautwotwo_mu'],tau=1./etau22**2,value=tau22,
+                    a=tau22-5*etau22,b=tau22+5*etau22, observed=True)
+        else:
+            d['tauoneone'] = pymc.Normal(name='tauoneone',mu=d['tauoneone_mu'],tau=1./etau11**2,value=tau11,observed=True)
+            d['tautwotwo'] = pymc.Normal(name='tautwotwo',mu=d['tautwotwo_mu'],tau=1./etau22**2,value=tau22,observed=True)
+        @pymc.deterministic(trace=True,plot=True)
+        def tau_ratio(oneone=d['tauoneone_mu'], twotwo=d['tautwotwo_mu']):
+            return oneone/twotwo
+        d['tau_ratio'] = tau_ratio
+        return d
+
+    if dolognormal:
+        mc_simple = pymc.MCMC(mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo))
         mc_simple.sample(100000)
 
         graph_lognormal_simple = pymc.graph.graph(mc_simple)
         graph_lognormal_simple.write_pdf(savepath+"mc_lognormal_simple_graph.pdf")
         graph_lognormal_simple.write_png(savepath+"mc_lognormal_simple_graph.png")
 
-        print "WARNING: This [mc_complicated] fails because apparently there is no model that simultaneously fits the tau ratio and the mach number."
-        d['temperature'] = temperature = pymc.Uniform(name='temperature',lower=8,upper=15)
-        def cs(temperature):
-            return np.sqrt(1.38e-16 * temperature / (2.3*1.67e-24)) /1e5
-        d['c_s'] = pymc.Deterministic(name='c_s', eval=cs, parents={'temperature':temperature}, doc='soundspeed')
-        d['b'] = pymc.Uniform('b',0.3,1.0)
-        def mach(sigma, c_s, b):
-            # sigma**2 = np.log(1+b**2 * Mach**2 * beta/(beta+1))
-            # mach = sqrt[(exp(sigma**2) -1)/b**2]
+        d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=True)
+        d['b'] = pymc.Uniform(name='b', value=0.5, lower=0.3, upper=1, observed=False)
+        @pymc.deterministic(plot=True,trace=True)
+        def mach(sigma=d['sigma'], b=d['b']):
             return np.sqrt((np.exp(sigma**2) - 1)/b**2)
-        d['mach_mu'] = pymc.Deterministic(name='mach_mu', eval=mach, parents={'b':d['b'], 'sigma':d['sigma'], 'c_s':d['c_s']}, doc="Mach number")
-        # mach number could be as low as 3.7, as high as say 6.8, and the distribution between isn't super obvious...
-        #d['mach'] = pymc.Normal(name='MachNumber',mu=d['mach_mu'],tau=16, value=6.6, observed=True)
-        # try a much less restrictive mach number range...
-        d['mach'] = pymc.Normal(name='MachNumber',mu=d['mach_mu'],tau=0.5, value=5.1, observed=True)
+        
+        d['mach'] = mach
+        d['mach_observed'] = pymc.Normal(name='mach_observed', mu=mach, tau=1./0.2**2, value=5.1, observed=True)
+
         mc_lognormal = pymc.MCMC(d)
         mc_lognormal.sample(100000)
 
@@ -161,14 +198,14 @@ if __name__ == "__main__":
         graph_lognormal.write_png(savepath+"mc_lognormal_graph.png")
 
         varslice=(10000,None,None)
-        for fignum,(p1,p2) in enumerate(itertools.combinations(('tauratio_mu','sigma','meandens','temperature','b','mach_mu'),2)):
+        for fignum,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens','b','mach'),2)):
             pymc_plotting.hist2d(mc_lognormal, p1, p2, bins=30, clear=True, fignum=fignum, varslice=varslice, colorbar=True)
             pl.title("Lognormal with Mach")
             pl.savefig(savepath+"LognormalWithMach_%s_v_%s_mcmc.png" % (p1,p2))
 
-        for fignum2,(p1,p2) in enumerate(itertools.combinations(('tauratio_mu','sigma','meandens'),2)):
+        for fignum2,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens'),2)):
             pymc_plotting.hist2d(mc_simple, p1, p2, bins=30, clear=True, fignum=fignum+fignum2+1, varslice=varslice, colorbar=True)
-            pl.title("Lognormal - just tauratio")
+            pl.title("Lognormal - just $\\tau$ fits")
             pl.savefig(savepath+"LognormalJustTau_%s_v_%s_mcmc.png" % (p1,p2))
 
         lognormal_statstable = pymc_tools.stats_table(mc_lognormal)
@@ -182,13 +219,12 @@ if __name__ == "__main__":
         pl.figure(33); pl.clf()
         pl.title("Lognormal")
         pymc_plotting.plot_mc_hist(mc_lognormal,'b',lolim=True,alpha=0.5,bins=25,legloc='lower right')
+        pl.xlabel('$b$')
+        pl.savefig('LognormalWithMach_b_1D_restrictions.png')
 
     if dohopkins:
-        d = {}
-        d['meandens'] = pymc.Uniform(name='meandens',lower=8,upper=150,value=15, observed=False)
-        d['sigma'] = pymc.Uniform(name='sigma',lower=0,upper=25)
-        d['tauratio_mu'] = pymc.Deterministic(name='tauratio_mu', eval=tauratio_hopkins, parents=d, doc='tauratio_hopkins')
-        d['tauratio'] = pymc.Normal(name='tauratio',mu=d['tauratio_mu'],tau=1./0.235**2,value=6.98,observed=True)
+        # Hopkins - NO Mach number restrictions
+        d = mcmc_sampler_dict(tauoneone=tauoneone_hopkins,tautwotwo=tautwotwo_hopkins)
         mc_hopkins_simple = pymc.MCMC(d)
         mc_hopkins_simple.sample(1e5)
 
@@ -196,6 +232,8 @@ if __name__ == "__main__":
         graph_hopkins_simple.write_pdf(savepath+"mc_hopkins_simple_graph.pdf")
         graph_hopkins_simple.write_png(savepath+"mc_hopkins_simple_graph.png")
 
+        # Hopkins - with Mach number restrictions
+        d = mcmc_sampler_dict(tauoneone=tauoneone_hopkins,tautwotwo=tautwotwo_hopkins)
         def Tval(sigma):
             return hopkins_pdf.T_of_sigma(sigma, logform=True)
         d['Tval'] = pymc.Deterministic(name='Tval', eval=Tval, parents={'sigma':d['sigma']}, doc='Intermittency parameter T')
@@ -214,14 +252,14 @@ if __name__ == "__main__":
 
         varslice=(1000,None,None)
 
-        for fignum,(p1,p2) in enumerate(itertools.combinations(('tauratio_mu','sigma','meandens','Tval','b','mach_mu'),2)):
+        for fignum,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens','Tval','b','mach_mu'),2)):
             pymc_plotting.hist2d(mc_hopkins, p1, p2, bins=30, clear=True, fignum=fignum, varslice=varslice, colorbar=True)
             pl.title("Hopkins with Mach")
             pl.savefig(savepath+"HopkinsWithMach_%s_v_%s_mcmc.png" % (p1,p2))
 
-        for fignum2,(p1,p2) in enumerate(itertools.combinations(('tauratio_mu','sigma','meandens'),2)):
+        for fignum2,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens'),2)):
             pymc_plotting.hist2d(mc_hopkins_simple, p1, p2, bins=30, clear=True, fignum=fignum+fignum2+1, varslice=varslice, colorbar=True)
-            pl.title("Hopkins - just tauratio")
+            pl.title("Hopkins - just $\\tau$ fits")
             pl.savefig(savepath+"HopkinsJustTau_%s_v_%s_mcmc.png" % (p1,p2))
 
         print "Some statistics used in the paper: "
@@ -278,9 +316,14 @@ if __name__ == "__main__":
             ax.set_ylabel('$\\tau_{1-1}/\\tau_{2-2}$',fontsize=24)
             ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
 
-            ax.errorbar([np.log10(15)],[6.98],xerr=np.array([[0.33,1]]).T,yerr=np.array([[0.36,0.36]]).T,
+            dot,caps,bars = ax.errorbar([np.log10(15)],[6.98],xerr=np.array([[0.33,1]]).T,yerr=np.array([[0.36,0.36]]).T,
                         label="G43.16-0.03", color=(0,0,1,0.5), alpha=0.5, marker='o',
                         linewidth=2)
+            caps[0].set_marker('$($')
+            caps[1].set_marker('$)$')
+            caps[0].set_color((1,0,0,0.6))
+            caps[1].set_color((1,0,0,0.6))
+            bars[0].set_color((1,0,0,0.6))
             ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s_withG43.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
 
             for ii,(line,taux) in enumerate(zip(('oneone','twotwo'),(tau1x,tau2x))):
@@ -309,9 +352,14 @@ if __name__ == "__main__":
                 ax.figure.savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')
 
                 tau_meas = {'oneone': [0.113,0.0011], 'twotwo':[0.0162,0.00052]}
-                ax.errorbar([np.log10(15)],tau_meas[line][0],xerr=np.array([[0.33,1]]).T,yerr=tau_meas[line][1],
+                dot,caps,bars = ax.errorbar([np.log10(15)],tau_meas[line][0],xerr=np.array([[0.33,1]]).T,yerr=tau_meas[line][1]*3,
                             label="G43.17+0.01", color=(0,0,1,0.5), alpha=0.5, marker='o',
                             linewidth=2)
+                caps[0].set_marker('$($')
+                caps[1].set_marker('$)$')
+                caps[0].set_color((1,0,0,0.6))
+                caps[1].set_color((1,0,0,0.6))
+                bars[0].set_color((1,0,0,0.6))
                 ax.figure.savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s_withG43.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')
 
     if do_tables:
