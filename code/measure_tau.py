@@ -7,6 +7,8 @@ import numpy as np
 import hopkins_pdf
 import turbulent_pdfs
 from turbulent_pdfs import lognormal
+import multiplot
+import agpy
 
 try:
     from agpy import readcol
@@ -18,6 +20,10 @@ except ImportError:
 # plotting stuff
 import pylab as pl
 pl.rc('font',size=20)
+
+def savefig(savename, **kwargs):
+    pl.savefig(savename.replace("pdf","png"), **kwargs)
+    pl.savefig(savename.replace("png","pdf"), **kwargs)
 
 import astropy.io.fits as pyfits
 
@@ -111,6 +117,73 @@ def save_traces(mc, filename, clobber=False):
     hdu.writeto(filename, clobber=clobber)
     return traces
 
+def docontours_multi(mc, start=6000, end=None, skip=None, dosave=False,
+        parnames=(), bins=30, fignum=35, savename='multipanel.png'):
+    if isinstance(mc, dict):
+        traces = mc
+    else:
+        mcnames = mc.db._traces.keys()
+        traces = {k:np.concatenate([v.squeeze() for v in mc.trace(k)._trace.values()])[start:end:skip] 
+                for k in mcnames
+                if k in parnames}
+
+    pl.figure(fignum)
+    pl.clf()
+    npars = len(traces.keys())
+    mp = multiplot.multipanel(dims=(npars,npars), padding=(0,0), diagonal=True, figID=fignum)
+    parnumbers = {p:i for i,p in enumerate(traces.keys())}
+    for par1,par2 in itertools.combinations(traces.keys(),2):
+        # coordinates are -y, x
+        axno = mp.axis_number(parnumbers[par2],parnumbers[par1])
+        if axno is None:
+            continue
+        ax = mp.grid[axno]
+        try:
+            agpy.pymc_plotting.hist2d(traces,par1,par2,varslice=(None,None,None), axis=ax,
+                    colorbar=False, clear=True, doerrellipse=False, bins=bins)
+        except ValueError as E:
+            print E
+            continue
+        # if x > 0, hide y labels.
+        if parnumbers[par1] > 0:
+            ax.set_ylabel("")
+            ax.set_yticks([])
+        else:
+            ax.set_ylabel(ax.get_ylabel(), fontsize=12)
+            ax.tick_params(axis='both', which='major', labelsize=12)
+            ax.yaxis.get_major_locator().set_params(nbins=4)
+        if parnumbers[par2] == npars-1:
+            ax.set_xlabel(ax.get_xlabel(), fontsize=12)
+            ax.xaxis.get_major_locator().set_params(nbins=4)
+            ax.tick_params(axis='both', which='major', labelsize=12)
+        else:
+            ax.set_xlabel('')
+            ax.set_xticks([])
+    for par in traces.keys():
+        ax = mp.grid[mp.axis_number(parnumbers[par],parnumbers[par])]
+        try:
+            agpy.pymc_plotting.plot_mc_hist(traces, par,
+                varslice=(None,None,None), onesided=False, axis=ax,
+                legend=False)
+        except Exception as E:
+            print E
+            continue
+        # if x > 0, hide y labels.
+        if parnumbers[par] > 0:
+            ax.set_ylabel("")
+            ax.set_yticks([])
+        else:
+            ax.set_ylabel(par, fontsize=12)
+            ax.tick_params(axis='both', which='major', labelsize=12)
+            ax.yaxis.get_major_locator().set_params(nbins=4)
+        if npars-1 == parnumbers[par]: # label bottom panel
+            ax.set_xlabel(par, fontsize=12)
+            ax.xaxis.get_major_locator().set_params(nbins=4)
+            ax.tick_params(axis='both', which='major', labelsize=12)
+
+    if dosave:
+        savefig(savename,bbox_inches='tight')
+
 if __name__ == "__main__":
     savepath = "/Users/adam/work/h2co/lowdens/figures/"
     # load defaults by default
@@ -132,8 +205,9 @@ if __name__ == "__main__":
     import itertools
     import pymc_tools
 
-    dolognormal=True
-    dohopkins=False
+    T,F = True,False
+    dolognormal=T
+    dohopkins=T
     do_paperfigure=False
     do_tables=False
 
@@ -150,7 +224,7 @@ if __name__ == "__main__":
         # with meandens observed=False,  'sigma': {'95% HPD interval': array([ 2.89972948,  3.69028675]),
         d['meandens'] = pymc.Uniform(name='meandens',lower=8,upper=150,value=15, observed=False)
         d['sigma'] = pymc.Uniform(name='sigma',lower=0,upper=25,value=2.88)
-        # the observed values.  f=tau ratio = 6.65.  tau might be too high, but the "best fits" were tau=9 before, which is just not possible
+        # the observed values.  f=tau ratio = 6.65 (6.99?).  tau might be too high, but the "best fits" were tau=9 before, which is just not possible
         tau11 = 0.1133
         etau11=0.001165
         tau22 = 0.01623
@@ -197,16 +271,26 @@ if __name__ == "__main__":
         graph_lognormal.write_pdf(savepath+"mc_lognormal_graph.pdf")
         graph_lognormal.write_png(savepath+"mc_lognormal_graph.png")
 
-        varslice=(10000,None,None)
-        for fignum,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens','b','mach'),2)):
-            pymc_plotting.hist2d(mc_lognormal, p1, p2, bins=30, clear=True, fignum=fignum, varslice=varslice, colorbar=True)
-            pl.title("Lognormal with Mach")
-            pl.savefig(savepath+"LognormalWithMach_%s_v_%s_mcmc.png" % (p1,p2))
+        docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel.pdf", dosave=True,
+                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio'))
+        docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_deviance.pdf", dosave=True,
+                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
+        docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_scalefactors.pdf", dosave=True,
+                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','Metropolis_sigma_adaptive_scale_factor','Metropolis_b_adaptive_scale_factor','Metropolis_meandens_adaptive_scale_factor','deviance'))
+        docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_deviance.pdf", dosave=True,
+                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
+        docontours_multi(mc_simple,start=10000,savename=savepath+"mc_lognormal_justtau_multipanel.pdf", dosave=True,
+                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio'))
+        #varslice=(10000,None,None)
+        #for fignum,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens','b','mach'),2)):
+        #    pymc_plotting.hist2d(mc_lognormal, p1, p2, bins=30, clear=True, fignum=fignum, varslice=varslice, colorbar=True)
+        #    pl.title("Lognormal with Mach")
+        #    pl.savefig(savepath+"LognormalWithMach_%s_v_%s_mcmc.png" % (p1,p2))
 
-        for fignum2,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens'),2)):
-            pymc_plotting.hist2d(mc_simple, p1, p2, bins=30, clear=True, fignum=fignum+fignum2+1, varslice=varslice, colorbar=True)
-            pl.title("Lognormal - just $\\tau$ fits")
-            pl.savefig(savepath+"LognormalJustTau_%s_v_%s_mcmc.png" % (p1,p2))
+        #for fignum2,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens'),2)):
+        #    pymc_plotting.hist2d(mc_simple, p1, p2, bins=30, clear=True, fignum=fignum+fignum2+1, varslice=varslice, colorbar=True)
+        #    pl.title("Lognormal - just $\\tau$ fits")
+        #    pl.savefig(savepath+"LognormalJustTau_%s_v_%s_mcmc.png" % (p1,p2))
 
         lognormal_statstable = pymc_tools.stats_table(mc_lognormal)
         lognormal_statstable.write('lognormal_statstable_abundance%s.fits' % abundance, overwrite=True)
@@ -220,7 +304,7 @@ if __name__ == "__main__":
         pl.title("Lognormal")
         pymc_plotting.plot_mc_hist(mc_lognormal,'b',lolim=True,alpha=0.5,bins=25,legloc='lower right')
         pl.xlabel('$b$')
-        pl.savefig('LognormalWithMach_b_1D_restrictions.png')
+        savefig('LognormalWithMach_b_1D_restrictions.png')
 
     if dohopkins:
         # Hopkins - NO Mach number restrictions
@@ -250,17 +334,25 @@ if __name__ == "__main__":
         graph_hopkins.write_pdf(savepath+"mc_hopkins_graph.pdf")
         graph_hopkins.write_png(savepath+"mc_hopkins_graph.png")
 
-        varslice=(1000,None,None)
 
-        for fignum,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens','Tval','b','mach_mu'),2)):
-            pymc_plotting.hist2d(mc_hopkins, p1, p2, bins=30, clear=True, fignum=fignum, varslice=varslice, colorbar=True)
-            pl.title("Hopkins with Mach")
-            pl.savefig(savepath+"HopkinsWithMach_%s_v_%s_mcmc.png" % (p1,p2))
+        docontours_multi(mc_hopkins,start=10000,savename=savepath+"mc_hopkins_withmach_multipanel.pdf", dosave=True,
+                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','b'))
+        docontours_multi(mc_hopkins,start=10000,savename=savepath+"mc_hopkins_withmach_multipanel_deviance.pdf", dosave=True,
+                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','b','deviance'))
+        docontours_multi(mc_hopkins_simple,start=10000,savename=savepath+"mc_hopkins_justtau_multipanel.pdf", dosave=True,
+                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval'))
+        docontours_multi(mc_hopkins_simple,start=10000,savename=savepath+"mc_hopkins_justtau_multipanel_deviance.pdf", dosave=True,
+                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','deviance'))
+        #varslice=(1000,None,None)
+        #for fignum,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens','Tval','b','mach_mu'),2)):
+        #    pymc_plotting.hist2d(mc_hopkins, p1, p2, bins=30, clear=True, fignum=fignum, varslice=varslice, colorbar=True)
+        #    pl.title("Hopkins with Mach")
+        #    pl.savefig(savepath+"HopkinsWithMach_%s_v_%s_mcmc.png" % (p1,p2))
 
-        for fignum2,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens'),2)):
-            pymc_plotting.hist2d(mc_hopkins_simple, p1, p2, bins=30, clear=True, fignum=fignum+fignum2+1, varslice=varslice, colorbar=True)
-            pl.title("Hopkins - just $\\tau$ fits")
-            pl.savefig(savepath+"HopkinsJustTau_%s_v_%s_mcmc.png" % (p1,p2))
+        #for fignum2,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens'),2)):
+        #    pymc_plotting.hist2d(mc_hopkins_simple, p1, p2, bins=30, clear=True, fignum=fignum+fignum2+1, varslice=varslice, colorbar=True)
+        #    pl.title("Hopkins - just $\\tau$ fits")
+        #    pl.savefig(savepath+"HopkinsJustTau_%s_v_%s_mcmc.png" % (p1,p2))
 
         print "Some statistics used in the paper: "
         print 'mc_lognormal_simple sigma: ',mc_simple.stats()['sigma']['quantiles']
