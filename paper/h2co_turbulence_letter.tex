@@ -201,7 +201,7 @@ The highest \thirteenco contours are observed as a modest infrared dark cloud
 in Spitzer 8 \um images, but no dust emission peaks are observed at 500 \um
 \citep[Herschel;][]{Traficante2011a} or 1.1 mm
 \citep[Bolocam;][]{Aguirre2011a,Ginsburg2013b} associated with the dark gas.
-This is an indication that any star formation, if present, is weak -- no
+This is an indication that the cloud is not dominated by gravity -- no
 massive dense clumps are present within this cloud.
 
 
@@ -255,12 +255,11 @@ massive dense clumps are present within this cloud.
 % co_tau = -np.log(1+ (co*0.189)/((np.exp(5.3/tex) - 1)**(-1)-0.16) * -1)
 % 
 % 
-The cloud has mass $M_{CO} = 1.5\ee{4}$ \msun in a radius $r=15$ pc as measured
-from the integrated map, so its mean density is $n(\hh) \approx 15$ \percc
-assuming spherical symmetry.  If we
-instead assume a cubic volume, the mean density is $n(\hh)\sim8$ \percc.  For
-an oblate spheroid, with minor axis $0.1\times$ the other axes, the mean
-density is $n\sim150$ \percc, which we regard as a conservative upper limit.
+The cloud has mass in the range $M_{CO} = 1-3\ee{4}$ \msun in a radius $r=15$ pc as measured
+from the integrated \thirteenco map using an optical depth estimate and
+abundance from \citet{Roman-Duval2010a}, so its mean density is $n(\hh) \approx
+10-30$ \percc assuming spherical symmetry.  If we
+instead assume a cubic volume, as is done in simulations, the mean density is lower. 
 \citet{Simon2001a} report a mass $M_{CO} = 6\ee{4} \msun$ and $r=13$ pc,
 yielding a density $n(\hh)=100$ \percc, which is consistent with our estimates.
 \citet{Roman-Duval2010a} break the cloud apart into 3 separate objects for their
@@ -269,16 +268,18 @@ have the same velocity to within 1 \kms, but they show slight discontinuities
 in position-velocity space.  These discontinuities are morphologically consistent
 with gaps seen in turbulent simulations, validating our assessment of the cloud as a
 single object, but as a maximally conservative estimate we use the density of the
-northmost cloud GRSMC 43.04-0.11 as an upper limit.  \todo{Using an ellipse that encompasses
-the densest part of the cloud...}
+northmost ``clump'' GRSMC 43.04-0.11, which overlaps our target line of sight,
+as an upper limit.  It has density $n\approx120\percc$, but we use $n<200$ \percc
+as a slightly more conservative limit to allow for modest uncertainties in
+optical depth, radius, and abundance.
 
-but somewhat higher than measured by \citet{Roman-Duval2010a} because of the
-improved optical depth corrections in the latter work.%
-\footnote{\citet{Roman-Duval2010a} do not report on cloud \GRSMC, but instead
-identify two ``clumps'' within the cloud, G043.14-00.36 and G043.04-00.11,
-which are each assumed to have lower mass, much smaller radii, and therefore
-higher densities.  Figure \ref{fig:40kmscloud} shows that they are indeed members
-of a single contiguous cloud.}
+%but somewhat higher than measured by \citet{Roman-Duval2010a} because of the
+%improved optical depth corrections in the latter work.%
+%\footnote{\citet{Roman-Duval2010a} do not report on cloud \GRSMC, but instead
+%identify two ``clumps'' within the cloud, G043.14-00.36 and G043.04-00.11,
+%which are each assumed to have lower mass, much smaller radii, and therefore
+%higher densities.  Figure \ref{fig:40kmscloud} shows that they are indeed members
+%of a single contiguous cloud.}
 
 
 % It resembles, in that respect, the California molecular
@@ -353,11 +354,11 @@ degeneracy between low and high densities \citep{Ginsburg2011a}.  }
 We performed line fits to both lines simultaneously using a Markov-chain
 monte-carlo approach, assuming uniform priors across the modeled parameter
 space and independent gaussian errors on each spectral bin.  The density
-measurements are very precise, with $n\approx23,000 {}^{+9300}_{-7700}$ \percc
-(95\% confidence interval) and $n\approx 20,400 {}^{+12000}_{-10000}$ \percc for
-G43.17+0.01 and G43.16-0.03 respectively.  While this is a precise measurement
-of gas density, we now need to examine exactly what gas we have measured the
-density of.
+measurements are very precise, with $log n = 4.3^{+0.16}_{-0.48} \percc$
+(95\% confidence interval) and $n=4.2^{+0.24}{-0.64}$ \percc for
+G43.17+0.01 and G43.16-0.03 respectively.  The lower bounds correspond to high ortho-to-para
+ratios OPR>1.  While these are fairly precise measurements of gas density, we
+now need to examine exactly what gas we have measured the density of.
 %At this level of precision, the 
 %density measurements are dominated by systematic uncertainties in temperature and
 %the ortho-to-para ratio of \hh.  
@@ -499,24 +500,24 @@ the \oneone and \twotwo
 line by averaging over the mass-weighted density distribution, $P_M\equiv\rho P_V$.
 \begin{eqnarray}
     \label{eqn:tauintegral}
-    \tau(\rho_0) &=& \int_{0}^\infty \frac{\tau_p(\rho)}{N_p} P_M(\ln \rho/\rho_0) d \ln \rho\\
-                 &=& \int_{0}^\infty \frac{\tau_p(\rho_0 e^s)}{N_p} P_M(s) d s
+    \tau_{\nu}(\rho_0) &=& \int_{0}^\infty \frac{\tau_{\nu,p}(\rho)}{N_p} P_M(\ln \rho/\rho_0) d \ln \rho\\
+                       &=& \int_{0}^\infty \frac{\tau_{\nu,p}(\rho_0 e^s)}{N_p} P_M(s) d s
 \end{eqnarray} % there's too much spoo in my fleem http://dilbert.com/strips/comic/1997-04-27/
 $\tau_p(\rho)/N_p$ is the optical depth \emph{per particle} at a given density, where $N_p$ is the column
 density (\perkmspc) from the LVG model.
 We assume a fixed abundance of \ortho relative to \hh
-(i.e., the \formaldehyde perfectly traces the \hh)\footnote{While there is
+(i.e., the \formaldehyde perfectly traces the \hh).\footnote{While there is
 building evidence that there is \hh not traced by CO
 \citep{Shetty2011b,Shetty2011a}, the \formaldehyde and CO should be tracing the
 same gas, as \formaldehyde abundances have typically been observed to be
 consistent with CO abundances.  \formaldehyde deficiency is also most likely to
 occur on the outskirts of clouds where the total gas density is expected to be
 lower, so our measurements should be largely unaffected by abundance variation
-within the cloud.}.
+within the cloud.}
 
 Figure \ref{fig:lvgsmooth}
 shows the result of this integral for an abundance of \ortho relative to \hh, 
-$X(\ortho)=10^{-9}$, where the X-axis shows $\rho_0 = n(\hh)$ and the Y-axis
+$X(\ortho)=10^{-9}$, where the X-axis shows $\rho_0 = \rho(\hh)$ and the Y-axis
 shows the observable optical depth ratio of the two \formaldehyde centimeter
 lines.
 
@@ -761,6 +762,7 @@ and the \formaldehyde-derived density}
 %so the positions of the data in this figure are somewhat misleading.
 %}{fig:volvsmass}{0.5}{0}
 
+
 \section{Conclusions}
 We demonstrate the use of a novel method of inferring the shape of the density
 probability distribution in a molecular cloud using \formaldehyde densitometry
@@ -854,5 +856,68 @@ source code just send me your e-mail address and I'll open it to you}.
 % and left in Figure \ref{fig:lvgsmooth},  implying that lower $\sigma_s$ values
 % are possible, so perhaps it will be possible to accommodate lognormal.
 
+\section{Assumptions, caveats, and uncertainties}
+There remain uncertainties that we have not explicitly explored in this paper,
+which we describe and estimate here.
+
+The precise density measurements presented here are based off of large velocity
+gradient approximations \citep{Sobolev1957a} for the escape probability of line
+radiation from the cloud.  This method is widely used but remains an
+approximation.  In the case of \formaldehyde, it has been tested with a variety
+of codes \cite{van-der-Tak2007a,Henkel1983a} but is subject to uncertainties in
+the velocity gradient and system geometry.  However, in the case of the
+observations in this paper, the lines were in the optically thin limit, and the
+LVG approximation should not affect our results.
+
+The collision rates of \formaldehyde with p-\hh, o-\hh, and He are estimated
+based on computer simulations of the particles.  \citet{Troscompt2009a}
+improved upon the measurements of \citet{Green1991a}, bringing the typical
+collision rate uncertainty down from $\sim50\%$ in the He-based approximation
+to $\sim10\%$ using full models of ortho and para \hh.  \citet{Zeiger2010a}
+reported the results of using modified collision rates and noted that the
+errors in the \hh density were, in the worst case, $<0.3$ dex.  With the
+improved \citet{Troscompt2009a} collision rates, the uncertainties can no
+longer be dominated by collision rate uncertainties.
+
+Abundance remains a serious concern, as most studies of \formaldehyde abundance
+do not observe multiple transitions and therefore do not constrain the relative
+level populations.  Few systematic studies have been undertaken
+\citep[e.g.]{Liszt2006a}.  There are also general difficulties in measuring absolute
+abundance of molecules, as the absolute column of \hh is rarely known to any
+precision.  Most abundance measurements tend to be below $X<10^{-9}$
+\citep{Pauls1996a,Dickens1999a,Turner1989a,Turner1993a}, which validates our
+measurements, but deeper studies of abundance are warranted, particularly
+studies of how \formaldehyde varies relative to CO in clouds.
+
+The ``covering factor'' of foreground clouds in front of background
+illumination sources is, in general, a major concern when performing absorption
+measurements.  For the clouds presented in this work, the absorbing region
+should be much larger than the background, as evidenced by the two
+lines-of-sight with similar optical depth ratios.  However, for more detailed
+studies of density variations, EVLA observations can and should be employed.
+
+The single largest uncertainty is related to the mean properties of the GMC.
+While we have accounted for these uncertainties by adopting a very conservative
+range of values for the mean density (covering two orders of magnitude), it is
+not entirely clear how the mean density of the cloud should be computed for
+comparison to simulations and the analytic distributions.  Since this is a
+foreground cloud lying in front of a rich portion of the galactic plane, the
+best mass estimates are very likely to come from molecular line observations,
+and therefore they are unlikely to be improved unless new wide-field CO
+observations are taken, e.g. with CCAT.
+
+\Figure{figures/GRSMC_43.30_dendrograms_density.pdf}
+{Results of a dendrogram analysis of the \GRSMC cloud and the
+northernmost \thirteenco ``clump'' within that cloud.  The data points represent
+successively higher (and therefore smaller) contours within the integrated \thirteenco
+map.  The shapes represent three different methods
+for extracting the volume: squares assume spherical symmetry using the
+effective radius of the contour, which is proportional to the square root of
+the number of pixels.  Circles do the same, but assume that the line-of-sight
+radius is 2 pc (i.e., smaller than the observed plane-of-the-sky
+dimensions).  The triangles show the volume of an ellipsoid using the moments of the
+contoured pixels, with volume $V=4/3 \pi R_{maj}R_{min}^2$.  The black dashed lines
+indicate the range of densities allowed in our fits.}
+{fig:dendro}{0.5}{0}
 
 \end{document}
