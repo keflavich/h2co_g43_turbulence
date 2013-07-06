@@ -1,0 +1,17 @@
+Responses to most recent comments:
+
+1. Title - Compressive turbulence in a quiescent molecular cloud: Observations with
+\formaldehyde
+2. "Measuring the actual density..." I'm going to leave out that sentence
+because I don't think we improve upon standard methods for measuring the *mean*
+density of the cloud in this paper
+3. First PP of intro has been rephrased; the "properties of the turbulence" I
+had previously really refer to the  density PDF.
+4. Citations on pg 1: Added, but not 100% sure my citekeys match the specific
+references you pointed out.
+5. Rephrased the section on gravitational collapse, including suggested citations
+6. Included compressive vs solenoidal description in greater detail
+7. Removed equations from the introduction (I had an incorrect one that you pointed out)
+
+Responses to previous comments (I think I addressed these before, but I'm not 100% sure so there are some repeats):
+1. Eqn 4.: I keep d ln rho instead of d ln rho/rho_0 since these are equal (d ln rho/rho0 = d ln rho - d ln rho0 = d ln rho)

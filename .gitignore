@@ -4,3 +4,6 @@
 *.aux
 *.synctex.gz
 .DS_Store
+*npz
+*traces
+*fits
