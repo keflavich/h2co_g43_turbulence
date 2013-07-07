@@ -219,9 +219,9 @@ if __name__ == "__main__":
     import pymc_tools
 
     T,F = True,False
-    domillion=F
-    dolognormal=F
-    dohopkins=F
+    domillion=T
+    dolognormal=T
+    dohopkins=T
     do_paperfigure=T
     do_tables=T
 
