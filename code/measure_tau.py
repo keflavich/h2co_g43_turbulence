@@ -554,12 +554,12 @@ if __name__ == "__main__":
     if do_tables:
 
         if not 'lognormal_statstable' in locals():
-            lognormal_statstable = pyfits.getdata(('lognormal_statstable_abundance%s.fits' % abundance)
-            lognormal_simple_statstable = pyfits.getdata(('lognormal_simple_statstable_abundance%s.fits' % abundance)
-            lognormal_freemach_statstable = pyfits.getdata(('lognormal_freemach_statstable_abundance%s.fits' % abundance)
-            hopkins_statstable = pyfits.getdata(('hopkins_statstable_abundance%s.fits' % abundance)
-            hopkins_statstable = pyfits.getdata(('hopkins_simple_statstable_abundance%s.fits' % abundance)
-            hopkins_freemach_statstable = pyfits.getdata(('hopkins_freemach_statstable_abundance%s.fits' % abundance)
+            lognormal_statstable = pyfits.getdata('lognormal_statstable_abundance%s.fits' % abundance)
+            lognormal_simple_statstable = pyfits.getdata('lognormal_simple_statstable_abundance%s.fits' % abundance)
+            lognormal_freemach_statstable = pyfits.getdata('lognormal_freemach_statstable_abundance%s.fits' % abundance)
+            hopkins_statstable = pyfits.getdata('hopkins_statstable_abundance%s.fits' % abundance)
+            hopkins_statstable = pyfits.getdata('hopkins_simple_statstable_abundance%s.fits' % abundance)
+            hopkins_freemach_statstable = pyfits.getdata('hopkins_freemach_statstable_abundance%s.fits' % abundance)
 
         # clearly not done yet
         one_sided = ['b']
