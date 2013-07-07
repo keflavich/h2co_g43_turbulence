@@ -472,7 +472,8 @@ if __name__ == "__main__":
             ax.set_ylabel('$\\tau_{1-1}/\\tau_{2-2}$',fontsize=24)
             ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
 
-            dot,caps,bars = ax.errorbar([np.log10(30)],[6.99],xerr=np.array([[0.47,0.82]).T,yerr=np.array([[0.33,0.33]]).T,
+            print "Hi!"
+            dot,caps,bars = ax.errorbar([np.log10(30)],[6.99],xerr=np.array([[0.47,0.82]]).T,yerr=np.array([[0.33,0.33]]).T,
                         label="G43.17+0.01", color=(0,0,1,0.5), alpha=0.5, marker='o',
                         linewidth=2)
             caps[0].set_marker('$($')
