@@ -7,8 +7,6 @@ from agpy import pymc_plotting
 import pymc_tools
 
 mc_simple = pymc.MCMC(mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo))
-print "Simple sampling\n"
-mc_simple.sample(100000)
 
 graph_lognormal_simple = pymc.graph.graph(mc_simple)
 graph_lognormal_simple.write_pdf(savepath+"mc_lognormal_simple_graph.pdf")
@@ -24,8 +22,6 @@ d['mach'] = mach
 d['mach_observed'] = pymc.Normal(name='mach_observed', mu=mach, tau=1./0.2**2, value=5.1, observed=True)
 
 mc_lognormal = pymc.MCMC(d)
-print "lognormal sampling\n"
-mc_lognormal.sample(100000)
 
 d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=False)
 d['b'] = pymc.Uniform(name='b', value=0.5, lower=0.3, upper=1, observed=False)
@@ -43,12 +39,17 @@ d['sigma'].value = 1
 d['mach_limits'] = pymc.Potential(name='mach_observed', logp=mach_limits, parents={'m':d['mach']},doc='Mach limits',verbose=0)
 
 mc_lognormal_freemach = pymc.MCMC(d)
-print "lognormal (freemach) sampling\n"
-mc_lognormal_freemach.sample(100000)
 
 graph_lognormal = pymc.graph.graph(mc_lognormal)
 graph_lognormal.write_pdf(savepath+"mc_lognormal_graph.pdf")
 graph_lognormal.write_png(savepath+"mc_lognormal_graph.png")
+
+print "Simple sampling\n"
+mc_simple.sample(100000)
+print "lognormal sampling\n"
+mc_lognormal.sample(100000)
+print "lognormal (freemach) sampling\n"
+mc_lognormal_freemach.sample(100000)
 
 def docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach):
     docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel.pdf", dosave=True,

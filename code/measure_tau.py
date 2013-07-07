@@ -59,3 +59,9 @@ def savefig(savename, **kwargs):
 
 T,F = True,False
 domillion=T
+
+if __name__ == "__main__":
+    execfile('lognormal_mcmc_parameter_estimates.py')
+    execfile('hopkins_mcmc_parameter_estimates.py')
+    execfile('tau_figures.py')
+    execfile('mcmc_parameter_estimate_tables.py')
