@@ -107,8 +107,9 @@ def generate_simpletools(**kwargs):
 # pymc tool
 def save_traces(mc, filename, clobber=False):
     keys = [v.__name__ for v in mc.variables if hasattr(v,'observed') and not v.observed]
-    traces = {k:np.concatenate([v.squeeze() for v in mc.trace(k)._trace.values()])
-            for k in keys}
+    traces = {k:np.concatenate([v.squeeze()
+                                for v in mc.trace(k)._trace.values()])
+              for k in keys}
     shape = len(traces[keys[0]])
     arr = np.empty(shape, dtype=[(k,np.float) for k in keys])
     for k in keys:
@@ -118,14 +119,16 @@ def save_traces(mc, filename, clobber=False):
     return traces
 
 def docontours_multi(mc, start=6000, end=None, skip=None, dosave=False,
-        parnames=(), bins=30, fignum=35, savename='multipanel.png'):
+                     parnames=(), bins=30, fignum=35,
+                     savename='multipanel.png'):
     if isinstance(mc, dict):
         traces = mc
     else:
         mcnames = mc.db._traces.keys()
-        traces = {k:np.concatenate([v.squeeze() for v in mc.trace(k)._trace.values()])[start:end:skip] 
-                for k in mcnames
-                if k in parnames}
+        traces = {k:np.concatenate([v.squeeze()
+                  for v in mc.trace(k)._trace.values()])[start:end:skip]
+                  for k in mcnames
+                  if k in parnames}
 
     pl.figure(fignum)
     pl.clf()
@@ -139,8 +142,10 @@ def docontours_multi(mc, start=6000, end=None, skip=None, dosave=False,
             continue
         ax = mp.grid[axno]
         try:
-            agpy.pymc_plotting.hist2d(traces,par1,par2,varslice=(None,None,None), axis=ax,
-                    colorbar=False, clear=True, doerrellipse=False, bins=bins)
+            agpy.pymc_plotting.hist2d(traces, par1, par2,
+                                      varslice=(None,None,None), axis=ax,
+                                      colorbar=False, clear=True,
+                                      doerrellipse=False, bins=bins)
         except ValueError as E:
             print E
             continue
@@ -163,8 +168,9 @@ def docontours_multi(mc, start=6000, end=None, skip=None, dosave=False,
         ax = mp.grid[mp.axis_number(parnumbers[par],parnumbers[par])]
         try:
             agpy.pymc_plotting.plot_mc_hist(traces, par,
-                varslice=(None,None,None), onesided=False, axis=ax,
-                legend=False)
+                                            varslice=(None,None,None),
+                                            onesided=False, axis=ax,
+                                            legend=False)
         except Exception as E:
             print E
             continue
@@ -236,9 +242,9 @@ if __name__ == "__main__":
             d['sigma'].value = 2.88
             d['meandens'].value = 33
             d['tauoneone'] = pymc.TruncatedNormal(name='tauoneone',mu=d['tauoneone_mu'],tau=1./etau11**2,value=tau11,
-                    a=tau11-5*etau11,b=tau11+5*etau11, observed=True)
+                                                  a=tau11-5*etau11,b=tau11+5*etau11, observed=True)
             d['tautwotwo'] = pymc.TruncatedNormal(name='tautwotwo',mu=d['tautwotwo_mu'],tau=1./etau22**2,value=tau22,
-                    a=tau22-5*etau22,b=tau22+5*etau22, observed=True)
+                                                  a=tau22-5*etau22,b=tau22+5*etau22, observed=True)
         else:
             d['tauoneone'] = pymc.Normal(name='tauoneone',mu=d['tauoneone_mu'],tau=1./etau11**2,value=tau11,observed=True)
             d['tautwotwo'] = pymc.Normal(name='tautwotwo',mu=d['tautwotwo_mu'],tau=1./etau22**2,value=tau22,observed=True)
@@ -332,7 +338,8 @@ if __name__ == "__main__":
         mc_lognormal_traces = save_traces(mc_lognormal, "mc_lognormal_traces", clobber=True)
         mc_lognormal_simple_traces = save_traces(mc_simple, "mc_lognormal_simple_traces", clobber=True)
 
-        pl.figure(33); pl.clf()
+        pl.figure(33)
+        pl.clf()
         pl.title("Lognormal")
         pymc_plotting.plot_mc_hist(mc_lognormal,'b',lolim=True,alpha=0.5,bins=25,legloc='lower right')
         pl.xlabel('$b$')
@@ -366,7 +373,7 @@ if __name__ == "__main__":
         if domillion:
             mc_hopkins.sample(1e6)
 
-        # Hopkins - free Mach number 
+        # Hopkins - free Mach number
         d = mcmc_sampler_dict(tauoneone=tauoneone_hopkins,tautwotwo=tautwotwo_hopkins)
         def Tval(sigma):
             return hopkins_pdf.T_of_sigma(sigma, logform=True)
@@ -395,19 +402,19 @@ if __name__ == "__main__":
 
 
         docontours_multi(mc_hopkins_freemach,start=10000,savename=savepath+"mc_hopkins_freemach_multipanel.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','b'))
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','mach','Tval','b'))
         docontours_multi(mc_hopkins_freemach,start=10000,savename=savepath+"mc_hopkins_freemach_multipanel_deviance.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','b','deviance'))
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','mach','Tval','b','deviance'))
 
         docontours_multi(mc_hopkins,start=10000,savename=savepath+"mc_hopkins_withmach_multipanel.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','b'))
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','b'))
         docontours_multi(mc_hopkins,start=10000,savename=savepath+"mc_hopkins_withmach_multipanel_deviance.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','b','deviance'))
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','b','deviance'))
         docontours_multi(mc_hopkins_simple,start=10000,savename=savepath+"mc_hopkins_justtau_multipanel.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval'))
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval'))
         docontours_multi(mc_hopkins_simple,start=10000,savename=savepath+"mc_hopkins_justtau_multipanel_deviance.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','deviance'))
-        #varslice=(1000,None,None)
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','deviance'))
+            #varslice=(1000,None,None)
         #for fignum,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens','Tval','b','mach_mu'),2)):
         #    pymc_plotting.hist2d(mc_hopkins, p1, p2, bins=30, clear=True, fignum=fignum, varslice=varslice, colorbar=True)
         #    pl.title("Hopkins with Mach")
@@ -436,7 +443,8 @@ if __name__ == "__main__":
         save_traces(mc_hopkins, "mc_hopkins_traces", clobber=True)
         save_traces(mc_hopkins_simple, "mc_hopkins_simple_traces", clobber=True)
 
-        pl.figure(32); pl.clf()
+        pl.figure(32)
+        pl.clf()
         pl.title("Hopkins")
         pymc_plotting.plot_mc_hist(mc_hopkins,'b',lolim=True,alpha=0.5,bins=25,legloc='lower right')
 
@@ -472,10 +480,15 @@ if __name__ == "__main__":
             ax.set_ylabel('$\\tau_{1-1}/\\tau_{2-2}$',fontsize=24)
             ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
 
-            print "Hi!"
-            dot,caps,bars = ax.errorbar([np.log10(30)],[6.99],xerr=np.array([[0.47,0.82]]).T,yerr=np.array([[0.33,0.33]]).T,
-                        label="G43.17+0.01", color=(0,0,1,0.5), alpha=0.5, marker='o',
-                        linewidth=2)
+            dot,caps,bars = ax.errorbar([np.log10(30)],
+                                        [6.99],
+                                        xerr=np.array([[0.47,0.82]]).T,
+                                        yerr=np.array([[0.33,0.33]]).T,
+                                        label="G43.17+0.01",
+                                        color=(0,0,1,0.5),
+                                        alpha=0.5,
+                                        marker='o',
+                                        linewidth=2)
             caps[0].set_marker('$($')
             caps[1].set_marker('$)$')
             caps[0].set_color((1,0,0,0.6))
