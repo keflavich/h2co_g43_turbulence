@@ -223,7 +223,7 @@ if __name__ == "__main__":
     dolognormal=F
     dohopkins=F
     do_paperfigure=T
-    do_tables=F
+    do_tables=T
 
     def mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=False):
         """
@@ -460,7 +460,7 @@ if __name__ == "__main__":
         hopkins_statstable = pymc_tools.stats_table(mc_hopkins)
         hopkins_statstable.write('hopkins_statstable_abundance%s.fits' % abundance, overwrite=True)
         hopkins_simple_statstable = pymc_tools.stats_table(mc_hopkins_simple)
-        hopkins_statstable.write('hopkins_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
+        hopkins_simple_statstable.write('hopkins_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
         hopkins_freemach_statstable = pymc_tools.stats_table(mc_hopkins_freemach)
         hopkins_freemach_statstable.write('hopkins_freemach_statstable_abundance%s.fits' % abundance, overwrite=True)
 
@@ -571,7 +571,7 @@ if __name__ == "__main__":
             lognormal_simple_statstable = pyfits.getdata('lognormal_simple_statstable_abundance%s.fits' % abundance)
             lognormal_freemach_statstable = pyfits.getdata('lognormal_freemach_statstable_abundance%s.fits' % abundance)
             hopkins_statstable = pyfits.getdata('hopkins_statstable_abundance%s.fits' % abundance)
-            hopkins_statstable = pyfits.getdata('hopkins_simple_statstable_abundance%s.fits' % abundance)
+            hopkins_simple_statstable = pyfits.getdata('hopkins_simple_statstable_abundance%s.fits' % abundance)
             hopkins_freemach_statstable = pyfits.getdata('hopkins_freemach_statstable_abundance%s.fits' % abundance)
 
         # clearly not done yet
