@@ -212,11 +212,11 @@ if __name__ == "__main__":
     import pymc_tools
 
     T,F = True,False
-    domillion=T
+    domillion=F
     dolognormal=T
     dohopkins=T
     do_paperfigure=T
-    do_tables=T
+    do_tables=F
 
     def mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=False):
         """
@@ -300,8 +300,8 @@ if __name__ == "__main__":
         mc_lognormal_freemach = pymc.MCMC(d)
         print "lognormal (freemach) sampling"
         mc_lognormal_freemach.sample(100000)
-            print "lognormal (freemach) sampling 1 million"
         if domillion:
+            print "lognormal (freemach) sampling 1 million"
             mc_lognormal_freemach.sample(1e6)
 
         graph_lognormal = pymc.graph.graph(mc_lognormal)
