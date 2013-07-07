@@ -12,7 +12,7 @@ graph_lognormal_simple = pymc.graph.graph(mc_simple)
 graph_lognormal_simple.write_pdf(savepath+"mc_lognormal_simple_graph.pdf")
 graph_lognormal_simple.write_png(savepath+"mc_lognormal_simple_graph.png")
 
-d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=True)
+d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_50sigma=True)
 d['b'] = pymc.Uniform(name='b', value=0.5, lower=0.3, upper=1, observed=False)
 @pymc.deterministic(plot=True,trace=True)
 def mach(sigma=d['sigma'], b=d['b']):
@@ -23,7 +23,7 @@ d['mach_observed'] = pymc.Normal(name='mach_observed', mu=mach, tau=1./0.2**2, v
 
 mc_lognormal = pymc.MCMC(d)
 
-d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=False)
+d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_50sigma=False)
 d['b'] = pymc.Uniform(name='b', value=0.5, lower=0.3, upper=1, observed=False)
 @pymc.deterministic(plot=True,trace=True)
 def mach(sigma=d['sigma'], b=d['b']):
