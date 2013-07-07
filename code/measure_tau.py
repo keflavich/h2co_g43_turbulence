@@ -6,7 +6,7 @@ optimization procedures.
 import numpy as np
 import hopkins_pdf
 import turbulent_pdfs
-from turbulent_pdfs import lognormal
+from turbulent_pdfs import lognormal_massweighted
 import multiplot
 import agpy
 
@@ -49,8 +49,13 @@ def select_data(abundance=-9.0, opr=1, temperature=20, tolerance=0.1):
 
         return tau1x,tau2x,dens,col
 
+
 def generate_tau_functions(**kwargs):
     tau1x,tau2x,dens,col = select_data(**kwargs)
+
+    # ddens = (10**dens[1]-10**dens[0])
+    #dlogdens = (dens[1]-dens[0])
+    #dlndens = dlogdens * np.log(10)
 
     def tau(meandens, line=tau1x, sigma=1.0, hightail=False,
             hopkins=False, powertail=False, lowtail=False,
@@ -63,11 +68,13 @@ def generate_tau_functions(**kwargs):
             distr = turbulent_pdfs.hightail_distr(meandens,sigma,**kwargs)
         elif hopkins:
             T = hopkins_pdf.T_of_sigma(sigma, logform=True)
-            distr = 10**dens * hopkins_pdf.hopkins(10**(dens), meanrho=10**(meandens), sigma=sigma, T=T) # T~0.05 M_C
+            #distr = 10**dens * hopkins_pdf.hopkins(10**(dens), meanrho=10**(meandens), sigma=sigma, T=T) # T~0.05 M_C
+            distr = hopkins_pdf.hopkins_masspdf_ofmeandens(10**dens, 10**meandens, sigma_volume=sigma, T=T, normalize=True)
             # Hopkins is integral-normalized, not sum-normalized
-            distr /= distr.sum()
+            #distr /= distr.sum()
         else:
-            distr = lognormal(10**dens, 10**meandens, sigma)
+            #distr = lognormal(10**dens, 10**meandens, sigma) * dlndens
+            distr = lognormal_massweighted(10**dens, 10**meandens, sigma, normalize=True)
         if divide_by_col:
             return (distr*line/(10**col)).sum()
         else:
@@ -90,17 +97,17 @@ def generate_tau_functions(**kwargs):
 def generate_simpletools(**kwargs):
     tau,vtau,vtau_ratio = generate_tau_functions(**kwargs)
 
-    def tauratio(meandens, sigma):
-        return vtau_ratio(np.log10(meandens), sigma=sigma)
+    def tauratio(meandens, sigma, **kwargs):
+        return vtau_ratio(np.log10(meandens), sigma=sigma, **kwargs)
 
-    def tauratio_hopkins(meandens, sigma):
-        return vtau_ratio(np.log10(meandens), sigma=sigma, hopkins=True)
+    def tauratio_hopkins(meandens, sigma, **kwargs):
+        return vtau_ratio(np.log10(meandens), sigma=sigma, hopkins=True, **kwargs)
 
-    def tau(meandens, sigma, line):
-        return vtau(np.log10(meandens), sigma=sigma, line=line)
+    def tau(meandens, sigma, line, **kwargs):
+        return vtau(np.log10(meandens), sigma=sigma, line=line, **kwargs)
 
-    def tau_hopkins(meandens, sigma, line):
-        return vtau(np.log10(meandens), sigma=sigma, hopkins=True, line=line)
+    def tau_hopkins(meandens, sigma, line, **kwargs):
+        return vtau(np.log10(meandens), sigma=sigma, hopkins=True, line=line, **kwargs)
 
     return tauratio,tauratio_hopkins,tau,tau_hopkins
 
@@ -216,7 +223,7 @@ if __name__ == "__main__":
     dolognormal=F
     dohopkins=F
     do_paperfigure=T
-    do_tables=T
+    do_tables=F
 
     def mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=False):
         """
@@ -309,22 +316,22 @@ if __name__ == "__main__":
         graph_lognormal.write_png(savepath+"mc_lognormal_graph.png")
 
         docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio'))
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio'))
         docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_deviance.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
         docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_scalefactors.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','Metropolis_sigma_adaptive_scale_factor','Metropolis_b_adaptive_scale_factor','Metropolis_meandens_adaptive_scale_factor','deviance'))
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','Metropolis_sigma_adaptive_scale_factor','Metropolis_b_adaptive_scale_factor','Metropolis_meandens_adaptive_scale_factor','deviance'))
         docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_deviance.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
         docontours_multi(mc_simple,start=10000,savename=savepath+"mc_lognormal_justtau_multipanel.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio'))
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio'))
 
         docontours_multi(mc_lognormal_freemach,start=10000,savename=savepath+"mc_lognormal_freemach_multipanel.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio'))
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio'))
         docontours_multi(mc_lognormal_freemach,start=10000,savename=savepath+"mc_lognormal_freemach_multipanel_deviance.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
         docontours_multi(mc_lognormal_freemach,start=10000,savename=savepath+"mc_lognormal_freemach_multipanel_scalefactors.pdf", dosave=True,
-                parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','Metropolis_sigma_adaptive_scale_factor','Metropolis_b_adaptive_scale_factor','Metropolis_meandens_adaptive_scale_factor','deviance'))
+                         parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','Metropolis_sigma_adaptive_scale_factor','Metropolis_b_adaptive_scale_factor','Metropolis_meandens_adaptive_scale_factor','deviance'))
         #varslice=(10000,None,None)
         #for fignum,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens','b','mach'),2)):
         #    pymc_plotting.hist2d(mc_lognormal, p1, p2, bins=30, clear=True, fignum=fignum, varslice=varslice, colorbar=True)
@@ -518,7 +525,7 @@ if __name__ == "__main__":
                 pl.figure(31+ii)
                 pl.clf()
                 ax = pl.gca()
-                ax.semilogy(dens,tau1x,'k',linewidth=3.0,label=r'Dirac $\delta$',alpha=0.75)
+                ax.semilogy(dens,taux,'k',linewidth=3.0,label=r'Dirac $\delta$',alpha=0.75)
 
                 logmeandens = np.linspace(-2,7,300)
                 meandens = 10**logmeandens
@@ -541,9 +548,15 @@ if __name__ == "__main__":
                 savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')
 
                 tau_meas = {'oneone': [0.113,0.0011], 'twotwo':[0.0162,0.00052]}
-                dot,caps,bars = ax.errorbar([np.log10(30)],tau_meas[line][0],xerr=np.array([[0.47,0.82]]).T,yerr=tau_meas[line][1]*3,
-                            label="G43.17+0.01", color=(0,0,1,0.5), alpha=0.5, marker='o',
-                            linewidth=2)
+                dot,caps,bars = ax.errorbar([np.log10(30)],
+                                            tau_meas[line][0],
+                                            xerr=np.array([[0.47,0.82]]).T,
+                                            yerr=tau_meas[line][1]*3,
+                                            label="G43.17+0.01",
+                                            color=(0,0,1,0.5),
+                                            alpha=0.5,
+                                            marker='o',
+                                            linewidth=2)
                 caps[0].set_marker('$($')
                 caps[1].set_marker('$)$')
                 caps[0].set_color((1,0,0,0.6))
