@@ -213,10 +213,10 @@ if __name__ == "__main__":
 
     T,F = True,False
     domillion=F
-    dolognormal=T
-    dohopkins=T
+    dolognormal=F
+    dohopkins=F
     do_paperfigure=T
-    do_tables=F
+    do_tables=T
 
     def mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=False):
         """
@@ -349,7 +349,7 @@ if __name__ == "__main__":
         pl.title("Lognormal")
         pymc_plotting.plot_mc_hist(mc_lognormal,'b',lolim=True,alpha=0.5,bins=25,legloc='lower right')
         pl.xlabel('$b$')
-        savefig('LognormalWithMach_b_1D_restrictions.png')
+        savefig(savepath+'LognormalWithMach_b_1D_restrictions.png')
 
     if dohopkins:
         # Hopkins - NO Mach number restrictions
@@ -533,7 +533,8 @@ if __name__ == "__main__":
                 ax.legend(loc='best',prop={'size':18})
                 ax.axis([-2,7,1e-3,10])
                 ax.set_xlabel('$\\log_{10}$($n($H$_2)$ [cm$^{-3}$])',fontsize=24)
-                ax.set_ylabel('$\\tau_{1-1}/\\tau_{2-2}$',fontsize=24)
+                linelabel = {'oneone':'1-1','twotwo':'2-2'}[line]
+                ax.set_ylabel('$\\tau_{%s}$' % linelabel,fontsize=24)
                 savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')
 
                 tau_meas = {'oneone': [0.113,0.0011], 'twotwo':[0.0162,0.00052]}
