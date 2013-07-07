@@ -44,11 +44,11 @@ graph_lognormal = pymc.graph.graph(mc_lognormal)
 graph_lognormal.write_pdf(savepath+"mc_lognormal_graph.pdf")
 graph_lognormal.write_png(savepath+"mc_lognormal_graph.png")
 
-print "Simple sampling\n"
+print "\nSimple sampling"
 mc_simple.sample(100000)
-print "lognormal sampling\n"
+print "\nlognormal sampling"
 mc_lognormal.sample(100000)
-print "lognormal (freemach) sampling\n"
+print "\nlognormal (freemach) sampling"
 mc_lognormal_freemach.sample(100000)
 
 def docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach):
@@ -83,11 +83,11 @@ def docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach):
 docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach)
 
 if domillion:
-    print "Simple sampling 1 million\n"
+    print "\nSimple sampling 1 million"
     mc_simple.sample(1e6)
-    print "lognormal sampling 1 million\n"
+    print "\nlognormal sampling 1 million"
     mc_lognormal.sample(1e6)
-    print "lognormal (freemach) sampling 1 million\n"
+    print "\nlognormal (freemach) sampling 1 million"
     mc_lognormal_freemach.sample(1e6)
 
     docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach)
