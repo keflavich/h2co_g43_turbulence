@@ -478,7 +478,7 @@ if __name__ == "__main__":
             ax.axis([-1,7,0,15])
             ax.set_xlabel('$\\log_{10}$($n($H$_2)$ [cm$^{-3}$])',fontsize=24)
             ax.set_ylabel('$\\tau_{1-1}/\\tau_{2-2}$',fontsize=24)
-            ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
+            savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
 
             dot,caps,bars = ax.errorbar([np.log10(30)],
                                         [6.99],
@@ -494,7 +494,7 @@ if __name__ == "__main__":
             caps[0].set_color((1,0,0,0.6))
             caps[1].set_color((1,0,0,0.6))
             bars[0].set_color((1,0,0,0.6))
-            ax.figure.savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s_withG43.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
+            savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s_withG43.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
 
             for ii,(line,taux) in enumerate(zip(('oneone','twotwo'),(tau1x,tau2x))):
                 pl.figure(31+ii)
@@ -519,7 +519,7 @@ if __name__ == "__main__":
                 ax.axis([-2,7,1e-3,10])
                 ax.set_xlabel('$\\log_{10}$($n($H$_2)$ [cm$^{-3}$])',fontsize=24)
                 ax.set_ylabel('$\\tau_{1-1}/\\tau_{2-2}$',fontsize=24)
-                ax.figure.savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')
+                savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')
 
                 tau_meas = {'oneone': [0.113,0.0011], 'twotwo':[0.0162,0.00052]}
                 dot,caps,bars = ax.errorbar([np.log10(30)],tau_meas[line][0],xerr=np.array([[0.47,0.82]]).T,yerr=tau_meas[line][1]*3,
@@ -530,7 +530,7 @@ if __name__ == "__main__":
                 caps[0].set_color((1,0,0,0.6))
                 caps[1].set_color((1,0,0,0.6))
                 bars[0].set_color((1,0,0,0.6))
-                ax.figure.savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s_withG43.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')
+                savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s_withG43.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')
 
     if do_tables:
         # clearly not done yet
