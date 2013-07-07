@@ -106,7 +106,7 @@ def generate_simpletools(**kwargs):
 
 # pymc tool
 def save_traces(mc, filename, clobber=False):
-    keys = [v.__name__ for v in mc.variables if hasattr(v,'observed') and not v.observed]
+    keys = [v.__name__ for v in mc.variables if v.__name__ in mc.db._traces]
     traces = {k:np.concatenate([v.squeeze()
                                 for v in mc.trace(k)._trace.values()])
               for k in keys}
@@ -451,9 +451,12 @@ if __name__ == "__main__":
         hopkins_statstable.write('hopkins_statstable_abundance%s.fits' % abundance, overwrite=True)
         hopkins_simple_statstable = pymc_tools.stats_table(mc_hopkins_simple)
         hopkins_statstable.write('hopkins_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
+        hopkins_freemach_statstable = pymc_tools.stats_table(mc_hopkins_freemach)
+        hopkins_freemach_statstable.write('hopkins_freemach_statstable_abundance%s.fits' % abundance, overwrite=True)
 
         save_traces(mc_hopkins, "mc_hopkins_traces", clobber=True)
         save_traces(mc_hopkins_simple, "mc_hopkins_simple_traces", clobber=True)
+        save_traces(mc_hopkins_freemach, "mc_hopkins_freemach_traces", clobber=True)
 
         pl.figure(32)
         pl.clf()
