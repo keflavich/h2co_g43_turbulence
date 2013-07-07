@@ -256,8 +256,10 @@ if __name__ == "__main__":
 
     if dolognormal:
         mc_simple = pymc.MCMC(mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo))
+        print "Simple sampling"
         mc_simple.sample(100000)
         if domillion:
+            print "Simple sampling 1 million"
             mc_simple.sample(1e6)
 
         graph_lognormal_simple = pymc.graph.graph(mc_simple)
@@ -274,8 +276,10 @@ if __name__ == "__main__":
         d['mach_observed'] = pymc.Normal(name='mach_observed', mu=mach, tau=1./0.2**2, value=5.1, observed=True)
 
         mc_lognormal = pymc.MCMC(d)
+        print "lognormal sampling"
         mc_lognormal.sample(100000)
         if domillion:
+            print "lognormal sampling 1 million"
             mc_lognormal.sample(1e6)
 
         d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=True)
@@ -294,7 +298,9 @@ if __name__ == "__main__":
         d['mach_limits'] = pymc.Potential(name='mach_observed', logp=mach_limits, parents={'m':d['mach']},doc='Mach limits',verbose=0)
 
         mc_lognormal_freemach = pymc.MCMC(d)
+        print "lognormal (freemach) sampling"
         mc_lognormal_freemach.sample(100000)
+            print "lognormal (freemach) sampling 1 million"
         if domillion:
             mc_lognormal_freemach.sample(1e6)
 
@@ -349,8 +355,10 @@ if __name__ == "__main__":
         # Hopkins - NO Mach number restrictions
         d = mcmc_sampler_dict(tauoneone=tauoneone_hopkins,tautwotwo=tautwotwo_hopkins)
         mc_hopkins_simple = pymc.MCMC(d)
+        print "simple hopkins sampling"
         mc_hopkins_simple.sample(1e5)
         if domillion:
+            print "simple hopkins sampling 1 million"
             mc_hopkins_simple.sample(1e6)
 
         graph_hopkins_simple = pymc.graph.graph(mc_hopkins_simple)
@@ -369,8 +377,10 @@ if __name__ == "__main__":
         d['mach'] = pymc.Normal(name='MachNumber',mu=d['mach_mu'], tau=0.5, value=5.1, observed=True)
 
         mc_hopkins = pymc.MCMC(d)
+        print "hopkins sampling"
         mc_hopkins.sample(1e5)
         if domillion:
+            print "hopkins sampling 1 million"
             mc_hopkins.sample(1e6)
 
         # Hopkins - free Mach number
@@ -391,8 +401,10 @@ if __name__ == "__main__":
         d['mach_limits'] = pymc.Potential(name='mach_observed', logp=mach_limits, parents={'m':d['mach']},doc='Mach limits',verbose=0)
 
         mc_hopkins_freemach = pymc.MCMC(d)
+        print "hopkins freemach sampling"
         mc_hopkins_freemach.sample(1e5)
         if domillion:
+            print "hopkins freemach sampling 1 million"
             mc_hopkins_freemach.sample(1e6)
 
 
