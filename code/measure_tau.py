@@ -339,10 +339,13 @@ if __name__ == "__main__":
         lognormal_statstable = pymc_tools.stats_table(mc_lognormal)
         lognormal_statstable.write('lognormal_statstable_abundance%s.fits' % abundance, overwrite=True)
         lognormal_simple_statstable = pymc_tools.stats_table(mc_simple)
-        lognormal_statstable.write('lognormal_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
+        lognormal_simple_statstable.write('lognormal_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
+        lognormal_freemach_statstable = pymc_tools.stats_table(mc_lognormal_freemach)
+        lognormal_freemach_statstable.write('lognormal_freemach_statstable_abundance%s.fits' % abundance, overwrite=True)
 
         mc_lognormal_traces = save_traces(mc_lognormal, "mc_lognormal_traces", clobber=True)
         mc_lognormal_simple_traces = save_traces(mc_simple, "mc_lognormal_simple_traces", clobber=True)
+        mc_lognormal_freemach_traces = save_traces(mc_lognormal_freemach, "mc_lognormal_freemach_traces", clobber=True)
 
         pl.figure(33)
         pl.clf()
@@ -549,6 +552,15 @@ if __name__ == "__main__":
                 savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s_withG43.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')
 
     if do_tables:
+
+        if not 'lognormal_statstable' in locals():
+            lognormal_statstable = pyfits.getdata(('lognormal_statstable_abundance%s.fits' % abundance)
+            lognormal_simple_statstable = pyfits.getdata(('lognormal_simple_statstable_abundance%s.fits' % abundance)
+            lognormal_freemach_statstable = pyfits.getdata(('lognormal_freemach_statstable_abundance%s.fits' % abundance)
+            hopkins_statstable = pyfits.getdata(('hopkins_statstable_abundance%s.fits' % abundance)
+            hopkins_statstable = pyfits.getdata(('hopkins_simple_statstable_abundance%s.fits' % abundance)
+            hopkins_freemach_statstable = pyfits.getdata(('hopkins_freemach_statstable_abundance%s.fits' % abundance)
+
         # clearly not done yet
         one_sided = ['b']
         two_sided = ['sigma','Tval']
