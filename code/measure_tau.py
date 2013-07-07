@@ -206,6 +206,7 @@ if __name__ == "__main__":
     import pymc_tools
 
     T,F = True,False
+    domillion=T
     dolognormal=T
     dohopkins=T
     do_paperfigure=T
@@ -250,6 +251,8 @@ if __name__ == "__main__":
     if dolognormal:
         mc_simple = pymc.MCMC(mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo))
         mc_simple.sample(100000)
+        if domillion:
+            mc_simple.sample(1e6)
 
         graph_lognormal_simple = pymc.graph.graph(mc_simple)
         graph_lognormal_simple.write_pdf(savepath+"mc_lognormal_simple_graph.pdf")
@@ -266,6 +269,8 @@ if __name__ == "__main__":
 
         mc_lognormal = pymc.MCMC(d)
         mc_lognormal.sample(100000)
+        if domillion:
+            mc_lognormal.sample(1e6)
 
         d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=True)
         d['b'] = pymc.Uniform(name='b', value=0.5, lower=0.3, upper=1, observed=False)
@@ -284,6 +289,8 @@ if __name__ == "__main__":
 
         mc_lognormal_freemach = pymc.MCMC(d)
         mc_lognormal_freemach.sample(100000)
+        if domillion:
+            mc_lognormal_freemach.sample(1e6)
 
         graph_lognormal = pymc.graph.graph(mc_lognormal)
         graph_lognormal.write_pdf(savepath+"mc_lognormal_graph.pdf")
@@ -336,6 +343,8 @@ if __name__ == "__main__":
         d = mcmc_sampler_dict(tauoneone=tauoneone_hopkins,tautwotwo=tautwotwo_hopkins)
         mc_hopkins_simple = pymc.MCMC(d)
         mc_hopkins_simple.sample(1e5)
+        if domillion:
+            mc_hopkins_simple.sample(1e6)
 
         graph_hopkins_simple = pymc.graph.graph(mc_hopkins_simple)
         graph_hopkins_simple.write_pdf(savepath+"mc_hopkins_simple_graph.pdf")
@@ -354,6 +363,8 @@ if __name__ == "__main__":
 
         mc_hopkins = pymc.MCMC(d)
         mc_hopkins.sample(1e5)
+        if domillion:
+            mc_hopkins.sample(1e6)
 
         # Hopkins - free Mach number 
         d = mcmc_sampler_dict(tauoneone=tauoneone_hopkins,tautwotwo=tautwotwo_hopkins)
@@ -374,6 +385,8 @@ if __name__ == "__main__":
 
         mc_hopkins_freemach = pymc.MCMC(d)
         mc_hopkins_freemach.sample(1e5)
+        if domillion:
+            mc_hopkins_freemach.sample(1e6)
 
 
         graph_hopkins = pymc.graph.graph(mc_hopkins)
