@@ -289,7 +289,7 @@ if __name__ == "__main__":
             print "lognormal sampling 1 million"
             mc_lognormal.sample(1e6)
 
-        d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=True)
+        d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=False)
         d['b'] = pymc.Uniform(name='b', value=0.5, lower=0.3, upper=1, observed=False)
         @pymc.deterministic(plot=True,trace=True)
         def mach(sigma=d['sigma'], b=d['b']):
@@ -570,6 +570,7 @@ if __name__ == "__main__":
             lognormal_statstable = pyfits.getdata('lognormal_statstable_abundance%s.fits' % abundance)
             lognormal_simple_statstable = pyfits.getdata('lognormal_simple_statstable_abundance%s.fits' % abundance)
             lognormal_freemach_statstable = pyfits.getdata('lognormal_freemach_statstable_abundance%s.fits' % abundance)
+        if not 'hopkins_statstable' in locals():
             hopkins_statstable = pyfits.getdata('hopkins_statstable_abundance%s.fits' % abundance)
             hopkins_simple_statstable = pyfits.getdata('hopkins_simple_statstable_abundance%s.fits' % abundance)
             hopkins_freemach_statstable = pyfits.getdata('hopkins_freemach_statstable_abundance%s.fits' % abundance)
