@@ -12,7 +12,7 @@ graph_lognormal_simple = pymc.graph.graph(mc_simple)
 graph_lognormal_simple.write_pdf(savepath+"mc_lognormal_simple_graph.pdf")
 graph_lognormal_simple.write_png(savepath+"mc_lognormal_simple_graph.png")
 
-d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=True)
+d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_50sigma=True)
 d['b'] = pymc.Uniform(name='b', value=0.5, lower=0.3, upper=1, observed=False)
 @pymc.deterministic(plot=True,trace=True)
 def mach(sigma=d['sigma'], b=d['b']):
@@ -23,7 +23,7 @@ d['mach_observed'] = pymc.Normal(name='mach_observed', mu=mach, tau=1./0.2**2, v
 
 mc_lognormal = pymc.MCMC(d)
 
-d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_5sigma=False)
+d = mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_50sigma=True)
 d['b'] = pymc.Uniform(name='b', value=0.5, lower=0.3, upper=1, observed=False)
 @pymc.deterministic(plot=True,trace=True)
 def mach(sigma=d['sigma'], b=d['b']):
@@ -44,11 +44,11 @@ graph_lognormal = pymc.graph.graph(mc_lognormal)
 graph_lognormal.write_pdf(savepath+"mc_lognormal_graph.pdf")
 graph_lognormal.write_png(savepath+"mc_lognormal_graph.png")
 
-print "Simple sampling\n"
+print "\nSimple sampling"
 mc_simple.sample(100000)
-print "lognormal sampling\n"
+print "\nlognormal sampling"
 mc_lognormal.sample(100000)
-print "lognormal (freemach) sampling\n"
+print "\nlognormal (freemach) sampling"
 mc_lognormal_freemach.sample(100000)
 
 def docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach):
@@ -83,11 +83,11 @@ def docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach):
 docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach)
 
 if domillion:
-    print "Simple sampling 1 million\n"
+    print "\nSimple sampling 1 million"
     mc_simple.sample(1e6)
-    print "lognormal sampling 1 million\n"
+    print "\nlognormal sampling 1 million"
     mc_lognormal.sample(1e6)
-    print "lognormal (freemach) sampling 1 million\n"
+    print "\nlognormal (freemach) sampling 1 million"
     mc_lognormal_freemach.sample(1e6)
 
     docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach)
