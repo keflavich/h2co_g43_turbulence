@@ -43,7 +43,8 @@ def mach_limits(m):
         return -np.inf
     else:
         return 0
-d['sigma'].value = 2
+d['sigma'].value = 2 # for abund=-9
+d['sigma'].value = 1.75
 d['mach_limits'] = pymc.Potential(name='mach_observed', logp=mach_limits, parents={'m':d['mach']},doc='Mach limits',verbose=0)
 
 mc_hopkins_freemach = pymc.MCMC(d)
