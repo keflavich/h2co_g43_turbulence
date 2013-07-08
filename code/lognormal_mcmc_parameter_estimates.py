@@ -1,7 +1,7 @@
 import pymc
 import numpy as np
 import pylab as pl
-from measure_tau import mcmc_sampler_dict,tauoneone,tautwotwo,savepath,domillion,abundance,savefig
+from measure_tau import mcmc_sampler_dict,tauoneone,tautwotwo,savepath,domillion,abundance,savefig,trace_data_path
 from mcmc_tools import docontours_multi,save_traces
 from agpy import pymc_plotting
 import pymc_tools
@@ -93,15 +93,15 @@ if domillion:
     docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach)
 
 lognormal_statstable = pymc_tools.stats_table(mc_lognormal)
-lognormal_statstable.write('lognormal_statstable_abundance%s.fits' % abundance, overwrite=True)
+lognormal_statstable.write(trace_data_path+'lognormal_statstable_abundance%s.fits' % abundance, overwrite=True)
 lognormal_simple_statstable = pymc_tools.stats_table(mc_simple)
-lognormal_simple_statstable.write('lognormal_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
+lognormal_simple_statstable.write(trace_data_path+'lognormal_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
 lognormal_freemach_statstable = pymc_tools.stats_table(mc_lognormal_freemach)
-lognormal_freemach_statstable.write('lognormal_freemach_statstable_abundance%s.fits' % abundance, overwrite=True)
+lognormal_freemach_statstable.write(trace_data_path+'lognormal_freemach_statstable_abundance%s.fits' % abundance, overwrite=True)
 
-mc_lognormal_traces = save_traces(mc_lognormal, "mc_lognormal_traces", clobber=True)
-mc_lognormal_simple_traces = save_traces(mc_simple, "mc_lognormal_simple_traces", clobber=True)
-mc_lognormal_freemach_traces = save_traces(mc_lognormal_freemach, "mc_lognormal_freemach_traces", clobber=True)
+mc_lognormal_traces = save_traces(mc_lognormal, trace_data_path+"mc_lognormal_traces.fits", clobber=True)
+mc_lognormal_simple_traces = save_traces(mc_simple, trace_data_path+"mc_lognormal_simple_traces.fits", clobber=True)
+mc_lognormal_freemach_traces = save_traces(mc_lognormal_freemach, trace_data_path+"mc_lognormal_freemach_traces.fits", clobber=True)
 
 pl.figure(33)
 pl.clf()
