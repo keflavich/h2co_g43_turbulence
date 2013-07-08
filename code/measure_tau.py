@@ -2,6 +2,8 @@ from smoothtau_models import generate_simpletools,select_data
 import pylab as pl
 import pymc
 
+trace_data_path = '/Users/adam/work/h2co/lowdens/code/trace_data/'
+
 savepath = "/Users/adam/work/h2co/lowdens/figures/"
 # load defaults by default
 abundance = -9
