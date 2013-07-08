@@ -40,8 +40,10 @@ def mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_50sigm
     d['tauoneone_mu'] = pymc.Deterministic(name='tauoneone_mu', eval=tauoneone, parents={'meandens':d['meandens'],'sigma':d['sigma']}, doc='tauoneone')
     d['tautwotwo_mu'] = pymc.Deterministic(name='tautwotwo_mu', eval=tautwotwo, parents={'meandens':d['meandens'],'sigma':d['sigma']}, doc='tautwotwo')
     if truncate_at_50sigma:
-        d['sigma'].value = 1.86
+        d['sigma'].value = 1.86  # abundance -9
         d['meandens'].value = 60
+        d['sigma'].value = 1.75  # abundance -8.5
+        d['meandens'].value = 40
         d['tauoneone'] = pymc.TruncatedNormal(name='tauoneone',mu=d['tauoneone_mu'],tau=1./etau11**2,value=tau11,
                                               a=tau11-50*etau11,b=tau11+50*etau11, observed=True)
         d['tautwotwo'] = pymc.TruncatedNormal(name='tautwotwo',mu=d['tautwotwo_mu'],tau=1./etau22**2,value=tau22,
