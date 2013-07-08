@@ -44,6 +44,14 @@ graph_lognormal = pymc.graph.graph(mc_lognormal)
 graph_lognormal.write_pdf(savepath+"mc_lognormal_graph.pdf")
 graph_lognormal.write_png(savepath+"mc_lognormal_graph.png")
 
+
+print "\nSimple sampling (initial)"
+mc_simple.sample(100)
+print "\nlognormal sampling (initial)"
+mc_lognormal.sample(100)
+print "\nlognormal (freemach) sampling (initial)"
+mc_lognormal_freemach.sample(100)
+
 print "\nSimple sampling"
 mc_simple.sample(100000)
 print "\nlognormal sampling"

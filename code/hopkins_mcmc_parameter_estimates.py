@@ -48,6 +48,13 @@ d['mach_limits'] = pymc.Potential(name='mach_observed', logp=mach_limits, parent
 
 mc_hopkins_freemach = pymc.MCMC(d)
 
+print "\nsimple hopkins sampling (initial)"
+mc_hopkins_simple.sample(1e2)
+print "\nhopkins sampling (initial)"
+mc_hopkins.sample(1e2)
+print "\nhopkins freemach sampling (initial)"
+mc_hopkins_freemach.sample(1e2)
+
 print "\nsimple hopkins sampling"
 mc_hopkins_simple.sample(1e5)
 print "\nhopkins sampling"
