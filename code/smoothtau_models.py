@@ -21,7 +21,7 @@ pl.rc('font',size=20)
 
 _datacache = {}
 
-def select_data(abundance=-9.0, opr=1, temperature=20, tolerance=0.1):
+def select_data(abundance=-8.5, opr=1, temperature=20, tolerance=0.1):
     key = (abundance, opr, temperature, tolerance)
     if key in _datacache:
         return _datacache[key]

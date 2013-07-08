@@ -6,7 +6,7 @@ trace_data_path = '/Users/adam/work/h2co/lowdens/code/trace_data/'
 
 savepath = "/Users/adam/work/h2co/lowdens/figures/"
 # load defaults by default
-abundance = -9
+abundance = -8.5
 
 tauratio,tauratio_hopkins,tau,tau_hopkins = generate_simpletools(abundance=abundance)
 tau1x,tau2x,dens,col = select_data(abundance=abundance)
