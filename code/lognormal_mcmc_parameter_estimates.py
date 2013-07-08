@@ -35,7 +35,8 @@ def mach_limits(m):
         return -np.inf
     else:
         return 0
-d['sigma'].value = 1
+d['sigma'].value = 1.00 # abund -9
+d['sigma'].value = 1.75 # abund -8.5
 d['mach_limits'] = pymc.Potential(name='mach_observed', logp=mach_limits, parents={'m':d['mach']},doc='Mach limits',verbose=0)
 
 mc_lognormal_freemach = pymc.MCMC(d)
