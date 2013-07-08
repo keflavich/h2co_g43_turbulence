@@ -1,11 +1,7 @@
 import pymc
 import numpy as np
 import pylab as pl
-<<<<<<< HEAD
-from measure_tau import mcmc_sampler_dict,tauoneone_hopkins,tautwotwo_hopkins,savepath,domillion,abundance,savefig
-=======
 from measure_tau import mcmc_sampler_dict,tauoneone_hopkins,tautwotwo_hopkins,savepath,domillion,abundance,savefig,trace_data_path
->>>>>>> 8cc7a6564dbf6d8ac12de252dfd0e91a19ed7f70
 from mcmc_tools import docontours_multi,save_traces
 from agpy import pymc_plotting
 import pymc_tools
@@ -111,17 +107,6 @@ print 'mc_hopkins        b: ',mc_hopkins.stats(quantiles=(0.1,1,2.5,5,50))['b'][
 print 'mc_hopkins        m: ',mc_hopkins.stats()['mach_mu']['quantiles']
 
 hopkins_statstable = pymc_tools.stats_table(mc_hopkins)
-<<<<<<< HEAD
-hopkins_statstable.write('hopkins_statstable_abundance%s.fits' % abundance, overwrite=True)
-hopkins_simple_statstable = pymc_tools.stats_table(mc_hopkins_simple)
-hopkins_simple_statstable.write('hopkins_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
-hopkins_freemach_statstable = pymc_tools.stats_table(mc_hopkins_freemach)
-hopkins_freemach_statstable.write('hopkins_freemach_statstable_abundance%s.fits' % abundance, overwrite=True)
-
-save_traces(mc_hopkins, "mc_hopkins_traces", clobber=True)
-save_traces(mc_hopkins_simple, "mc_hopkins_simple_traces", clobber=True)
-save_traces(mc_hopkins_freemach, "mc_hopkins_freemach_traces", clobber=True)
-=======
 hopkins_statstable.write(trace_data_path+'hopkins_statstable_abundance%s.fits' % abundance, overwrite=True)
 hopkins_simple_statstable = pymc_tools.stats_table(mc_hopkins_simple)
 hopkins_simple_statstable.write(trace_data_path+'hopkins_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
@@ -131,7 +116,6 @@ hopkins_freemach_statstable.write(trace_data_path+'hopkins_freemach_statstable_a
 save_traces(mc_hopkins, trace_data_path+"mc_hopkins_traces.fits", clobber=True)
 save_traces(mc_hopkins_simple, trace_data_path+"mc_hopkins_simple_traces.fits", clobber=True)
 save_traces(mc_hopkins_freemach, trace_data_path+"mc_hopkins_freemach_traces.fits", clobber=True)
->>>>>>> 8cc7a6564dbf6d8ac12de252dfd0e91a19ed7f70
 
 pl.figure(32)
 pl.clf()

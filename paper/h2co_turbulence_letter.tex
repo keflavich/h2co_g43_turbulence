@@ -566,9 +566,12 @@ The blue errorbars show the G43.17 \formaldehyde measurement and the GSRMC
 We use the density measurements in GSRMC 43.30-0.33 to infer properties of that
 cloud's density distribution.
 
-We measure the abundances of \ortho relative to \thirteenco,
-$X(\ortho/\thirteenco) = 3.2\ee{-4}$ and 3.5\ee{-4} for G43.16 and G43.17
-respectively, or relative to \hh, 5.8\ee{-10} and 6.2\ee{-10} \todo{TODO: Correct G43.16 numbers; G43.17 is accurate}, which are
+We measure the abundances of \ortho relative to \thirteenco using the LVG
+models for \formaldehyde and the \citet{RomanDuval2010a} optical-depth
+corrections for \thirteenco.
+The measured values are $X(\ortho/\thirteenco) = 3.2\ee{-4}$ and 3.5\ee{-4} for G43.16 and G43.17
+respectively, or relative to \hh, $X(\ortho/\hh)=5.8\ee{-10}$ and 6.2\ee{-10}
+\todo{TODO: Correct G43.16 numbers; G43.17 is accurate}, which are
 entirely consistent with other measurements of $X_{\ortho}$
 \citep{Johnstone2003a} and allow us to use constant abundance LVG models for this
 analysis\footnote{Higher abundances of \formaldehyde have rarely been observed,
@@ -888,6 +891,13 @@ precision.  Most abundance measurements tend to be below $X<10^{-9}$
 \citep{Pauls1996a,Dickens1999a,Turner1989a,Turner1993a}, which validates our
 measurements, but deeper studies of abundance are warranted, particularly
 studies of how \formaldehyde varies relative to CO in clouds.
+
+The ortho-to-para ratio of \hh is a significant uncertainty in the models,
+since para-\hh is more effective at ``refrigerating'' the \formaldehyde
+molecules.  Values of the ortho-to-para ratio $>1$ favor lower densities by
+$\sim0.3$ dex in our analysis, but we have used these values in our analysis,
+and therefore our results are unaffected.  However, if the ortho-to-para ratio
+is in reality close to zero, the density PDF must be wider.
 
 The ``covering factor'' of foreground clouds in front of background
 illumination sources is, in general, a major concern when performing absorption
