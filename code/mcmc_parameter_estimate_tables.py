@@ -14,7 +14,7 @@ if not 'hopkins_statstable' in locals():
 one_sided = ['b']
 two_sided = ['sigma','Tval']
 tex = {'b':r'$b$', 'sigma': r'$\sigma_s | M$', 'Tval':r'$T$', 'sigmab':r'$\sigma_s$'}
-fmt = {'b':r'>%0.2f', 'sigma': r'%0.1f', 'Tval':r'%0.2f', 'sigmab':r'%0.1f'}
+fmt = {'b':r'$>%0.2f$', 'sigma': r'%0.1f', 'Tval':r'%0.2f', 'sigmab':r'%0.1f'}
 with open('distribution_fit_table.tex','w') as f:
     for v in one_sided:
         line = [tex[v]]
