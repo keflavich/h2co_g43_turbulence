@@ -33,10 +33,10 @@ def mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_50sigm
     d['meandens'] = pymc.Uniform(name='meandens',lower=10,upper=200,value=60, observed=False)
     d['sigma'] = pymc.Uniform(name='sigma',lower=0,upper=25,value=2.88)
     # the observed values.  f=tau ratio = 6.65 (6.99?).  tau might be too high, but the "best fits" were tau=9 before, which is just not possible
-    tau11 = 0.1133     # 0.0846168    "total tau" version.  WRONG.
-    etau11 = 0.001165  # 0.00102343
-    tau22 = 0.01623    # 0.0130407
-    etau22 = 0.000525  # 0.000723822
+    tau11 = 0.1140     # 0.0846168    "total tau" version.  WRONG.
+    etau11 = 0.0018    # 0.00102343
+    tau22 = 0.01481    # 0.0130407
+    etau22 = 0.00093   # 0.000723822
     d['tauoneone_mu'] = pymc.Deterministic(name='tauoneone_mu', eval=tauoneone,
                                            parents={'meandens':d['meandens'],
                                                     'sigma':d['sigma']},
