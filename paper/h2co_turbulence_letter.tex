@@ -166,6 +166,8 @@ component (\south), and 194 K at 6 cm and 28 K at 2 cm for the north component
 
 % 2001ApJ...551..747S
 
+%codes/fit_small_lines_G43.py
+%fit_small_lines.py
 \FigureTwo{figures/G43.17+0.01_H2CO_overplot_gbt9x.pdf}
           {figures/G43.16-0.03_H2CO_overplot_gbt9x.pdf}
 {Spectra of the \formaldehyde \oneone (black), \twotwo (red), and \thirteenco
@@ -286,6 +288,7 @@ optical depth, radius, and abundance.
 % cloud.  However, it is much smaller, with $M\approx8.3\ee{3}\pm3.2\ee{3} \msun$
 % compared to California's $\sim10^5$.
 
+% G43.17+0.01/cloud_figures.py
 \Figure{figures/W49_RGB_40kms_aplpy.png}
 {\textit{The GRSMC 43.30-0.33 cloud.}  The background image shows Herschel SPIRE 70 \um (red),
 Spitzer MIPS 24 \um (green), and Spitzer IRAC 8 \um (blue) in the background with
@@ -333,6 +336,8 @@ absorption against it, though toward W49 it is negligible.
 %  Param #4      CENTER0 =      40.3406 +/-       0.0102343   Range:   [35,45],
 %  Param #5       WIDTH0 =     0.765835 +/-       0.0100109   Range:   [0,inf)]
 % stats_dict['DENSITY0']['CI'] = [10105.478740355829, 20412.420448321209, 11646.197755316312]
+
+% codes/make_specfigure.py
 \FigureTwo
           {figures/G43.17+0.01_40kmscloud_MCMCfit_nolegend_MCMCoverplot.pdf}
           {figures/G43.16-0.03_40kmscloud_MCMCfit_nolegend_MCMCoverplot.pdf}
@@ -351,14 +356,20 @@ degeneracy between low and high densities \citep{Ginsburg2011a}.  }
 
 % fitted using ~/work/h2co/G43.17+0.01/fit_small_lines.py, specifically the MC40 million-long chains
 % and G43.16-0.03/fit_small_lines.py
-We performed line fits to both lines simultaneously using a Markov-chain
-monte-carlo approach, assuming uniform priors across the modeled parameter
-space and independent gaussian errors on each spectral bin.  The density
-measurements are very precise, with $log n = 4.3^{+0.16}_{-0.48} \percc$
-(95\% confidence interval) and $n=4.2^{+0.24}{-0.64}$ \percc for
-G43.17+0.01 and G43.16-0.03 respectively.  The lower bounds correspond to high ortho-to-para
-ratios OPR>1.  While these are fairly precise measurements of gas density, we
-now need to examine exactly what gas we have measured the density of.
+% \todo{Revise or remove this - fitting done to each line independently, focused
+% on integral of line}
+% We performed line fits to both lines simultaneously using a Markov-chain
+% monte-carlo approach, assuming uniform priors across the modeled parameter
+% space and independent gaussian errors on each spectral bin.  The density
+% measurements are very precise, with $log n = 4.3^{+0.16}_{-0.48} \percc$
+% (95\% confidence interval) and $n=4.2^{+0.24}{-0.64}$ \percc for
+% G43.17+0.01 and G43.16-0.03 respectively.  The lower bounds correspond to high ortho-to-para
+% ratios OPR>1.  While these are fairly precise measurements of gas density, we
+% now need to examine exactly what gas we have measured the density of.
+
+We performed fits of the optical depth spectra to each line independently. In
+both objects, we found that the centroids and widths agreed (see Table
+\ref{tab:obs}).  The ratio of the line integrals is used for further analysis
 %At this level of precision, the 
 %density measurements are dominated by systematic uncertainties in temperature and
 %the ortho-to-para ratio of \hh.  
@@ -366,6 +377,23 @@ now need to examine exactly what gas we have measured the density of.
 % and collision rate uncertainties - which limit the accuracy to $\sim50\%$ using
 % the \citet{Green1991} rates
 % \citep{Zeiger2010}.  
+
+\Table{lcc}
+{Fitted Parameters}
+{  & \oneone & \twotwo}
+{tab:obs}
+{
+\south    &                            &                         \\
+\hline
+Centroid  & $  40.34^{+   0.03}_{-   0.04}$  & $  40.35^{+   0.22}_{-   0.25}$ \\
+Width     & $   0.73^{+   0.04}_{-   0.04}$  & $   0.84^{+   0.23}_{-   0.31}$ \\
+Peak      & $  0.071^{+  0.003}_{-  0.003}$  & $  0.008^{+  0.002}_{-  0.002}$ \\
+Integral  & $  0.130^{+  0.004}_{-  0.005}$  & $  0.018^{+  0.004}_{-  0.004}$ \\
+Ratio     & $   7.29^{+   2.19}_{-   1.38}$  & \\
+}{
+Centroid and width are in \kms, peak is unitless (optical
+depth), and the integral is in optical depth times \kms.}
+
 
 % The measured density is much higher than the \thirteenco-measured cloud-average
 % density $n\approx 400$ \percc \citep[for cloud
@@ -377,11 +405,12 @@ now need to examine exactly what gas we have measured the density of.
 % measurements from \citet{Plume2004a}, though those measurements rely on
 % uncertain abundances and are fairly sensitive to temperature.
 
-Since the W49 lines of sight are clearly on the outskirts of the foreground cloud, not
-through its center, such high densities are unlikely to be an indication that
-these lines of sight correspond to a centrally condensed density peak (e.g., a
-core).  The comparable density observed through two different lines of sight
-separated by $\sim 2$ pc supports this claim.
+Since the W49 lines of sight are clearly on the outskirts of the foreground
+cloud, not through its center, it is unlikely that these lines of sight
+correspond to a centrally condensed density peak (e.g., a core).  The
+comparable line ratios observed through two different lines of sight separated
+by $\sim 2$ pc supports this claim, since a core would result in a much higher
+\twotwo optical depth.
 
 
 % Using
@@ -648,7 +677,7 @@ so the 3-D Mach number of the turbulence is
 $$\mathcal{M}_{3D} \equiv 3^{1/2} \mathcal{M}_{1D} \approx \frac{3^{1/3}}{(8\ln 2)^{1/2}} FWHM / c_s $$
 or $\mathcal{M}_{3D} = 3.8 - 6.6 $, ranging from the \formaldehyde to the \thirteenco width.
 
-\todo{Constrants on $b$}
+\todo{Constraints on $b$}
 % In principle, we should be able to then measure the compressibility coefficient
 % $b$ using our constraints on $\mathcal{M}$ and Equation \ref{eqn:sigmas}.
 % However, even if we select the low end of the $\sigma_s$ values $\sigma_s=2.2$
@@ -667,8 +696,9 @@ or $\mathcal{M}_{3D} = 3.8 - 6.6 $, ranging from the \formaldehyde to the \thirt
 % line-of-sight axis $0.1\times$ the plane-of-sky axes, $\sigma_s > 1.5$ is
 % required.
 
+% This PP is OK
 As one possible alternative, we use the
-\citet{Hopkins2013a} distribution with $T-\sigma_s$ and $T-\mathcal{M}_C$
+\citet{Hopkins2013a} density distribution with $T-\sigma_s$ and $T-\mathcal{M}_C$
 relations fitted to measurements from a series of simulations
 \citep{Kowal2007a,Kritsuk2007a,Schmidt2009a,Federrath2010a,Federrath2012a,Konstandin2012a,Molina2012a}.
 We derive a $T$ value from 
