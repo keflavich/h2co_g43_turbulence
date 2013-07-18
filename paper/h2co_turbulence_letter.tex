@@ -383,13 +383,20 @@ both objects, we found that the centroids and widths agreed (see Table
 {  & \oneone & \twotwo}
 {tab:obs}
 {
+\north    &                          &                         \\
+Centroid  & $ 39.54^{+   0.01}_{-   0.01}$ &  $39.55^{+   0.06}_{-   0.06}$\\
+Width     & $  0.38^{+   0.02}_{-   0.02}$ &  $ 0.45^{+   0.07}_{-   0.08}$\\
+Peak      & $ 0.114^{+  0.004}_{-  0.004}$ &  $0.015^{+  0.002}_{-  0.002}$\\
+Integral  & $ 0.107^{+  0.002}_{-  0.002}$ &  $0.016^{+  0.002}_{-  0.002}$\\
+Ratio     & $  6.50^{+   0.83}_{-   0.66}$ & \\
+\hline
 \south    &                            &                         \\
 \hline
-Centroid  & $  40.34^{+   0.03}_{-   0.04}$  & $  40.35^{+   0.22}_{-   0.25}$ \\
-Width     & $   0.73^{+   0.04}_{-   0.04}$  & $   0.84^{+   0.23}_{-   0.31}$ \\
-Peak      & $  0.071^{+  0.003}_{-  0.003}$  & $  0.008^{+  0.002}_{-  0.002}$ \\
-Integral  & $  0.130^{+  0.004}_{-  0.005}$  & $  0.018^{+  0.004}_{-  0.004}$ \\
-Ratio     & $   7.29^{+   2.19}_{-   1.38}$  & \\
+Centroid  & $ 40.34^{+   0.03}_{-   0.04}$  & $  40.35^{+   0.22}_{-   0.25}$ \\
+Width     & $  0.73^{+   0.04}_{-   0.04}$  & $   0.84^{+   0.23}_{-   0.31}$ \\
+Peak      & $ 0.071^{+  0.003}_{-  0.003}$  & $  0.008^{+  0.002}_{-  0.002}$ \\
+Integral  & $ 0.130^{+  0.004}_{-  0.005}$  & $  0.018^{+  0.004}_{-  0.004}$ \\
+Ratio     & $  7.29^{+   2.19}_{-   1.38}$  & \\
 }{
 Centroid and width are in \kms, peak is unitless (optical
 depth), and the integral is in optical depth times \kms.}
@@ -579,7 +586,10 @@ lines.
 % path: /Volumes/disk5/Users/adam/work/h2co/pilot/figures/models/lognormalsmooth_density_ratio_massweight_logopr0.0_abund-9.png
 % cp ~/work/h2co/pilot/figures/models/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-9.png figures/
 % cp ~/work/h2co/pilot/figures/models/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-9_withG43.png figures/
-\Figure{figures/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-9_withG43.png}
+\FigureThreePDF
+    {figures/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-8.5_withG43.png}
+    {figures/lognormalsmooth_density_tau_oneone_massweight_withhopkins_logopr0.0_abund-8.5_withG43.pdf}
+    {figures/lognormalsmooth_density_tau_twotwo_massweight_withhopkins_logopr0.0_abund-8.5_withG43.pdf}
 {The predicted \formaldehyde \oneone/\twotwo ratio as a function of volume-weighted mean
 density for a fixed abundance relative to \hh $X(\ortho) = 10^{-9}$  with \hh
 ortho/para ratio 1.0.  The legend shows the effect of smoothing with different
@@ -589,7 +599,7 @@ with no smoothing (i.e., a $\delta$-function density distribution).
 The blue errorbars show the G43.17 \formaldehyde measurement and the GSRMC
 43.30-0.33 mean density.
 }
-{fig:lvgsmooth}{0.5}{0}
+{fig:lvgsmooth}{0.5}
 
 \subsection{Turbulence and GRSMC 43.30-0.33}
 \label{sec:grsmcturb}
