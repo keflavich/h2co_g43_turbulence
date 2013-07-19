@@ -384,6 +384,7 @@ both objects, we found that the centroids and widths agreed (see Table
 {tab:obs}
 {
 \north    &                          &                         \\
+\hline
 Centroid  & $ 39.54^{+   0.01}_{-   0.01}$ &  $39.55^{+   0.06}_{-   0.06}$\\
 Width     & $  0.38^{+   0.02}_{-   0.02}$ &  $ 0.45^{+   0.07}_{-   0.08}$\\
 Peak      & $ 0.114^{+  0.004}_{-  0.004}$ &  $0.015^{+  0.002}_{-  0.002}$\\
@@ -606,22 +607,22 @@ The blue errorbars show the G43.17 \formaldehyde measurement and the GSRMC
 We use the density measurements in GSRMC 43.30-0.33 to infer properties of that
 cloud's density distribution.
 
-We measure the abundances of \ortho relative to \thirteenco using the LVG
-models for \formaldehyde and the \citet{RomanDuval2010a} optical-depth
-corrections for \thirteenco.
-\todo{ The measured values are $X(\ortho/\thirteenco) = 3.2\ee{-4}$ and 3.5\ee{-4} for G43.16 and G43.17
-respectively, or relative to \hh, $X(\ortho/\hh)=5.8\ee{-10}$ and 6.2\ee{-10} }
-\todo{The above are incorrect, the latest are: \\ 
-G43.16: Abundance relative to H2:    -8.46394793495 \\ 
-G43.17: Abundance relative to H2:    -8.52349945355 \\
-}
-\todo{TODO: Correct G43.16 numbers; G43.17 is accurate}, which are
-entirely consistent with other measurements of $X_{\ortho}$
-\citep{Johnstone2003a} and allow us to use constant abundance LVG models for this
-analysis\footnote{Higher abundances of \formaldehyde have rarely been observed,
-but lower abundances are common in cores.  The effect of lower abundance is to
-\emph{increase} the inferred $\sigma_s$ in the analysis below, so our
-assumption of $X\lesssim5\times10^{-9}$ is conservative}.  
+% We measure the abundances of \ortho relative to \thirteenco using the LVG
+% models for \formaldehyde and the \citet{RomanDuval2010a} optical-depth
+% corrections for \thirteenco.
+% \todo{ The measured values are $X(\ortho/\thirteenco) = 3.2\ee{-4}$ and 3.5\ee{-4} for G43.16 and G43.17
+% respectively, or relative to \hh, $X(\ortho/\hh)=5.8\ee{-10}$ and 6.2\ee{-10} }
+% \todo{The above are incorrect, the latest are: \\ 
+% G43.16: Abundance relative to H2:    -8.46394793495 \\ 
+% G43.17: Abundance relative to H2:    -8.52349945355 \\
+% }
+% \todo{TODO: Correct G43.16 numbers; G43.17 is accurate}, which are
+% entirely consistent with other measurements of $X_{\ortho}$
+% \citep{Johnstone2003a} and allow us to use constant abundance LVG models for this
+% analysis\footnote{Higher abundances of \formaldehyde have rarely been observed,
+% but lower abundances are common in cores.  The effect of lower abundance is to
+% \emph{increase} the inferred $\sigma_s$ in the analysis below, so our
+% assumption of $X\lesssim5\times10^{-9}$ is conservative}.  
 % why was this commented out? it's reported below TAG:MEASURE
 % The observed
 % formaldehyde line ratio $\tau_{1-1}/\tau_{2-2} = 6.99^{+0.72}_{-0.56} $ (95\%
@@ -668,20 +669,23 @@ $\sigma_s|M$ is the measured width including the measured Mach number range.
 
 % TAG:MEASURE
 Assuming the thermal dominates the magnetic pressure ($\beta>>1$), we can fit
-$\sigma_s$ from the measurement in Figure \ref{fig:lvgsmooth}.  We  measure the
-ratio $\tau_{\oneone}/\tau_{\twotwo} = 7.70^{+1.11}_{-0.87} $ for the \north
-sightline (errors are the 95\% CI).  Assuming a lognormal distribution for the
-density, and using only the $\tau$ measurements as a constraint, we derive the
-value for $\sigma_s$ in Table \ref{tab:datafits}.
+$\sigma_s$ from the measurement in Figure \ref{fig:lvgsmooth}.  Using two
+different forms for the density distribution, and using only the $\tau$
+measurements as a constraint, we derive the value for $\sigma_s$ in Table
+\ref{tab:datafits}.
 % assuming a lognormal
 % distribution, the best-fit
 % $\sigma_s=2.8$, with a 95\% confidence interval $2.36 < \sigma_s < 3.49$.
 
-Assuming a temperature $T=10$ K, consistent with both the \formaldehyde and CO
+It is possible to provide direct constraints on the $b$ value by using information about
+the Mach number from line-of-sight velocity dispersion measurements.  Assuming
+a temperature $T=10$ K, consistent with both the \formaldehyde and CO
 observations \citep{Plume2004a}, the sound speed in molecular gas is $c_s=0.19$
-\kms.  The observed line FWHM in G43.17 is 0.95 \kms for \formaldehyde and 1.7 \kms for
-\thirteenco 1-0,
-% \citep[although warm gas tracers have a larger linewidth, FWHM(H$_2$$^{18}$O) and FWHM(C I) = 3.2
+\kms.  The gas is unlikely to be much colder, so using this sound speed will
+provide at least a lower limit on the Mach number.  The observed line FWHM in
+G43.17 is 0.95 \kms for \formaldehyde and 1.7 \kms for \thirteenco 1-0,
+% \citep[although warm gas tracers have a larger linewidth, FWHM(H$_2$$^{18}$O)
+% and FWHM(C I) = 3.2
 % \kms;][]{Plume2004a},
 so the 3-D Mach number of the turbulence is
 $$\mathcal{M}_{3D} \equiv 3^{1/2} \mathcal{M}_{1D} \approx \frac{3^{1/3}}{(8\ln 2)^{1/2}} FWHM / c_s $$

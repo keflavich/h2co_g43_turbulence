@@ -33,7 +33,7 @@ with open('distribution_fit_table.tex','w') as f:
         if v in table['variable name']:
             row = table[table['variable name']==v]
             #line += [fmt[v] % row['q50.0'], ("$^{"+fmt[v]+"}_{"+fmt[v]+"}$") % (row['q2.5'],row['q97.5'])]
-            line += [(fmt[v] % row['q50.0']) + ("$^{"+fmt[v]+"}_{"+fmt[v]+"}$") % (row['q2.5'],row['q97.5'])]
+            line += [(fmt[v] % row['q50.0']) + ("$^{"+fmt[v]+"}_{"+fmt[v]+"}$") % (row['q50.0']-row['q2.5'],row['q97.5']-row['q50.0'])]
         else:
             line += ["-"]# * 2
     print >>f,"&".join(line),r"\\"
@@ -43,7 +43,7 @@ with open('distribution_fit_table.tex','w') as f:
             if v in table['variable name']:
                 row = table[table['variable name']==v]
                 #line += [fmt[v] % row['q50.0'], ("$^{"+fmt[v]+"}_{"+fmt[v]+"}$") % (row['q2.5'],row['q97.5'])]
-                line += [(fmt[v] % row['q50.0']) + ("$^{"+fmt[v]+"}_{"+fmt[v]+"}$") % (row['q2.5'],row['q97.5'])]
+                line += [(fmt[v] % row['q50.0']) + ("$^{"+fmt[v]+"}_{"+fmt[v]+"}$") % (row['q50.0']-row['q2.5'],row['q97.5']-row['q50.0'])]
             else:
                 line += ["-"]# * 2
         print >>f,"&".join(line),r"\\"
