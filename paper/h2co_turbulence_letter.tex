@@ -385,22 +385,23 @@ both objects, we found that the centroids and widths agreed (see Table
 {
 \north    &                          &                         \\
 \hline
-Centroid  & $ 39.54^{+   0.01}_{-   0.01}$ &  $39.55^{+   0.06}_{-   0.06}$\\
-Width     & $  0.38^{+   0.02}_{-   0.02}$ &  $ 0.45^{+   0.07}_{-   0.08}$\\
-Peak      & $ 0.114^{+  0.004}_{-  0.004}$ &  $0.015^{+  0.002}_{-  0.002}$\\
-Integral  & $ 0.107^{+  0.002}_{-  0.002}$ &  $0.016^{+  0.002}_{-  0.002}$\\
-Ratio     & $  6.50^{+   0.83}_{-   0.66}$ & \\
+Centroid  & $  39.54^{+   0.01}_{-   0.01}$  & $  39.55^{+   0.06}_{-   0.06}$ \\
+Width     & $   0.37^{+   0.01}_{-   0.02}$  & $   0.45^{+   0.07}_{-   0.08}$ \\
+Peak      & $  0.114^{+  0.004}_{-  0.004}$  & $  0.015^{+  0.002}_{-  0.002}$ \\
+Integral  & $  0.107^{+  0.002}_{-  0.002}$  & $  0.016^{+  0.002}_{-  0.002}$ \\
+Ratio     & $   6.49^{+   0.84}_{-   0.67}$  & \\
 \hline
 \south    &                            &                         \\
 \hline
-Centroid  & $ 40.34^{+   0.03}_{-   0.04}$  & $  40.35^{+   0.22}_{-   0.25}$ \\
-Width     & $  0.73^{+   0.04}_{-   0.04}$  & $   0.84^{+   0.23}_{-   0.31}$ \\
-Peak      & $ 0.071^{+  0.003}_{-  0.003}$  & $  0.008^{+  0.002}_{-  0.002}$ \\
-Integral  & $ 0.130^{+  0.004}_{-  0.005}$  & $  0.018^{+  0.004}_{-  0.004}$ \\
-Ratio     & $  7.29^{+   2.19}_{-   1.38}$  & \\
+Centroid  & $  40.35^{+   0.04}_{-   0.03}$  & $  40.36^{+   0.23}_{-   0.22}$ \\
+Width     & $   0.72^{+   0.04}_{-   0.04}$  & $   0.84^{+   0.23}_{-   0.31}$ \\
+Peak      & $  0.071^{+  0.003}_{-  0.003}$  & $  0.008^{+  0.002}_{-  0.002}$ \\
+Integral  & $  0.130^{+  0.005}_{-  0.005}$  & $  0.018^{+  0.004}_{-  0.004}$ \\
+Ratio     & $   7.32^{+   2.31}_{-   1.43}$  & \\
 }{
 Centroid and width are in \kms, peak is unitless (optical
-depth), and the integral is in optical depth times \kms.}
+depth), and the integral is in optical depth times \kms.  The errors represent
+95\% credible intervals (2-$\sigma$).}
 
 
 % The measured density is much higher than the \thirteenco-measured cloud-average
@@ -554,7 +555,7 @@ within the cloud.}
 
 Figure \ref{fig:lvgsmooth}
 shows the result of this integral for an abundance of \ortho relative to \hh, 
-$X(\ortho)=10^{-9}$, where the X-axis shows $\rho_0 = \rho(\hh)$ and the Y-axis
+$X(\ortho)=10^{-8.5}$, where the X-axis shows $\rho_0 = \rho(\hh)$ and the Y-axis
 shows the observable optical depth ratio of the two \formaldehyde centimeter
 lines.
 
@@ -591,11 +592,11 @@ lines.
     {figures/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-8.5_withG43}
     {figures/lognormalsmooth_density_tau_oneone_massweight_withhopkins_logopr0.0_abund-8.5_withG43}
     {figures/lognormalsmooth_density_tau_twotwo_massweight_withhopkins_logopr0.0_abund-8.5_withG43}
-{The predicted \formaldehyde \oneone/\twotwo ratio as a function of volume-weighted mean
-density for a fixed abundance relative to \hh $X(\ortho) = 10^{-9}$  with \hh
+{The predicted \formaldehyde \oneone/\twotwo ratio and optical depths as a function of volume-weighted mean
+density for a fixed abundance relative to \hh $X(\ortho) = 10^{-8.5}$  with \hh
 ortho/para ratio 1.0.  The legend shows the effect of smoothing with different
 lognormal mass distributions as described in Equation \ref{eqn:sigmas}.  % and \ref{eqn:lognormal}.  
-The solid line, labeled LVG, shows the predicted ratio
+The solid line shows the predicted values
 with no smoothing (i.e., a $\delta$-function density distribution).
 The blue errorbars show the G43.17 \formaldehyde measurement and the GSRMC
 43.30-0.33 mean density.
@@ -723,17 +724,22 @@ We derive a $T$ value from
 where $T$ is an ``intermittency'' parameter that indicates the
 deviation of the distribution from lognormal\footnote{Equation \ref{eqn:Tsigma}
 is a transcendental equation, so we use root-finding to determine $T$.}.  
-\todo{Explain “intermittency parameter"}
+The intermittency parameter is described in \citet{Hopkins2013a} as a unitless
+parameter which increases with Mach number and is correlated with the strength
+of the deviations from the mean turbulent properties as a function of time.
+Its physical meaning beyond these simple correlations is as yet poorly understood.
 
-Using the \citet{Hopkins2013a} distribution, we find $\sigma_s=2.4$, with
-a 95\% credible interval $2.0 < \sigma_s < 3.5$.  These values are
+Using the \citet{Hopkins2013a} distribution, we find \todo{$\sigma_s=2.4$}, with
+a 95\% credible interval \todo{$2.0 < \sigma_s < 3.5$}.  These values are
 compatible with the observed Mach numbers.  Using the relation 
 \begin{equation}
     \label{eqn:McMT}
     b \mathcal{M} = \mathcal{M}_c  \approx 20 T
 \end{equation}
-from \citet{Hopkins2013a} Figure 3, we can derive a lower limit $b>0.64$ at the
-95\% credible level.% ($b>0.49$ at 99.9\% confidence).
+from \citet{Hopkins2013a} Figure 3, we can derive a lower limit \todo{$b>0.64$} at the
+95\% credible level.  However, there is intrinsic uncertainty in the
+coefficient in Equation \ref{eqn:McMT} that we have not accounted for.  
+% ($b>0.49$ at 99.9\% confidence).
 
 
 % Using the $\sigma_s=2.5$ distribution, which is
