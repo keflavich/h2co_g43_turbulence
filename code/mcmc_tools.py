@@ -94,3 +94,58 @@ def docontours_multi(mc, start=6000, end=None, skip=None, dosave=False,
 
     if dosave:
         savefig(savename,bbox_inches='tight')
+
+
+def diagnostics(mc,  parnames=(), lognames=(), fignum=16, start=0):
+    if hasattr(mc, 'variables'):
+        mcnames = [v.__name__ for v in mc.variables]
+        traces = {k:np.concatenate([v.squeeze() for v in mc.trace(k)._trace.values()])[start:] 
+                  for k in parnames 
+                  if k in mcnames}
+        if ('tau1' in parnames or 'tau2' in parnames) and 'tau' in mcnames:
+            traces['tau1'] = np.concatenate([v.squeeze()[:,0] for v in mc.trace('tau')._trace.values()])[start:]
+            traces['tau2'] = np.concatenate([v.squeeze()[:,1] for v in mc.trace('tau')._trace.values()])[start:]
+            traces['tauratio'] = traces['tau1']/traces['tau2']
+    elif hasattr(mc,'names'):
+        # assume it is a FITS bintable
+        traces = {n:mc[n] for n in mc.names}
+    elif hasattr(mc,'keys'):
+        traces = mc
+    pl.figure(fignum)
+    pl.clf()
+    pl.subplots_adjust(hspace=0.35)
+    nplots = len(traces.keys())
+    if len(parnames) == 0:
+        parnames = traces.keys()
+    nx = np.ceil(np.sqrt(nplots))
+    for ii,name in enumerate(parnames):
+        pl.subplot(nx,nx,ii+1)
+        if name in traces:
+            data = traces[name] # np.concatenate([v.squeeze() for v in mc.trace(name)._trace.values()])[:]
+        else:
+            try:
+                data = np.concatenate([v.squeeze() for v in mc.trace(name)._trace.values()])[:]
+            except:
+                continue
+        if name in lognames:
+            pl.plot(10**data)
+        else:
+            pl.plot(data)
+        pl.title(name)
+    pl.figure(fignum+1)
+    pl.clf()
+    pl.subplots_adjust(hspace=0.35)
+    for ii,name in enumerate(traces.keys()):
+        pl.subplot(nx,nx,ii+1)
+        if name in traces:
+            data = traces[name] # np.concatenate([v.squeeze() for v in mc.trace(name)._trace.values()])[:]
+        else:
+            try:
+                data = np.concatenate([v.squeeze() for v in mc.trace(name)._trace.values()])[:]
+            except:
+                continue
+        ft = np.fft.fft(data-data.mean())
+        ac = np.fft.ifft(ft*ft[::-1])
+        pl.plot(np.fft.fftshift(np.abs(ac)))
+        pl.title(name)
+    return traces

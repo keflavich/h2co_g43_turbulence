@@ -7,9 +7,19 @@ trace_data_path = '/Users/adam/work/h2co/lowdens/code/trace_data/'
 savepath = "/Users/adam/work/h2co/lowdens/figures/"
 # load defaults by default
 abundance = -8.5
+abundance = -9.0
+
+# the observed values.  f=tau ratio = 6.65 (6.99?).  tau might be too high, but the "best fits" were tau=9 before, which is just not possible
+tau11 = 0.1072     # 0.0846168    "total tau" version.  WRONG.
+etau11 = 0.0012    # 0.00102343
+tau22 = 0.0165    # 0.0130407
+etau22 = 0.0009   # 0.000723822
+ratio = 6.5171576487145408
+eratio = 0.38657654404132163
 
 tauratio,tauratio_hopkins,tau,tau_hopkins = generate_simpletools(abundance=abundance)
 tau1x,tau2x,dens,col = select_data(abundance=abundance)
+
 def tauoneone(meandens, sigma):
     return tau(meandens, sigma, line=tau1x)
 def tautwotwo(meandens, sigma):
@@ -32,11 +42,6 @@ def mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo,truncate_at_50sigm
     # with meandens observed=False,  'sigma': {'95% HPD interval': array([ 2.89972948,  3.69028675]),
     d['meandens'] = pymc.Uniform(name='meandens',lower=10,upper=200,value=60, observed=False)
     d['sigma'] = pymc.Uniform(name='sigma',lower=0,upper=25,value=2.88)
-    # the observed values.  f=tau ratio = 6.65 (6.99?).  tau might be too high, but the "best fits" were tau=9 before, which is just not possible
-    tau11 = 0.1072     # 0.0846168    "total tau" version.  WRONG.
-    etau11 = 0.0012    # 0.00102343
-    tau22 = 0.0165    # 0.0130407
-    etau22 = 0.0009   # 0.000723822
     d['tauoneone_mu'] = pymc.Deterministic(name='tauoneone_mu', eval=tauoneone,
                                            parents={'meandens':d['meandens'],
                                                     'sigma':d['sigma']},
@@ -74,6 +79,7 @@ def savefig(savename, **kwargs):
 
 T,F = True,False
 domillion=T
+dothousand=T
 
 if __name__ == "__main__":
     execfile('lognormal_mcmc_parameter_estimates.py')

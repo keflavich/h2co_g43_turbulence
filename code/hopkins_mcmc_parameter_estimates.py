@@ -1,7 +1,7 @@
 import pymc
 import numpy as np
 import pylab as pl
-from measure_tau import mcmc_sampler_dict,tauoneone_hopkins,tautwotwo_hopkins,savepath,domillion,abundance,savefig,trace_data_path
+from measure_tau import mcmc_sampler_dict,tauoneone_hopkins,tautwotwo_hopkins,savepath,domillion,dothousand,abundance,savefig,trace_data_path
 from mcmc_tools import docontours_multi,save_traces
 from agpy import pymc_plotting
 import pymc_tools
@@ -56,12 +56,13 @@ mc_hopkins.sample(1e2)
 print "\nhopkins freemach sampling (initial)"
 mc_hopkins_freemach.sample(1e2)
 
-print "\nsimple hopkins sampling"
-mc_hopkins_simple.sample(1e5)
-print "\nhopkins sampling"
-mc_hopkins.sample(1e5)
-print "\nhopkins freemach sampling"
-mc_hopkins_freemach.sample(1e5)
+if dothousand:
+    print "\nsimple hopkins sampling"
+    mc_hopkins_simple.sample(1e5)
+    print "\nhopkins sampling"
+    mc_hopkins.sample(1e5)
+    print "\nhopkins freemach sampling"
+    mc_hopkins_freemach.sample(1e5)
 
 
 graph_hopkins = pymc.graph.graph(mc_hopkins)
@@ -108,11 +109,15 @@ if domillion:
 #    pl.savefig(savepath+"HopkinsJustTau_%s_v_%s_mcmc.png" % (p1,p2))
 
 print "Some statistics used in the paper: "
-print 'mc_hopkins_simple sigma: ',mc_hopkins_simple.stats()['sigma']['quantiles']
-print 'mc_hopkins        sigma: ',mc_hopkins.stats()['sigma']['quantiles']
-print 'mc_hopkins        Tval: ',mc_hopkins.stats()['Tval']['quantiles']
-print 'mc_hopkins        b: ',mc_hopkins.stats(quantiles=(0.1,1,2.5,5,50))['b']['quantiles']
-print 'mc_hopkins        m: ',mc_hopkins.stats()['mach_mu']['quantiles']
+print 'mc_hopkins_simple   sigma: ',mc_hopkins_simple.stats()['sigma']['quantiles']
+print 'mc_hopkins          sigma: ',mc_hopkins.stats()['sigma']['quantiles']
+print 'mc_hopkins          Tval: ',mc_hopkins.stats()['Tval']['quantiles']
+print 'mc_hopkins          b: ',mc_hopkins.stats(quantiles=(0.1,1,2.5,5,50))['b']['quantiles']
+print 'mc_hopkins          m: ',mc_hopkins.stats()['mach_mu']['quantiles']
+print 'mc_hopkins_freemach sigma: ',mc_hopkins_freemach.stats()['sigma']['quantiles']
+print 'mc_hopkins_freemach Tval: ',mc_hopkins_freemach.stats()['Tval']['quantiles']
+print 'mc_hopkins_freemach b: ',mc_hopkins_freemach.stats(quantiles=(0.1,1,2.5,5,50))['b']['quantiles']
+print 'mc_hopkins_freemach m: ',mc_hopkins_freemach.stats()['mach']['quantiles']
 
 hopkins_statstable = pymc_tools.stats_table(mc_hopkins)
 hopkins_statstable.write(trace_data_path+'hopkins_statstable_abundance%s.fits' % abundance, overwrite=True)
@@ -121,9 +126,9 @@ hopkins_simple_statstable.write(trace_data_path+'hopkins_simple_statstable_abund
 hopkins_freemach_statstable = pymc_tools.stats_table(mc_hopkins_freemach)
 hopkins_freemach_statstable.write(trace_data_path+'hopkins_freemach_statstable_abundance%s.fits' % abundance, overwrite=True)
 
-save_traces(mc_hopkins, trace_data_path+"mc_hopkins_traces.fits", clobber=True)
-save_traces(mc_hopkins_simple, trace_data_path+"mc_hopkins_simple_traces.fits", clobber=True)
-save_traces(mc_hopkins_freemach, trace_data_path+"mc_hopkins_freemach_traces.fits", clobber=True)
+save_traces(mc_hopkins, trace_data_path+"mc_hopkins_traces_abundance%s.fits" % abundance, clobber=True)
+save_traces(mc_hopkins_simple, trace_data_path+"mc_hopkins_simple_traces%s.fits" % abundance, clobber=True)
+save_traces(mc_hopkins_freemach, trace_data_path+"mc_hopkins_freemach_traces%s.fits" %abundance, clobber=True)
 
 pl.figure(32)
 pl.clf()

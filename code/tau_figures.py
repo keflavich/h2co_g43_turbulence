@@ -1,7 +1,7 @@
 import pylab as pl
 import numpy as np
 from smoothtau_models import generate_simpletools,select_data
-from measure_tau import savefig,savepath
+from measure_tau import savefig,savepath,tau11,etau11,tau22,etau22,ratio,eratio
 import itertools
 
 for abundance in [-9,-8.5,-8.25,-8.0]:
@@ -36,9 +36,9 @@ for abundance in [-9,-8.5,-8.25,-8.0]:
     savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
 
     dot,caps,bars = ax.errorbar([np.log10(30)],
-                                [7.70],
+                                [ratio],
                                 xerr=np.array([[0.47,0.82]]).T,
-                                yerr=np.array([[0.87,1.11]]).T,
+                                yerr=[eratio], # np.array([[0.87,1.11]]).T,
                                 label="G43.17+0.01",
                                 color=(0,0,1,0.5),
                                 alpha=0.5,
@@ -77,7 +77,7 @@ for abundance in [-9,-8.5,-8.25,-8.0]:
         ax.set_ylabel('$\\tau_{%s}$' % linelabel,fontsize=24)
         savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')
 
-        tau_meas = {'oneone': [0.114,0.0018], 'twotwo':[0.0148,0.00093]}
+        tau_meas = {'oneone': [tau11,etau11], 'twotwo':[tau22,etau22]}
         dot,caps,bars = ax.errorbar([np.log10(30)],
                                     tau_meas[line][0],
                                     xerr=np.array([[0.47,0.82]]).T,

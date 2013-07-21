@@ -108,9 +108,9 @@ lognormal_simple_statstable.write(trace_data_path+'lognormal_simple_statstable_a
 lognormal_freemach_statstable = pymc_tools.stats_table(mc_lognormal_freemach)
 lognormal_freemach_statstable.write(trace_data_path+'lognormal_freemach_statstable_abundance%s.fits' % abundance, overwrite=True)
 
-mc_lognormal_traces = save_traces(mc_lognormal, trace_data_path+"mc_lognormal_traces.fits", clobber=True)
-mc_lognormal_simple_traces = save_traces(mc_simple, trace_data_path+"mc_lognormal_simple_traces.fits", clobber=True)
-mc_lognormal_freemach_traces = save_traces(mc_lognormal_freemach, trace_data_path+"mc_lognormal_freemach_traces.fits", clobber=True)
+mc_lognormal_traces = save_traces(mc_lognormal, trace_data_path+"mc_lognormal_traces%s.fits" % abundance, clobber=True)
+mc_lognormal_simple_traces = save_traces(mc_simple, trace_data_path+"mc_lognormal_simple_traces%s.fits" % abundance, clobber=True)
+mc_lognormal_freemach_traces = save_traces(mc_lognormal_freemach, trace_data_path+"mc_lognormal_freemach_traces%s.fits" % abundance, clobber=True)
 
 pl.figure(33)
 pl.clf()
