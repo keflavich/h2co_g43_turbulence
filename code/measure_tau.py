@@ -7,7 +7,7 @@ trace_data_path = '/Users/adam/work/h2co/lowdens/code/trace_data/'
 savepath = "/Users/adam/work/h2co/lowdens/figures/"
 # load defaults by default
 abundance = -8.5
-abundance = -9.0
+#abundance = -9.0
 
 # the observed values.  f=tau ratio = 6.65 (6.99?).  tau might be too high, but the "best fits" were tau=9 before, which is just not possible
 tau11 = 0.1072     # 0.0846168    "total tau" version.  WRONG.
