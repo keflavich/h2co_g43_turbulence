@@ -595,7 +595,7 @@ lines.
 {The predicted \formaldehyde \oneone/\twotwo ratio and optical depths as a function of volume-weighted mean
 density for a fixed abundance relative to \hh $X(\ortho) = 10^{-8.5}$  with \hh
 ortho/para ratio 1.0.  The legend shows the effect of smoothing with different
-lognormal mass distributions as described in Equation \ref{eqn:sigmas}.  % and \ref{eqn:lognormal}.  
+mass distributions. % as described in Equation \ref{eqn:sigmas}.  % and \ref{eqn:lognormal}.  
 The solid line shows the predicted values
 with no smoothing (i.e., a $\delta$-function density distribution).
 The blue errorbars show the G43.17 \formaldehyde measurement and the GSRMC
@@ -672,7 +672,7 @@ $\sigma_s|M$ is the measured width including the measured Mach number range.
 Assuming the thermal dominates the magnetic pressure ($\beta>>1$), we can fit
 $\sigma_s$ from the measurement in Figure \ref{fig:lvgsmooth}.  Using two
 different forms for the density distribution, and using only the $\tau$
-measurements as a constraint, we derive the value for $\sigma_s$ in Table
+measurements as a constraint, we derive the value of $\sigma_s$ in Table
 \ref{tab:datafits}.
 % assuming a lognormal
 % distribution, the best-fit
@@ -782,11 +782,11 @@ Lower abundance shifts all curves in Figure
 \ref{fig:lvgsmooth} up and to the right, again decreasing $\sigma_s$.
 
 \Figure{figures/lognormalsmooth_density_distributions_sigma2.0.png}
-{\todo{CUT in final version; this is just a demonstration of the different
-distributions.}  Example volume- and mass-weighted density distributions with
+{ %\todo{CUT in final version; this is just a demonstration of the different distributions.} 
+Example volume- and mass-weighted density distributions with
 $\sigma_s=2.0$.  The vertical dashed lines show $\rho = 15$ and $\rho=10^4$,
-approximately corresponding to the volume-averaged mean density of GRSMC 43.30
-and the \formaldehyde-derived density}
+approximately corresponding to the volume-averaged mean density of \GRSMC
+and the \formaldehyde-derived density.}
 {fig:distributions}{0.5}{0}
 
 % For G43.16-0.03:
@@ -924,9 +924,9 @@ The precise density measurements presented here are based off of large velocity
 gradient approximations \citep{Sobolev1957a} for the escape probability of line
 radiation from the cloud.  This method is widely used but remains an
 approximation.  In the case of \formaldehyde, it has been tested with a variety
-of codes \cite{van-der-Tak2007a,Henkel1983a} but is subject to uncertainties in
+of codes \citep{van-der-Tak2007a,Henkel1983a} but is subject to uncertainties in
 the velocity gradient and system geometry.  However, in the case of the
-observations in this paper, the lines were in the optically thin limit, and the
+observations in this paper, the lines were observed in the optically thin regime, and the
 LVG approximation should not affect our results.
 
 The collision rates of \formaldehyde with p-\hh, o-\hh, and He are estimated
@@ -942,9 +942,9 @@ longer be dominated by collision rate uncertainties.
 Abundance remains a serious concern, as most studies of \formaldehyde abundance
 do not observe multiple transitions and therefore do not constrain the relative
 level populations.  Few systematic studies have been undertaken
-\citep[e.g.]{Liszt2006a}.  There are also general difficulties in measuring absolute
+\citep[e.g.][]{Liszt2006a}.  There are also general difficulties in measuring absolute
 abundance of molecules, as the absolute column of \hh is rarely known to any
-precision.  Most abundance measurements tend to be below $X<10^{-9}$
+precision.  Most abundance measurements tend to be below $X_{\formaldehyde}<10^{-9}$
 \citep{Pauls1996a,Dickens1999a,Turner1989a,Turner1993a}, which validates our
 measurements, but deeper studies of abundance are warranted, particularly
 studies of how \formaldehyde varies relative to CO in clouds.
@@ -952,9 +952,9 @@ studies of how \formaldehyde varies relative to CO in clouds.
 The ortho-to-para ratio of \hh is a significant uncertainty in the models,
 since para-\hh is more effective at ``refrigerating'' the \formaldehyde
 molecules.  Values of the ortho-to-para ratio $>1$ favor lower densities by
-$\sim0.3$ dex in our analysis, but we have used these values in our analysis,
-and therefore our results are unaffected.  However, if the ortho-to-para ratio
-is in reality close to zero, the density PDF must be wider.
+$\sim0.3$ dex in our analysis, but we have used these lower densities in our
+analysis, and therefore our results are conservative.  However, if the
+ortho-to-para ratio is in reality close to zero, the density PDF must be wider.
 
 The ``covering factor'' of foreground clouds in front of background
 illumination sources is, in general, a major concern when performing absorption
@@ -971,7 +971,19 @@ comparison to simulations and the analytic distributions.  Since this is a
 foreground cloud lying in front of a rich portion of the galactic plane, the
 best mass estimates are very likely to come from molecular line observations,
 and therefore they are unlikely to be improved unless new wide-field CO
-observations are taken, e.g. with CCAT.
+observations are taken, e.g. with CCAT.  
+
+To validate our cloud mean density measurements, we have performed a dendrogram
+analysis \citep{Rosolowsky2008c} on the integrated \thirteenco map of the
+\GRSMC cloud.  We perform the analysis both on the large-scale $r\sim20$ pc
+cloud, tracking down to 10 pc scales, and then on the individual clump that is
+directly in front of W49.  We show the cloud density, computed using the
+assumptions stated in the text to convert \thirteenco luminosity to mass, for
+three different geometrical assumptions described in the caption of Figure
+\ref{fig:dendro}.  While the clump densities are potentially higher than we
+assumed in the analysis, they are probably not the appropriate numbers to
+compare to the simulations we have cited, which are generally simulating entire
+molecular clouds and measuring the density distribution within a large box.
 
 \Figure{figures/GRSMC_43.30_dendrograms_density.pdf}
 {Results of a dendrogram analysis of the \GRSMC cloud and the

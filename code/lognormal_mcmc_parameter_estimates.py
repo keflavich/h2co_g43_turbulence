@@ -61,23 +61,23 @@ print "\nlognormal (freemach) sampling"
 mc_lognormal_freemach.sample(100000)
 
 def docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach):
-    docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel.pdf", dosave=True,
+    docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_abundance%s.pdf" % abundance, dosave=True,
                      parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio'))
-    docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_deviance.pdf", dosave=True,
-                     parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
-    docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_scalefactors.pdf", dosave=True,
-                     parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','Metropolis_sigma_adaptive_scale_factor','Metropolis_b_adaptive_scale_factor','Metropolis_meandens_adaptive_scale_factor','deviance'))
-    docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_deviance.pdf", dosave=True,
-                     parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
-    docontours_multi(mc_simple,start=10000,savename=savepath+"mc_lognormal_justtau_multipanel.pdf", dosave=True,
+    #docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_deviance.pdf", dosave=True,
+    #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
+    #docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_scalefactors.pdf", dosave=True,
+    #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','Metropolis_sigma_adaptive_scale_factor','Metropolis_b_adaptive_scale_factor','Metropolis_meandens_adaptive_scale_factor','deviance'))
+    #docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_deviance.pdf", dosave=True,
+    #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
+    docontours_multi(mc_simple,start=10000,savename=savepath+"mc_lognormal_justtau_multipanel_abundance%s.pdf" % abundance, dosave=True,
                      parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio'))
 
-    docontours_multi(mc_lognormal_freemach,start=10000,savename=savepath+"mc_lognormal_freemach_multipanel.pdf", dosave=True,
+    docontours_multi(mc_lognormal_freemach,start=10000,savename=savepath+"mc_lognormal_freemach_multipanel_abundance%s.pdf" % abundance, dosave=True,
                      parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio'))
-    docontours_multi(mc_lognormal_freemach,start=10000,savename=savepath+"mc_lognormal_freemach_multipanel_deviance.pdf", dosave=True,
-                     parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
-    docontours_multi(mc_lognormal_freemach,start=10000,savename=savepath+"mc_lognormal_freemach_multipanel_scalefactors.pdf", dosave=True,
-                     parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','Metropolis_sigma_adaptive_scale_factor','Metropolis_b_adaptive_scale_factor','Metropolis_meandens_adaptive_scale_factor','deviance'))
+    #docontours_multi(mc_lognormal_freemach,start=10000,savename=savepath+"mc_lognormal_freemach_multipanel_deviance.pdf", dosave=True,
+    #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
+    #docontours_multi(mc_lognormal_freemach,start=10000,savename=savepath+"mc_lognormal_freemach_multipanel_scalefactors.pdf", dosave=True,
+    #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','Metropolis_sigma_adaptive_scale_factor','Metropolis_b_adaptive_scale_factor','Metropolis_meandens_adaptive_scale_factor','deviance'))
 #varslice=(10000,None,None)
 #for fignum,(p1,p2) in enumerate(itertools.combinations(('tauoneone_mu','tautwotwo_mu','tau_ratio','sigma','meandens','b','mach'),2)):
 #    pymc_plotting.hist2d(mc_lognormal, p1, p2, bins=30, clear=True, fignum=fignum, varslice=varslice, colorbar=True)

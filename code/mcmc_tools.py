@@ -4,6 +4,7 @@ import pylab as pl
 import numpy as np
 import astropy.io.fits as pyfits
 import itertools
+import astropy
 
 def savefig(savename, **kwargs):
     pl.savefig(savename.replace("pdf","png"), **kwargs)
@@ -28,6 +29,8 @@ def docontours_multi(mc, start=6000, end=None, skip=None, dosave=False,
                      savename='multipanel.png'):
     if isinstance(mc, dict):
         traces = mc
+    elif isinstance(mc, astropy.io.fits.fitsrec.FITS_rec):
+        traces = {n:mc[n] for n in mc.names}
     else:
         mcnames = mc.db._traces.keys()
         traces = {k:np.concatenate([v.squeeze()

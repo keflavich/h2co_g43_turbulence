@@ -71,19 +71,19 @@ graph_hopkins.write_png(savepath+"mc_hopkins_graph.png")
 
 
 def docontours_all(mc_hopkins_freemach,mc_hopkins,mc_hopkins_simple):
-    docontours_multi(mc_hopkins_freemach,start=10000,savename=savepath+"mc_hopkins_freemach_multipanel.pdf", dosave=True,
+    docontours_multi(mc_hopkins_freemach,start=10000,savename=savepath+"mc_hopkins_freemach_multipanel_abundance%s.pdf" % abundance, dosave=True,
                      parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','mach','Tval','b'))
-    docontours_multi(mc_hopkins_freemach,start=10000,savename=savepath+"mc_hopkins_freemach_multipanel_deviance.pdf", dosave=True,
-                     parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','mach','Tval','b','deviance'))
+    #docontours_multi(mc_hopkins_freemach,start=10000,savename=savepath+"mc_hopkins_freemach_multipanel_deviance.pdf", dosave=True,
+    #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','mach','Tval','b','deviance'))
 
-    docontours_multi(mc_hopkins,start=10000,savename=savepath+"mc_hopkins_withmach_multipanel.pdf", dosave=True,
+    docontours_multi(mc_hopkins,start=10000,savename=savepath+"mc_hopkins_withmach_multipanel_abundance%s.pdf" % abundance, dosave=True,
                      parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','b'))
-    docontours_multi(mc_hopkins,start=10000,savename=savepath+"mc_hopkins_withmach_multipanel_deviance.pdf", dosave=True,
-                     parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','b','deviance'))
-    docontours_multi(mc_hopkins_simple,start=10000,savename=savepath+"mc_hopkins_justtau_multipanel.pdf", dosave=True,
+    #docontours_multi(mc_hopkins,start=10000,savename=savepath+"mc_hopkins_withmach_multipanel_deviance.pdf", dosave=True,
+    #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','b','deviance'))
+    docontours_multi(mc_hopkins_simple,start=10000,savename=savepath+"mc_hopkins_justtau_multipanel_abundance%s.pdf" % abundance, dosave=True,
                      parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval'))
-    docontours_multi(mc_hopkins_simple,start=10000,savename=savepath+"mc_hopkins_justtau_multipanel_deviance.pdf", dosave=True,
-                     parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','deviance'))
+    #docontours_multi(mc_hopkins_simple,start=10000,savename=savepath+"mc_hopkins_justtau_multipanel_deviance.pdf", dosave=True,
+    #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','deviance'))
 
 docontours_all(mc_hopkins_freemach,mc_hopkins,mc_hopkins_simple)
 
