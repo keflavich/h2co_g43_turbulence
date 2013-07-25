@@ -558,6 +558,13 @@ shows the result of this integral for an abundance of \ortho relative to \hh,
 $X(\ortho)=10^{-8.5}$, where the X-axis shows $\rho_0 = \rho(\hh)$ and the Y-axis
 shows the observable optical depth ratio of the two \formaldehyde centimeter
 lines.
+The LVG model, which assumes a single density
+(or a Dirac $\delta$ function as the density distribution), is shown along with
+`smoothed' versions of the model which take into account realistic turbulent
+gas distributions.  Because the \formaldehyde \twotwo line requires a higher
+density to be ``refrigerated'' into absorption, any spread of the density
+distribution effectively increases the \twotwo line without decreasing the
+\oneone line and therefore decreases the \oneone/\twotwo ratio.  
 
 % Abundance limits: 
 % At n=24553, logc=12.38 (best fit)
@@ -598,15 +605,18 @@ ortho/para ratio 1.0.  The legend shows the effect of smoothing with different
 mass distributions. % as described in Equation \ref{eqn:sigmas}.  % and \ref{eqn:lognormal}.  
 The solid line shows the predicted values
 with no smoothing (i.e., a $\delta$-function density distribution).
-The blue errorbars show the G43.17 \formaldehyde measurement and the GSRMC
-43.30-0.33 mean density.
+The blue point shows the G43.17 measurement.  The horizontal red error bars
+show the limits on the mean volume density, $\rho_V$, and the vertical blue error
+bars show the 95\% credible interval for the \formaldehyde line measurements.
 }
 {fig:lvgsmooth}{3.5in}
 
-\subsection{Turbulence and GRSMC 43.30-0.33}
+\subsection{The $\rho$-PDF in \GRSMC}
 \label{sec:grsmcturb}
-We use the density measurements in GSRMC 43.30-0.33 to infer properties of that
-cloud's density distribution.
+We use the density measurements in \GRSMC to infer properties of that
+cloud's density distribution.  The observed ratio for the \north sightline in
+GRSMC 43.30-0.33 is shown in Figure \ref{fig:lvgsmooth} as a blue point.  
+%Very wide distributions are required to match the observations.
 
 % We measure the abundances of \ortho relative to \thirteenco using the LVG
 % models for \formaldehyde and the \citet{RomanDuval2010a} optical-depth
@@ -630,16 +640,6 @@ cloud's density distribution.
 % CI), while the volume averaged mean density of the cloud 8 \percc $\lesssim
 % \rho_0 < 150$ \percc.
 
-Figure \ref{fig:lvgsmooth} shows the LVG model, which assumes a single density
-(or a Dirac $\delta$ function as the density distribution), along with
-`smoothed' versions of the model which take into account realistic turbulent
-gas distributions.  Because the \formaldehyde \twotwo line requires a higher
-density to be ``refrigerated'' into absorption, any spread of the density
-distribution effectively increases the \twotwo line without decreasing the
-\oneone line and therefore decreases the \oneone/\twotwo ratio.  The observed
-ratio for the \north sightline in GRSMC 43.30-0.33 with conservative error bars
-is shown as a blue point.  
-%Very wide distributions are required to match the observations.
 
 \Table{ccccc}
 {Fitted Distribution Parameters}
@@ -691,6 +691,14 @@ G43.17 is 0.95 \kms for \formaldehyde and 1.7 \kms for \thirteenco 1-0,
 so the 3-D Mach number of the turbulence is
 $$\mathcal{M}_{3D} \equiv 3^{1/2} \mathcal{M}_{1D} \approx \frac{3^{1/3}}{(8\ln 2)^{1/2}} FWHM / c_s $$
 or $\mathcal{M}_{3D} = 3.8 - 6.6 $, ranging from the \formaldehyde to the \thirteenco width.
+
+\Figure{figures/mach_vs_b_lognormal_mcmc_contours_abundance-8.5.pdf}
+{Contours of the MCMC fit to the \formaldehyde optical depths with the cloud
+mean density restricted to $10~\percc < \rho_V < 200~\percc$.  Using the constraints on the Mach
+number based on the \north line of sight, we can infer $b>0.6$.
+\todo{Add Mach vs $\sigma_s$.}\\
+\todo{Add Mach vs $b$ \emph{with} constraints - it makes the situation much more clear}.
+}{fig:lognormalmcmc}{0.5}{0}
 
 \todo{Constraints on $b$}
 % In principle, we should be able to then measure the compressibility coefficient
