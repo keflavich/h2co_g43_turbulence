@@ -8,7 +8,7 @@ lognormal_statstable = pyfits.getdata(trace_data_path+'lognormal_statstable_abun
 lognormal_simple_statstable = pyfits.getdata(trace_data_path+'lognormal_simple_statstable_abundance%s.fits' % abundance)
 lognormal_freemach_statstable = pyfits.getdata(trace_data_path+'lognormal_freemach_statstable_abundance%s.fits' % abundance)
 
-mc_hopkins_traces = pyfits.getdata(trace_data_path+"mc_hopkins_traces%s.fits" % abundance)
+mc_hopkins_traces = pyfits.getdata(trace_data_path+"mc_hopkins_traces_abundance%s.fits" % abundance)
 mc_hopkins_simple_traces = pyfits.getdata(trace_data_path+"mc_hopkins_simple_traces%s.fits" % abundance)
 mc_hopkins_freemach_traces = pyfits.getdata(trace_data_path+"mc_hopkins_freemach_traces%s.fits" % abundance)
 mc_lognormal_traces = pyfits.getdata(trace_data_path+"mc_lognormal_traces%s.fits" % abundance)
