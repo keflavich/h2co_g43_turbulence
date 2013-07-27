@@ -1,6 +1,6 @@
 Responses to most recent comments:
 
-1. Title - Compressive turbulence in a quiescent molecular cloud: Observations with
+1. Title - The shape of the density distribution in molecular clouds: Observations with
 \formaldehyde
 2. "Measuring the actual density..." I'm going to leave out that sentence
 because I don't think we improve upon standard methods for measuring the *mean*

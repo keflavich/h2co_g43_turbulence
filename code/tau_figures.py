@@ -31,7 +31,7 @@ for abundance in [-9,-8.5,-8.25,-8.0]:
 
     ax.legend(loc='best',prop={'size':18})
     ax.axis([-1,7,0,15])
-    ax.set_xlabel('$\\log_{10}$($n($H$_2)$ [cm$^{-3}$])',fontsize=24)
+    ax.set_xlabel('$\\log_{10}$($\\rho($H$_2)$ [cm$^{-3}$])',fontsize=24)
     ax.set_ylabel('$\\tau_{1-1}/\\tau_{2-2}$',fontsize=24)
     savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
 
@@ -72,7 +72,7 @@ for abundance in [-9,-8.5,-8.25,-8.0]:
 
         ax.legend(loc='best',prop={'size':18})
         ax.axis([-2,7,1e-3,10])
-        ax.set_xlabel('$\\log_{10}$($n($H$_2)$ [cm$^{-3}$])',fontsize=24)
+        ax.set_xlabel('$\\log_{10}$($\\rho($H$_2)$ [cm$^{-3}$])',fontsize=24)
         linelabel = {'oneone':'1-1','twotwo':'2-2'}[line]
         ax.set_ylabel('$\\tau_{%s}$' % linelabel,fontsize=24)
         savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')

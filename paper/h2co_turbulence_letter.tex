@@ -1,12 +1,13 @@
 \input{preface}
 \begin{document}
 \ifstandalone
+\include{authors}
 \input{abstract}
 \fi
 
-\todo{Red text indicates ``todo'' items}
-
-\todo{Use $\rho$ and $n(\hh)$ consistently}
+% \todo{Red text indicates ``todo'' items}
+% 
+% \todo{Use $\rho$ and $n(\hh)$ consistently}
 
 \section{Introduction}
 Nearly all gas in the interstellar medium is supersonically turbulent.  The
@@ -34,7 +35,7 @@ These studies determined that there is a relation between the mode of turbulent 
 of the lognormal density distribution
 \citep{Padoan2011b,Molina2012a}.
 They characterize the turbulent driver in terms of its solenoidal (curly) versus compressive (divergent)
-driving properties. \todo{Clarify this or thin it out; true description comes later?}
+driving properties.% \todo{Clarify this or thin it out; true description comes later?}
 % Save for later
 % , with the lognormal width $\sigma_{s}^2 = \ln\left(1+b^2
 % \mathcal{M}^2 \frac{\beta}{\beta+1}\right)$, where $\beta=2 (\mathcal{M}_A /
@@ -58,11 +59,11 @@ an integral over the density probability distribution function (PDF), deviation 
 the lognormal distribution can drastically affect the overall predicted star formation
 rate \citep[e.g.]{Cho2011a,Collins2012a} and initial mass function.
 Note that the modifications to the \rhoPDF driven by gravitational collapse
-do not change the SFR or the IMF
-\citep{Klessen2000a,Kritsuk2011a,Federrath2013a} since gravitational overdensities have
-already separated from the turbulent flow that created them. It is therefore
-crucial that studies of turbulence focus on clouds which are not yet dominated
-by gravitational collapse.
+do not change the SFR or the IMF since gravitational overdensities have already
+separated from the turbulent flow that created them
+\citep{Klessen2000a,Kritsuk2011a,Federrath2013a}. It is therefore crucial that
+studies of turbulence focus on clouds which are not yet dominated by
+gravitational collapse.
 
 While simulations are powerful probes of wide ranges of parameter space, no
 simulation is capable of including all of the physical processes and spatial
@@ -91,9 +92,9 @@ The ratio of these lines is strongly sensitive to the local density of \hh, but
 it is relatively insensitive to the local gas temperature
 \citep{Troscompt2009a,Wiesenfeld2013a}.  The \formaldehyde line ratio has a
 direct dependence on the density that is nearly independent of the column
-density, which is unlike typical methods of molecular-line based density
-inference where the density is assumed to be greater than the critical density
-of the detected transition \todo{rephrase}.
+density.  This feature is unlike typical methods of molecular-line based density
+inference in which the density is inferred to be greater than the critical density
+of the detected transition.
 
 However, the particular property of the \formaldehyde densitometer we exploit
 here is its ability to trace the \emph{mass-weighted} density of the gas.
@@ -124,6 +125,10 @@ dense clouds.  In this Letter, we use the example of a single cloud to
 demonstrate that the high \formaldehyde densities must be caused by the shape
 of the density distribution and infer the shape of this distribution.
 
+A brief note on notation: Throughout this paper, we use the symbol $\rho$ to
+refer to the number density of \hh.  $\rho_V$ and $\rho_M$ are used to indicate
+volume-weighted and mass-weighted mean number densities, respectively.
+
 
 \section{Observations}
 We report \formaldehyde observations performed at the Arecibo Radio
@@ -134,14 +139,14 @@ Bank Telescope\footnote{ The National Radio Astronomy Observatory operates the
 GBT and VLA and is a facility of the National Science Foundation operated under
 cooperative agreement by Associated Universities, Inc.  } that have been 
 described in more detail in \citet{Ginsburg2011a}, with additional data to be
-published in a future work \todo{determine appropriate citation?}.  Arecibo and
+published in a future work.  Arecibo and
 the GBT have FWHM$\approx50$\arcsec beams at the observed frequencies of 4.829
 and 14.488 GHz respectively.  Observations were carried out in a
-position-switched mode with 3 and 5.5\arcmin offsets for the Arecibo and GBT
+position-switched mode with 3 and 5.5\arcmin\ offsets for the Arecibo and GBT
 observations respectively.
 
 The Boston University / Five-College Radio Astronomy Observatory Galactic Ring
-Survey \thirteenco data was also used.  The BU FCRAO GRS \citep{Jackson2006a}
+Survey (GRS) \thirteenco data was also used.  The GRS \citep{Jackson2006a}
 is a survey of the Galactic plane in the \thirteenco\ 1-0 line with $\sim
 46\arcsec$ resolution.  We used reduced data cubes of the $\ell=43$ region.
 
@@ -175,12 +180,12 @@ component (\south), and 194 K at 6 cm and 28 K at 2 cm for the north component
 The \formaldehyde spectra are shown continuum-subtracted, and the \thirteenco
 spectrum is offset by +1 K for clarity.  The GBT \twotwo spectra are multiplied
 by a factor of 9 so the smaller lines can be seen.  The blue arrow marks the 40 \kms
-cloud \GRSMC that we focus on in this paper. \todo{CUT for letter-form}
+cloud \GRSMC that we discuss in this paper. %\todo{CUT for letter-form}
 }{fig:w49fullspec}{1}
 
 We focus on the ``foreground'' line at $\sim40$ \kms, since it is not
-associated with the extremely massive W49 region (which is dominated by gravity
-and stellar feedback rather than turbulence).  The cloud is shown in Figure
+associated with the extremely massive W49 region, which is dominated by gravity
+and stellar feedback rather than turbulence.  The cloud is shown in Figure
 \ref{fig:40kmscloud}.  
 % The cloud, known as GRSMC 43.30-0.33 \citep{Simon2001a},
 % was confirmed to have no associated star formation in that work.  
@@ -196,8 +201,10 @@ absorption at all 6 locations observed in \formaldehyde (Figure
 \ref{fig:40kmscloud}), but \twotwo is only detected in front of the W49 HII
 region because of the higher signal-to-noise at that location.  The detected
 \thirteenco and \formaldehyde lines are fairly narrow, with \formaldehyde FWHM
-ranging from $\Delta v \sim1.3-2.8$ \kms and \thirteenco widths from $\Delta v \sim1.8-5.9$
-\kms.  The \thirteenco lines are 50-100\% wider than the \formaldehyde lines.
+ranging from $\Delta v \sim1.3-2.8$ \kms and \thirteenco widths from $\Delta v
+\sim1.5-4.6$ \kms, where the largest line-widths are from averaging over the
+largest scales in the cloud.  The \thirteenco lines are 50-100\% wider than the
+\formaldehyde lines.
 
 The highest \thirteenco contours are observed as a modest infrared dark cloud
 in Spitzer 8 \um images, but no dust emission peaks are observed at 500 \um
@@ -259,11 +266,11 @@ massive dense clumps are present within this cloud.
 % 
 The cloud has mass in the range $M_{CO} = 1-3\ee{4}$ \msun in a radius $r=15$ pc as measured
 from the integrated \thirteenco map using an optical depth estimate and
-abundance from \citet{Roman-Duval2010a}, so its mean density is $n(\hh) \approx
-10-30$ \percc assuming spherical symmetry.  If we
+abundance from \citet{Roman-Duval2010a}, so its mean density is $\rho(\hh) \approx
+10-30$ \percc assuming spherical symmetry (see Appendix \ref{sec:caveats}).  If we
 instead assume a cubic volume, as is done in simulations, the mean density is lower. 
 \citet{Simon2001a} report a mass $M_{CO} = 6\ee{4} \msun$ and $r=13$ pc,
-yielding a density $n(\hh)=100$ \percc, which is consistent with our estimates.
+yielding a density $\rho(\hh)=100$ \percc, which is consistent with our estimates.
 \citet{Roman-Duval2010a} break the cloud apart into 3 separate objects for their
 analysis, GRSMC 43.04-0.11, GRSMC 43.24-00.31, and GRSMC 43.14-0.36.  All three
 have the same velocity to within 1 \kms, but they show slight discontinuities
@@ -271,7 +278,7 @@ in position-velocity space.  These discontinuities are morphologically consisten
 with gaps seen in turbulent simulations, validating our assessment of the cloud as a
 single object, but as a maximally conservative estimate we use the density of the
 northmost ``clump'' GRSMC 43.04-0.11, which overlaps our target line of sight,
-as an upper limit.  It has density $n\approx120\percc$, but we use $n<200$ \percc
+as an upper limit.  It has density $\rho\approx120~\percc$, but we use $\rho<200$ \percc
 as a slightly more conservative limit to allow for modest uncertainties in
 optical depth, radius, and abundance.
 
@@ -291,24 +298,26 @@ optical depth, radius, and abundance.
 % G43.17+0.01/cloud_figures.py
 \Figure{figures/W49_RGB_40kms_aplpy.png}
 {\textit{The GRSMC 43.30-0.33 cloud.}  The background image shows Herschel SPIRE 70 \um (red),
-Spitzer MIPS 24 \um (green), and Spitzer IRAC 8 \um (blue) in the background with
-the \thirteenco integrated image from $v_{LSR}=36$ \kms to $v_{LSR}=43$ \kms at contour levels of
+Spitzer MIPS 24 \um (green), and Spitzer IRAC 8 \um (blue) with
+the GRS \thirteenco integrated image from $v_{LSR}=36$ \kms to $v_{LSR}=43$ \kms at contour levels of
 1, 2, and 3 K \kms superposed in cyan contours.  The red and black circles
 show the locations of \formaldehyde pointings, and their labels indicate the LSR velocity
 of the strongest line in the spectrum.  The W49 HII region is seen
-behind some of the faintest \thirteenco emission that is readily associated
-with this cloud.  The dark swath in the 8 and 24 \um emission going through the
-peak of the \thirteenco emission in the lower half of the image is a low
-optical depth infrared dark cloud associated with this GMC.}
-{fig:40kmscloud}{0.5}{0}
+behind some of the faintest \thirteenco emission.  The dark swath in the 8 and
+24 \um emission going through the peak of the \thirteenco emission in the lower
+half of the image is a low optical depth infrared dark cloud associated with
+this cloud.  The two pointings examined in this paper and shown in Figures
+\ref{fig:h2codensg43} and \ref{fig:w49fullspec} are labeled by their LSR
+velocities, 7.84 and 16.30, for \north and \south respectively.}
+{fig:40kmscloud}{0.75}{0}
 
 \section{Modeling \formaldehyde}
 In order to infer densities using the \formaldehyde densitometer, we use the
 low-temperature collision rates given by \citet{Troscompt2009a} with RADEX
-\citep{van-der-Tak2007a} to build a grid of predicted line properties covering
-100 densities $n(\hh) = 10-10^8$ \percc, 10 temperatures $T=5-50$ K, 100 column densities
-$N(\ortho) = 10^{11}-10^{16}$ \persc, and 10 ortho-to-para ratios 
-$OPR = 0.001-3.0$.
+using the large velocity gradient (LVG) approximation \citep{van-der-Tak2007a} to build a grid of
+predicted line properties covering 100 densities $\rho(\hh) = 10-10^8$ \percc,
+10 temperatures $T=5-50$ K, 100 column densities $N(\ortho) = 10^{11}-10^{16}$
+\persc, and 10 \hh ortho-to-para ratios $OPR = 0.001-3.0$.
 
 The \formaldehyde densitometer measurements are shown in Figure \ref{fig:h2codensg43}.
 The figures show optical depth spectra, given by the equation
@@ -319,6 +328,14 @@ where $S_\nu$ is the spectrum (with both the line and continuum included) and $\
 the measured continuum, both in Kelvin.  The cosmic microwave background
 temperature is added to the continuum since \formaldehyde can be seen in
 absorption against it, though toward W49 it is negligible.
+
+
+Since the W49 lines of sight are clearly on the outskirts of the foreground
+cloud, not through its center, it is unlikely that these lines of sight
+correspond to a centrally condensed density peak (e.g., a core).  The
+comparable line ratios observed through two different lines of sight separated
+by $\sim 2$ pc supports this claim, since a core would result in a much higher
+\twotwo optical depth.
 
 % G43.17
 % [Param #0     DENSITY0 =      4.36419 +/-       0.0755311   Range:     [1,8],
@@ -367,8 +384,9 @@ degeneracy between low and high densities \citep{Ginsburg2011a}.  }
 % ratios OPR>1.  While these are fairly precise measurements of gas density, we
 % now need to examine exactly what gas we have measured the density of.
 
-We performed fits of the optical depth spectra to each line independently. In
-both objects, we found that the centroids and widths agreed (see Table
+We performed fits of the optical depth spectra to each line independently using an MCMC approach
+\citep{Ginsburg2011c,Patil2010a}. In
+both lines of sight, we found that the centroids and widths agreed (see Table
 \ref{tab:obs}).  The ratio of the line integrals is used for further analysis
 %At this level of precision, the 
 %density measurements are dominated by systematic uncertainties in temperature and
@@ -413,13 +431,6 @@ depth), and the integral is in optical depth times \kms.  The errors represent
 % Our density measurements are about 4$\times$ higher than CO/CI LVG density
 % measurements from \citet{Plume2004a}, though those measurements rely on
 % uncertain abundances and are fairly sensitive to temperature.
-
-Since the W49 lines of sight are clearly on the outskirts of the foreground
-cloud, not through its center, it is unlikely that these lines of sight
-correspond to a centrally condensed density peak (e.g., a core).  The
-comparable line ratios observed through two different lines of sight separated
-by $\sim 2$ pc supports this claim, since a core would result in a much higher
-\twotwo optical depth.
 
 
 % Using
@@ -493,7 +504,7 @@ by $\sim 2$ pc supports this claim, since a core would result in a much higher
 % functions of column density that have recently become popular
 % \citep[e.g][]{Kainulainen2009}.
 
-\section{Turbulence and \formaldehyde}
+\section{Turbulence and the \formaldehyde cm lines}
 Supersonic interstellar turbulence can be characterized by its driving mode,
 Mach number $\mathcal{M}$, and magnetic field strength. 
 We start by assuming the gas density follows a lognormal distribution, defined
@@ -513,8 +524,10 @@ is given by
     \sigma_s^2 = \ln\left(1+b^2 \mathcal{M}^2 \frac{\beta}{\beta+1}\right)
 \end{equation}
 where $\beta= 2 c_s^2/v_A^2 = 2 \mathcal{M}_A^2/\mathcal{M}^2$ and $b$ ranges
-from $b\sim1/3$ (solenoidal, divergence-free forcing) to $b\sim1$ (compressive, curl-free)
-forcing \citep{Federrath2010a}.  
+from $b\sim1/3$ (solenoidal, divergence-free forcing) to $b\sim1$ (compressive,
+curl-free) forcing \citep{Federrath2010a}.  $c_s$ is the isothermal sound
+speed, $v_A$ is the Alfvén speed, and $\mathcal{M}_A$ is the Alfvénic Mach
+number.
 
 
 The observed \formaldehyde line ratio roughly depends on the \emph{mass-weighted}
@@ -530,7 +543,7 @@ mass-weighted density.
 % where we have assumed a lognormal form for $p_m(s)$.  
 %Other forms of the density PDF will be addressed in Section \ref{sec:simpdfs}.
 
-We use large velocity gradient (LVG) models of the \formaldehyde lines, which are computed assuming a
+We use LVG models of the \formaldehyde lines, which are computed assuming a
 fixed local density, as a starting point to model the observations of
 \formaldehyde in turbulence.   Starting with a fixed \emph{volume-averaged}
 density $\rho_0$, we compute the observed \formaldehyde optical depth in both
@@ -555,7 +568,7 @@ within the cloud.}
 
 Figure \ref{fig:lvgsmooth}
 shows the result of this integral for an abundance of \ortho relative to \hh, 
-$X(\ortho)=10^{-8.5}$, where the X-axis shows $\rho_0 = \rho(\hh)$ and the Y-axis
+$X(\ortho)=10^{-8.5}$, where the X-axis shows $\rho_0 \equiv \rho(\hh)$ and the Y-axis
 shows the observable optical depth ratio of the two \formaldehyde centimeter
 lines.
 The LVG model, which assumes a single density
@@ -595,19 +608,25 @@ distribution effectively increases the \twotwo line without decreasing the
 % path: /Volumes/disk5/Users/adam/work/h2co/pilot/figures/models/lognormalsmooth_density_ratio_massweight_logopr0.0_abund-9.png
 % cp ~/work/h2co/pilot/figures/models/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-9.png figures/
 % cp ~/work/h2co/pilot/figures/models/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-9_withG43.png figures/
-\FigureThreePDF
+\FigureFourPDF
     {figures/lognormalsmooth_density_ratio_massweight_withhopkins_logopr0.0_abund-8.5_withG43}
     {figures/lognormalsmooth_density_tau_oneone_massweight_withhopkins_logopr0.0_abund-8.5_withG43}
     {figures/lognormalsmooth_density_tau_twotwo_massweight_withhopkins_logopr0.0_abund-8.5_withG43}
+    {figures/sigma_vs_tauratio_threepanels_abundance-8.5}
 {The predicted \formaldehyde \oneone/\twotwo ratio and optical depths as a function of volume-weighted mean
 density for a fixed abundance relative to \hh $X(\ortho) = 10^{-8.5}$  with \hh
-ortho/para ratio 1.0.  The legend shows the effect of smoothing with different
-mass distributions. % as described in Equation \ref{eqn:sigmas}.  % and \ref{eqn:lognormal}.  
+ortho/para ratio 1.0.  The different lines show the effect of smoothing with different
+mass distributions as identified in the legend. % as described in Equation \ref{eqn:sigmas}.  % and \ref{eqn:lognormal}.  
 The solid line shows the predicted values
 with no smoothing (i.e., a $\delta$-function density distribution).
-The blue point shows the G43.17 measurement.  The horizontal red error bars
+The blue point shows the \north measurement.  The horizontal red error bars
 show the limits on the mean volume density, $\rho_V$, and the vertical blue error
 bars show the 95\% credible interval for the \formaldehyde line measurements.
+The bottom-right figure shows the allowed $\sigma_s$ parameter space for the
+lognormal distribution given the \oneone and \twotwo measurements and their
+ratio; the values are reported in Table \ref{tab:datafits}.  The contours
+indicate the 25 (dark red), 50 (red), 68 (light red), 95 (pink), and 99.7\%
+(blue-grey) credible regions.
 }
 {fig:lvgsmooth}{3.5in}
 
@@ -646,11 +665,24 @@ GRSMC 43.30-0.33 is shown in Figure \ref{fig:lvgsmooth} as a blue point.
 {Parameter & Lognormal & Hopkins}
 {tab:datafits}
 {
-\input{distribution_fit_table}
+$X(\formaldehyde)=10^{-8.5}$ \\
+\hline
+$\sigma_s$&1.7$^{0.2}_{0.2}$& - \\
+$\sigma_s | \mathcal{M}$&1.7$^{0.2}_{0.1}$& - \\
+$b|\mathcal{M}$&$>0.56$& -  \\
+\hline
+$X(\formaldehyde)=10^{-9.0}$ \\
+\hline
+$\sigma_s$&1.5$^{0.1}_{0.1}$&2.7$^{0.5}_{0.5}$ \\
+$T$&-&0.31$^{0.08}_{0.10}$ \\
+$\sigma_s | \mathcal{M}$&1.5$^{0.1}_{0.1}$&2.5$^{0.5}_{0.5}$ \\
+$T|\mathcal{M}$&-&0.29$^{0.08}_{0.08}$ \\
+$b|\mathcal{M}$&$>0.41$&$>0.71$ \\
 }
-{\\ The 95\% credible intervals are reported showing the lower and upper limits
-of the bounded regions.  For the $b$ parameter, only the lower limit is shown.
-$\sigma_s|M$ is the measured width including the measured Mach number range.
+{\\ The error bars represent 95\% credible intervals.  For the $b$ parameter, only
+the lower limit is shown.  The $|\mathcal{M}$ notation indicates that the
+parameter measurement includes the constraints imposed by the Mach number
+measurements.
 }
 
 
@@ -670,16 +702,16 @@ $\sigma_s|M$ is the measured width including the measured Mach number range.
 
 % TAG:MEASURE
 Assuming the thermal dominates the magnetic pressure ($\beta>>1$), we can fit
-$\sigma_s$ from the measurement in Figure \ref{fig:lvgsmooth}.  Using two
+$\sigma_s$ from the model distributions in Figure \ref{fig:lvgsmooth}.  Using two
 different forms for the density distribution, and using only the $\tau$
 measurements as a constraint, we derive the value of $\sigma_s$ in Table
-\ref{tab:datafits}.
+\ref{tab:datafits} and seen in the bottom-right panel of Figure \ref{fig:lvgsmooth}.
 % assuming a lognormal
 % distribution, the best-fit
 % $\sigma_s=2.8$, with a 95\% confidence interval $2.36 < \sigma_s < 3.49$.
 
-It is possible to provide direct constraints on the $b$ value by using information about
-the Mach number from line-of-sight velocity dispersion measurements.  Assuming
+Direct measurements of the Mach number from line-of-sight velocity dispersion
+measurements allow for further constraints on the distribution shape.  Assuming
 a temperature $T=10$ K, consistent with both the \formaldehyde and CO
 observations \citep{Plume2004a}, the sound speed in molecular gas is $c_s=0.19$
 \kms.  The gas is unlikely to be much colder, so using this sound speed will
@@ -688,19 +720,34 @@ G43.17 is 0.95 \kms for \formaldehyde and 1.7 \kms for \thirteenco 1-0,
 % \citep[although warm gas tracers have a larger linewidth, FWHM(H$_2$$^{18}$O)
 % and FWHM(C I) = 3.2
 % \kms;][]{Plume2004a},
-so the 3-D Mach number of the turbulence is
-$$\mathcal{M}_{3D} \equiv 3^{1/2} \mathcal{M}_{1D} \approx \frac{3^{1/3}}{(8\ln 2)^{1/2}} FWHM / c_s $$
-or $\mathcal{M}_{3D} = 3.8 - 6.6 $, ranging from the \formaldehyde to the \thirteenco width.
+so the 3-D Mach number of the turbulence is \citep{Schneider2013a}
+\begin{equation}
+    \label{eqn:mach}
+    \mathcal{M}_{3D} \equiv 3^{1/2} \mathcal{M}_{1D} \approx \frac{3^{1/3}}{(8\ln 2)^{1/2}} FWHM / c_s 
+\end{equation}
+or $\mathcal{M}_{3D} = 3.8 - 6.6 $ , ranging from the \formaldehyde to the \thirteenco width along
+the \north line of sight.  However, we note that the velocity dispersion for the whole cloud is
+larger.
 
-\Figure{figures/mach_vs_b_lognormal_mcmc_contours_abundance-8.5.pdf}
+\FigureTwo{figures/mach_vs_b_lognormal_mcmc_contours_freemach_abundance-8.5.pdf}
+          {figures/mach_vs_b_lognormal_mcmc_contours_withmach_abundance-8.5.pdf}
 {Contours of the MCMC fit to the \formaldehyde optical depths with the cloud
-mean density restricted to $10~\percc < \rho_V < 200~\percc$.  Using the constraints on the Mach
-number based on the \north line of sight, we can infer $b>0.6$.
-\todo{Add Mach vs $\sigma_s$.}\\
-\todo{Add Mach vs $b$ \emph{with} constraints - it makes the situation much more clear}.
-}{fig:lognormalmcmc}{0.5}{0}
+mean density restricted to $10~\percc < \rho_V < 200~\percc$.  The contour
+levels indicate the regions in which 25, 50, 68, 95, and 99.7\% of the MCMC
+samples are included. The left plot shows the parameter space allowed with no
+constraints on the Mach number, indicating the mild degeneracy between Mach and
+$b$.  The right plot shows the parameters derived using the constraints on the
+Mach number based on the \north line of sight, $\mathcal{M}\approx5.1\pm1.5$.  
+The horizontal lines in both plots represent the Mach numbers inferred from the
+\formaldehyde and CO line widths via Equation \ref{eqn:mach}.
+}{fig:lognormalmcmc}{1}%{0}
 
-\todo{Constraints on $b$}
+Using the observed range of Mach numbers along the \north line of sight, we can
+constrain $b$.  Figure \ref{fig:lognormalmcmc} shows the Mach number-$b$
+parameter space allowed by the observed volume density and \formaldehyde lines
+both with and without the Mach number constraint imposed.  If we assume the Mach number
+is approximately halfway between the \formaldehyde and CO based measurements, with
+a dispersion that includes both, we can constrain $b>0.66$ (see Table \ref{tab:datafits}).
 % In principle, we should be able to then measure the compressibility coefficient
 % $b$ using our constraints on $\mathcal{M}$ and Equation \ref{eqn:sigmas}.
 % However, even if we select the low end of the $\sigma_s$ values $\sigma_s=2.2$
@@ -719,12 +766,13 @@ number based on the \north line of sight, we can infer $b>0.6$.
 % line-of-sight axis $0.1\times$ the plane-of-sky axes, $\sigma_s > 1.5$ is
 % required.
 
+\subsubsection{The Hopkins distribution}
 % This PP is OK
 As one possible alternative, we use the
 \citet{Hopkins2013a} density distribution with $T-\sigma_s$ and $T-\mathcal{M}_C$
 relations fitted to measurements from a series of simulations
 \citep{Kowal2007a,Kritsuk2007a,Schmidt2009a,Federrath2010a,Federrath2012a,Konstandin2012a,Molina2012a}.
-We derive a $T$ value from 
+We use a $T$ value from 
 \begin{equation} 
     \label{eqn:Tsigma}
     T(\sigma_s) = 0.25 \ln (1+0.25 \sigma_s^4 \left(1+T(\sigma_s)\right)^{-6})
@@ -737,16 +785,25 @@ parameter which increases with Mach number and is correlated with the strength
 of the deviations from the mean turbulent properties as a function of time.
 Its physical meaning beyond these simple correlations is as yet poorly understood.
 
-Using the \citet{Hopkins2013a} distribution, we find \todo{$\sigma_s=2.4$}, with
-a 95\% credible interval \todo{$2.0 < \sigma_s < 3.5$}.  These values are
-compatible with the observed Mach numbers.  Using the relation 
+Assuming the same abundance as above, $X(\formaldehyde)=10^{-8.5}$, the Hopkins
+distribution is incompatible with our observations for all $T$ values considered
+in \citet{Hopkins2013a}.  Figure \ref{fig:distributions} shows how the Hopkins
+and lognormal distributions differ, showing that the Hopkins distribution tends
+to generate lower mass-weighted densities than the lognormal.  However, the
+Hopkins distribution is compatible with our observations if a lower abundance,
+$X(\formaldehyde)=10^{-9}$, is assumed.
+
+Using the Hopkins distribution with $X(\formaldehyde)=10^{-9}$, we find
+$\sigma_s\sim2.5$ (see Table \ref{tab:datafits}).  This value is compatible
+with the observed Mach numbers.  Using the relation 
 \begin{equation}
     \label{eqn:McMT}
     b \mathcal{M} = \mathcal{M}_c  \approx 20 T
 \end{equation}
-from \citet{Hopkins2013a} Figure 3, we can derive a lower limit \todo{$b>0.64$} at the
-95\% credible level.  However, there is intrinsic uncertainty in the
-coefficient in Equation \ref{eqn:McMT} that we have not accounted for.  
+from \citet{Hopkins2013a} Figure 3, we can derive a lower limit $b>0.7$.
+However, there is additional intrinsic uncertainty in the coefficient in
+Equation \ref{eqn:McMT} that comes from fitting the relation to simulated data,
+and we have not accounted for this uncertainty.
 % ($b>0.49$ at 99.9\% confidence).
 
 
@@ -767,9 +824,12 @@ coefficient in Equation \ref{eqn:McMT} that we have not accounted for.
 % In [77]: hopkins_pdf.T_of_sigma(2.0) * 20
 % Out[77]: 4.403668530622164
 
-The restrictions on $\sigma_s$ using either assumed density distribution are
-strong indications that compressive forcing must be a significant, if not
-dominant, mode in this molecular cloud.  
+\subsection{Discussion}
+The restrictions on $\sigma_s$ and $b$ using either assumed density
+distribution are indications that compressive forcing must be a significant, if
+not dominant, mode in this molecular cloud.  However, there are no obvious
+signs of cloud-cloud collision or interaction with a supernova that might
+directly indicate what is driving the turbulence.
 % Since magnetic fields have the
 % opposite effect of compressive turbulence on the density distribution, magnetic
 % fields cannot explain the observations.
@@ -777,25 +837,43 @@ dominant, mode in this molecular cloud.
 % or dominate thermal pressure in this cloud, $\beta\gtrsim2/3$, the forcing must
 % be predominantly compressive, with $b>1/3$.
 % Crutcher & others seem not to have detected Zeeman splitting in this cloud
-All of the systematic uncertainties tend to require a \emph{greater} $b$
+
+Most of the systematic uncertainties tend to require a \emph{greater} $b$
 value, while we have already inferred a lower-limit
-that is higher than others have observed \citep{Brunt2010c,Kainulainen2013a}.
+that is moderately higher than others have observed \citep{Brunt2010c,Kainulainen2013a}.
 Temperatures in GMCs are typically 10-20 K, and we assumed 10 K: warmer
 temperatures increase the sound speed and therefore decrease the Mach number. If
 the cloud is warmer, the $b$ values again must be higher to account for the measured
 $\sigma_s$.  Magnetic fields similarly have the inverse effect of $b$ on
 $\sigma_s$, with decreasing $\beta$ requiring higher $b$ for the same
 $\sigma_s$.
-Lower abundance shifts all curves in Figure
-\ref{fig:lvgsmooth} up and to the right, again decreasing $\sigma_s$.
 
-\Figure{figures/lognormalsmooth_density_distributions_sigma2.0.png}
+The only systematic that operates in the opposite direction is the abundance of
+\ortho.  Lower abundance shifts all curves in Figure \ref{fig:lvgsmooth} up and
+to the right, which decreases $\sigma_s$ and therefore allows for a lower $b$
+for fixed Mach number.  However, lower abundances than $X=10^{-9}$ are rarely
+observed except in Galactic cirrus clouds \citep{Turner1989a} and highly
+shocked regions like the cirumnuclear disk around Sgr A* \citep{Pauls1996a}, so
+the measurements in Table \ref{tab:datafits} should bracket the allowed values.
+
+\FigureTwo{figures/lognormalsmooth_density_distributions_sigma2.0.pdf}
+{figures/TSigma_Relations.pdf}
 { %\todo{CUT in final version; this is just a demonstration of the different distributions.} 
-Example volume- and mass-weighted density distributions with
-$\sigma_s=2.0$.  The vertical dashed lines show $\rho = 15$ and $\rho=10^4$,
-approximately corresponding to the volume-averaged mean density of \GRSMC
-and the \formaldehyde-derived density.}
-{fig:distributions}{0.5}{0}
+\textit{Left:} Example volume- and mass-weighted density distributions with
+$\sigma_s=2.0$.  The vertical dashed lines show $\rho = 15$ \percc and $\rho=10^4$ \percc,
+approximately corresponding to the volume-weighted mean density of \GRSMC from \thirteenco
+and the \formaldehyde-derived density, respectively.  Note that the peaks of the distributions do not correspond to their
+means, since the mean of the lognormal distribution depends on its variance.
+\textit{Right:} The relationship between the mass-weighted mean density
+$<\rho>_M$ and the width of the volume-weighted density PDF $P(\rho_V)$ for the
+lognormal distribution and different realizations of the \citet{Hopkins2013a}
+distribution with $\rho_0=1$.  We show different forms of the $T-\sigma$
+relation using $T=c \cdot S_{\ln \rho,M}$, which is an approximation of
+Equation \ref{eqn:Tsigma}, and one example of $T=$ constant.  It is clear that, for a
+given distribution width, the Hopkins distribution always puts less mass at the
+highest densities than the lognormal
+distribution.}
+{fig:distributions}{1}%{0}
 
 % For G43.16-0.03:
 % {'std': 0.11326554809612598, 'med': 4.3331511700465288, 'CI': [9368.5009376639355, 21535.312095032383, 11915.556844413139], 'quantiles': {2.5: 4.08517676736491, 97.5: 4.5244074037392616, 75: 4.4038773064784564, 84.134474606854297: 4.4358245264528868, 50: 4.3331511700465288, 15.865525393145708: 4.2122132860734167, 2.2750131948179195: 4.078075142949765, 25: 4.2563141956721111, 97.724986805182084: 4.5273461301744797}, 'mad': 0.10889113037076946, 'mean': 4.3251999406282646, 'logCI': [0.24797440268161886, 4.3331511700465288, 0.19125623369273281]}
@@ -834,16 +912,34 @@ and the \formaldehyde-derived density.}
 \section{Conclusions}
 We demonstrate the use of a novel method of inferring the shape of the density
 probability distribution in a molecular cloud using \formaldehyde densitometry
-in conjunction with \thirteenco-based estimates of total cloud mass.
+in conjunction with \thirteenco-based estimates of total cloud mass.  We have
+measured the width of the lognormal turbulence density distribution $\sigma_s
+\approx 1.6$ and placed a lower limit on the compressiveness parameter $b>0.4$.
+Both measurements are robust to the assumed cloud density, \formaldehyde
+abundance, and other assumptions.
 
 Our data show evidence for compressively driven turbulence in a
-non-star-forming giant molecular cloud.  Such high compression in a fairly
-typical GMC indicates that compressive driving is probably a common feature of
+non-star-forming giant molecular cloud.  Since this cloud represents a typical
+molecular cloud, it is likely that compressive driving is a common feature of
 all molecular clouds.
 
-Our data also indicate that a lognormal distribution is inadequate to describe
-the density PDF.  Instead, an intermittent distribution such as that presented
-in \citet{Hopkins2013a} is an acceptable fit to the data.
+This new method opens the possibility of investigating the drivers of
+turbulence more directly, e.g.\ by measuring the shape of the density PDF both
+within spiral arms and in the inter-arm regions.  The main requirements for
+applying this technique are a moderately accurate measurement of the mean cloud
+density, which can easily be provided by \thirteenco surveys such as the GRS,
+and a high signal-to-noise measurement of the 2 cm and 6 cm \formaldehyde
+lines.  
+
+A precise measurement of the Mach number of the cloud will allow
+\emph{measurements} of $b$ rather than the limits we have presented here.
+Investigations of the predicted observed velocity dispersion and line strengths
+in both \formaldehyde and \thirteenco in simulations of turbulent clouds should
+provide the details needed to take this next step.
+
+% Our data also indicate that a lognormal distribution is inadequate to describe
+% the density PDF.  Instead, an intermittent distribution such as that presented
+% in \citet{Hopkins2013a} is an acceptable fit to the data.
 
 % \FigureTwoAA{figures/federrath_pdfs_volume_mach10.png}{figures/federrath_pdfs_recentered_massweighted_fitted_mach10.png}
 % {PDFs from \citet{Federrath2012a}.  (a) Volume-weighted PDFs for various
@@ -874,32 +970,43 @@ in \citet{Hopkins2013a} is an acceptable fit to the data.
 % Upon further inspection, this approximation actually does a poor job as it
 % fails to reproduce the tails, which are more important than the peak.
 
+\section{Acknowledgements}
+This publication makes use of molecular line data from the Boston
+University-FCRAO Galactic Ring Survey (GRS). The GRS is a joint project of
+Boston University and Five College Radio Astronomy Observatory, funded by the
+National Science Foundation under grants AST-9800334, AST-0098562, \&
+AST-0100793.
+This research made use of Astropy, a community-developed core Python package
+for Astronomy \citep{Astropy2013a}.  It also made use of pyspeckit, an open source
+python-based package for spectroscopic data analysis \citep{Ginsburg2011c}.
+
+
 {\it Facilities:} \facility{GBT}, \facility{Arecibo}, \facility{VLA},
 \facility{FCRAO}, \facility{CSO}
 
 \input{solobib}
 
-\section{Data Fitting: Summary of the Bayesian approach}
-In Section \ref{sec:grsmcturb}, we performed fits to the data using a
-Markov-Chain Monte-Carlo fitting approach written in \texttt{pymc}.  The spectral line
-data were fit using standard approaches implemented in \texttt{pyspeckit}
-(\url{pyspeckit.bitbucket.org}).  The \texttt{pyspeckit} fits yielded an
-estimate of the optical depth ratio $R = \tau_{\oneone}/\tau_{\twotwo}$ with approximately
-Gaussian error bars, so the ratio $R$ was implemented as a normally distributed
-random variable.
-
-The Mach number determinations from the \formaldehyde and CO lines disagree by
-a factor of nearly two, so we treated the Mach number as a normally distributed
-variable with $\mu=5.1$ and $\sigma=1.4$ such that an intermediate value
-between the CO ($\mathcal{M}_{3d} = 6.6$) and \formaldehyde ($\mathcal{M}_{3d}
-= 3.7$) measurement is weakly favored, but both measured values are allowed.
-The uncertainty in the Mach number also reflects the general difficulty in determining
-a Mach number from spectral line data, as noted in \citet{Schneider2013a}.
-
-In the interest of reproducibility, the code for these models is publicly
-released at \url{https://bitbucket.org/keflavich/h2co-turbulence/overview}.
-\todo{The repository is currently private but if you would like access to the
-source code just send me your e-mail address and I'll open it to you}.
+% \section{Data Fitting: Summary of the Bayesian approach}
+% In Section \ref{sec:grsmcturb}, we performed fits to the data using a
+% Markov-Chain Monte-Carlo fitting approach written in \texttt{pymc}.  The spectral line
+% data were fit using standard approaches implemented in \texttt{pyspeckit}
+% (\url{pyspeckit.bitbucket.org}).  The \texttt{pyspeckit} fits yielded an
+% estimate of the optical depth ratio $R = \tau_{\oneone}/\tau_{\twotwo}$ with approximately
+% Gaussian error bars, so the ratio $R$ was implemented as a normally distributed
+% random variable.
+% 
+% The Mach number determinations from the \formaldehyde and CO lines disagree by
+% a factor of nearly two, so we treated the Mach number as a normally distributed
+% variable with $\mu=5.1$ and $\sigma=1.4$ such that an intermediate value
+% between the CO ($\mathcal{M}_{3d} = 6.6$) and \formaldehyde ($\mathcal{M}_{3d}
+% = 3.7$) measurement is weakly favored, but both measured values are allowed.
+% The uncertainty in the Mach number also reflects the general difficulty in determining
+% a Mach number from spectral line data, as noted in \citet{Schneider2013a}.
+% 
+% In the interest of reproducibility, the code for these models is publicly
+% released at \url{https://bitbucket.org/keflavich/h2co-turbulence/overview}.
+% \todo{The repository is currently private but if you would like access to the
+% source code just send me your e-mail address and I'll open it to you}.
 
 % \section{Abundance}
 % \todo{This is a summary of work in progress; it is not intended to be kept in
@@ -924,9 +1031,11 @@ source code just send me your e-mail address and I'll open it to you}.
 % and left in Figure \ref{fig:lvgsmooth},  implying that lower $\sigma_s$ values
 % are possible, so perhaps it will be possible to accommodate lognormal.
 
+\appendix
 \section{Assumptions, caveats, and uncertainties}
-There remain uncertainties that we have not explicitly explored in this paper,
-which we describe and estimate here.
+\label{sec:caveats}
+We explore the various caveats and assumptions that have been treated above in
+more detail here.
 
 The precise density measurements presented here are based off of large velocity
 gradient approximations \citep{Sobolev1957a} for the escape probability of line
@@ -944,32 +1053,42 @@ collision rate uncertainty down from $\sim50\%$ in the He-based approximation
 to $\sim10\%$ using full models of ortho and para \hh.  \citet{Zeiger2010a}
 reported the results of using modified collision rates and noted that the
 errors in the \hh density were, in the worst case, $<0.3$ dex.  With the
-improved \citet{Troscompt2009a} collision rates, the uncertainties can no
-longer be dominated by collision rate uncertainties.
+improved \citet{Troscompt2009a} collision rates, the model uncertainties are no
+longer dominated by collision rate uncertainties.
 
-Abundance remains a serious concern, as most studies of \formaldehyde abundance
+Abundance remains a serious concern, as most studies of \ortho abundance
 do not observe multiple transitions and therefore do not constrain the relative
-level populations.  Few systematic studies have been undertaken
-\citep[e.g.][]{Liszt2006a}.  There are also general difficulties in measuring absolute
-abundance of molecules, as the absolute column of \hh is rarely known to any
-precision.  Most abundance measurements tend to be below $X_{\formaldehyde}<10^{-9}$
-\citep{Pauls1996a,Dickens1999a,Turner1989a,Turner1993a}, which validates our
-measurements, but deeper studies of abundance are warranted, particularly
-studies of how \formaldehyde varies relative to CO in clouds.
+level populations.  There
+are also general difficulties in measuring absolute abundance of molecules, as
+the absolute column of \hh is rarely known with high accuracy.  Most abundance
+measurements are above $X_{\ortho}>10^{-9}$
+\citep{Dickens1999a,Liszt2006a}, 
+except near Sgr A* \citep{Pauls1996a} and in Galactic cirrus clouds
+\citep{Turner1989a,Turner1993a} where it is generally observed to have
+$10^{-10}<X_{\ortho}<10^{-9}$.  These measurements dictated the abundance
+boundaries we used in our analysis.
+%which validates our
+%measurements, but deeper studies of abundance are warranted, particularly
+%studies of how \formaldehyde varies relative to CO in clouds.
+% Liszt: -8.4
+% Pauls: 5x10^-10 = -9.3
+% Dickens: 1.7-6x10^-9 = -8.7 to -8.2
+% Turner1989: < -9.22
 
 The ortho-to-para ratio of \hh is a significant uncertainty in the models,
 since para-\hh is more effective at ``refrigerating'' the \formaldehyde
 molecules.  Values of the ortho-to-para ratio $>1$ favor lower densities by
-$\sim0.3$ dex in our analysis, but we have used these lower densities in our
+$\sim0.3$ dex, but we have used these lower densities in our
 analysis, and therefore our results are conservative.  However, if the
-ortho-to-para ratio is in reality close to zero, the density PDF must be wider.
+ortho-to-para ratio is in reality close to zero, the density PDF must be wider
+and $b$ correspondingly higher.
 
 The ``covering factor'' of foreground clouds in front of background
 illumination sources is, in general, a major concern when performing absorption
 measurements.  For the clouds presented in this work, the absorbing region
-should be much larger than the background, as evidenced by the two
-lines-of-sight with similar optical depth ratios.  However, for more detailed
-studies of density variations, EVLA observations can and should be employed.
+is much larger than the background, as evidenced by the two lines-of-sight with
+similar optical depth ratios.  However, for more detailed studies of density
+variations, EVLA observations can and should be employed.
 
 The single largest uncertainty is related to the mean properties of the GMC.
 While we have accounted for these uncertainties by adopting a very conservative
@@ -977,7 +1096,7 @@ range of values for the mean density (covering two orders of magnitude), it is
 not entirely clear how the mean density of the cloud should be computed for
 comparison to simulations and the analytic distributions.  Since this is a
 foreground cloud lying in front of a rich portion of the galactic plane, the
-best mass estimates are very likely to come from molecular line observations,
+best mass estimates will always come from molecular line observations,
 and therefore they are unlikely to be improved unless new wide-field CO
 observations are taken, e.g. with CCAT.  
 

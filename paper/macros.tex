@@ -242,6 +242,17 @@
 \end{figure*}
 }
 
+\def\FigureFourPDF#1#2#3#4#5#6#7{
+\begin{figure*}[htp]
+\subfigure[]{ \includegraphics[width=#7,type=pdf,ext=.pdf,read=.pdf]{#1} }
+\subfigure[]{ \includegraphics[width=#7,type=pdf,ext=.pdf,read=.pdf]{#2} }
+\subfigure[]{ \includegraphics[width=#7,type=pdf,ext=.pdf,read=.pdf]{#3} }
+\subfigure[]{ \includegraphics[width=#7,type=pdf,ext=.pdf,read=.pdf]{#4} }
+\caption{#5}
+\label{#6}
+\end{figure*}
+}
+
 \def\Table#1#2#3#4#5#6{
 %\renewcommand{\thefootnote}{\alph{footnote}}
 \begin{deluxetable}{#1}

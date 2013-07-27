@@ -1,12 +1,16 @@
 import pymc
 import numpy as np
 import pylab as pl
-from measure_tau import mcmc_sampler_dict,tauoneone_hopkins,tautwotwo_hopkins,savepath,domillion,dothousand,abundance,savefig,trace_data_path
+from measure_tau import mcmc_sampler_dict,tauoneone_hopkins,tautwotwo_hopkins,savepath,domillion,dothousand,savefig,trace_data_path
 from mcmc_tools import docontours_multi,save_traces
 from agpy import pymc_plotting
 import pymc_tools
 import hopkins_pdf
 
+if 'abundance' not in locals():
+    from measure_tau import abundance
+
+print "Beginning Hopkins parameter estimation using abundance=",abundance
 
 # Hopkins - NO Mach number restrictions
 d = mcmc_sampler_dict(tauoneone=tauoneone_hopkins,tautwotwo=tautwotwo_hopkins)
@@ -24,8 +28,8 @@ d['Tval'] = pymc.Deterministic(name='Tval', eval=Tval, parents={'sigma':d['sigma
 d['b'] = pymc.Uniform('b',0.3,1.0)
 def mach(Tval, b):
     return 20*Tval / b
-d['mach_mu'] = pymc.Deterministic(name='mach_mu', eval=mach, parents={'Tval':d['Tval'], 'b': d['b']}, doc='Mach Number')
-d['mach'] = pymc.Normal(name='MachNumber',mu=d['mach_mu'], tau=0.5, value=5.1, observed=True)
+d['mach'] = pymc.Deterministic(name='mach', eval=mach, parents={'Tval':d['Tval'], 'b': d['b']}, doc='Mach Number')
+d['mach_observed'] = pymc.Normal(name='MachNumber',mu=d['mach'], tau=1./1.5**2, value=5.1, observed=True)
 
 mc_hopkins = pymc.MCMC(d)
 
@@ -90,10 +94,13 @@ docontours_all(mc_hopkins_freemach,mc_hopkins,mc_hopkins_simple)
 if domillion:
     print "\nsimple hopkins sampling 1 million"
     mc_hopkins_simple.sample(1e6)
+    save_traces(mc_hopkins_simple, trace_data_path+"mc_hopkins_simple_traces%s.fits" % abundance, clobber=True)
     print "\nhopkins sampling 1 million"
     mc_hopkins.sample(1e6)
+    save_traces(mc_hopkins, trace_data_path+"mc_hopkins_withmach_traces_abundance%s.fits" % abundance, clobber=True)
     print "\nhopkins freemach sampling 1 million"
     mc_hopkins_freemach.sample(1e6)
+    save_traces(mc_hopkins_freemach, trace_data_path+"mc_hopkins_freemach_traces%s.fits" %abundance, clobber=True)
 
     docontours_all(mc_hopkins_freemach,mc_hopkins,mc_hopkins_simple)
 
@@ -126,9 +133,6 @@ hopkins_simple_statstable.write(trace_data_path+'hopkins_simple_statstable_abund
 hopkins_freemach_statstable = pymc_tools.stats_table(mc_hopkins_freemach)
 hopkins_freemach_statstable.write(trace_data_path+'hopkins_freemach_statstable_abundance%s.fits' % abundance, overwrite=True)
 
-save_traces(mc_hopkins, trace_data_path+"mc_hopkins_traces_abundance%s.fits" % abundance, clobber=True)
-save_traces(mc_hopkins_simple, trace_data_path+"mc_hopkins_simple_traces%s.fits" % abundance, clobber=True)
-save_traces(mc_hopkins_freemach, trace_data_path+"mc_hopkins_freemach_traces%s.fits" %abundance, clobber=True)
 
 pl.figure(32)
 pl.clf()

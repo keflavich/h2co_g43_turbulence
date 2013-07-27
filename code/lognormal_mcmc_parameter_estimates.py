@@ -6,6 +6,8 @@ from mcmc_tools import docontours_multi,save_traces
 from agpy import pymc_plotting
 import pymc_tools
 
+print "Beginning Lognormal parameter estimation using abundance=",abundance
+
 mc_simple = pymc.MCMC(mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo))
 
 graph_lognormal_simple = pymc.graph.graph(mc_simple)
@@ -19,7 +21,7 @@ def mach(sigma=d['sigma'], b=d['b']):
     return np.sqrt((np.exp(sigma**2) - 1)/b**2)
 
 d['mach'] = mach
-d['mach_observed'] = pymc.Normal(name='mach_observed', mu=mach, tau=1./0.2**2, value=5.1, observed=True)
+d['mach_observed'] = pymc.Normal(name='mach_observed', mu=mach, tau=1./1.5**2, value=5.1, observed=True)
 
 mc_lognormal = pymc.MCMC(d)
 
@@ -94,10 +96,13 @@ docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach)
 if domillion:
     print "\nSimple sampling 1 million"
     mc_simple.sample(1e6)
+    mc_lognormal_simple_traces = save_traces(mc_simple, trace_data_path+"mc_lognormal_simple_traces%s.fits" % abundance, clobber=True)
     print "\nlognormal sampling 1 million"
     mc_lognormal.sample(1e6)
+    mc_lognormal_traces = save_traces(mc_lognormal, trace_data_path+"mc_lognormal_withmach_traces%s.fits" % abundance, clobber=True)
     print "\nlognormal (freemach) sampling 1 million"
     mc_lognormal_freemach.sample(1e6)
+    mc_lognormal_freemach_traces = save_traces(mc_lognormal_freemach, trace_data_path+"mc_lognormal_freemach_traces%s.fits" % abundance, clobber=True)
 
     docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach)
 
@@ -108,9 +113,6 @@ lognormal_simple_statstable.write(trace_data_path+'lognormal_simple_statstable_a
 lognormal_freemach_statstable = pymc_tools.stats_table(mc_lognormal_freemach)
 lognormal_freemach_statstable.write(trace_data_path+'lognormal_freemach_statstable_abundance%s.fits' % abundance, overwrite=True)
 
-mc_lognormal_traces = save_traces(mc_lognormal, trace_data_path+"mc_lognormal_traces%s.fits" % abundance, clobber=True)
-mc_lognormal_simple_traces = save_traces(mc_simple, trace_data_path+"mc_lognormal_simple_traces%s.fits" % abundance, clobber=True)
-mc_lognormal_freemach_traces = save_traces(mc_lognormal_freemach, trace_data_path+"mc_lognormal_freemach_traces%s.fits" % abundance, clobber=True)
 
 pl.figure(33)
 pl.clf()
