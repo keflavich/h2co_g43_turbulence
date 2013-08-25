@@ -1,0 +1,343 @@
+> The main issue for me is why omit the second sightline in the analysis --- this
+> is an important check on the method and results.  Even if the second sightline
+> is not as constraining, it can at least be a confirming sanity check.  If you
+> want to omit it, a few words describing the reason would be helpful to the
+> reader.
+> 
+> Best, 
+> 
+>   Jeremy
+> 
+> 
+> Abstract:
+> - how about "In order to understand the details of star formation, it is therefore..."
+
+√
+
+> - define "s" in \sigma_s (also "s" in P_V(s) in Sec 1 --- you could omit this
+> variable in the intro without loss of clarity)
+
+√
+
+> Sec 1:
+> - "extremes of the density distributions" --- does this mean extreme ends of
+> the distributions or extreme distributions?
+
+ends.  Fixed.
+
+> - how about at the end of p3:  "...not yet dominated by gravitational
+> collapse (the subject of this study)."  Or something along these lines to
+> provide stress and a hook.
+
+Added a parenthetical:
+"It is therefore crucial that studies of turbulence focus on clouds that are
+not yet dominated by gravitational collapse (such as the cloud selected for
+this study) in order to study the initial conditions of star formation.  "
+
+> - define b when first used
+
+Defined as "a parameter describing the coupling between the density contralst
+and the Mach number"
+
+> - "lowest rotational transitions" is vague --- they're not lowest energy in terms of photons.  Maybe lowest excitation?
+
+rotational -> excitation
+
+> - Is this still a Letter?  
+
+Nope!
+
+> - Same par:  how about "...the high H2CO-_derived_ densities must be...and _to_ infer..."
+√
+
+> - Same par, start:  how about "H2CO densitometer revealed H2 densities..."
+√
+
+> - why re you using rho and not n for number density?
+For consistency with theory papers
+> - nix "A brief note on notation"
+√
+
+
+> Sec 2:
+> - at least a few more words about the observing/data parameters would be
+> helpful here (spectral line, channel width, single pointing (?), how
+> selected, calibration uncertainties, etc).
+
+Added some text: Observations were carried out in a single pointing
+position-switched mode with 3 and 5.5\arcmin\ offsets for the Arecibo and GBT
+observations respectively; no absorption was found in the off position of the
+observations described here.  The data were taken at 0.25 \kms resolution with
+150 second on-source integrations for both lines.  The continuum calibration
+uncertainty is $\sim 10\%$.
+
+
+> Sec 2.1:
+> - p2:  "they are all at the velocity of W49" --- "they" are are H2CO lines or
+> sources?  If H2CO is ubiquitous, why is it not seen along these sightlines
+> that are within the 13CO contours?  This seems to be contradicted in the next
+> paragraph where you say that H2CO is detected in 6 locations.  I think you're
+> saying that the continuum sources are behind the cloud b/c they show H2CO
+> lines at the velocity of W49?
+
+This was fairly confusing.  Formaldehyde is detected, but the 2-2 line is
+always at 60 km/s or 6 km/s.  I've rephrased.
+
+> - p3:  is the differing width of lines relevant to your interpretation of the
+> turbulence and selectivity of H2CO?
+
+Yes.  It is addressed in the discussion of turbulence.
+
+> - p4:  you need a cloud that is not yet star forming but _will_ form stars if
+> it's relevant to understanding the IMF, etc.  Can you support the
+> star-forming future of this cloud?
+
+That logical jump is not possible to make for this cloud; we rely on the
+assumption that the turbulence in this cloud and in star-forming clouds is the
+same.  
+
+> - p5:  why do you need to estimate a density limit based on CO?  Not clear to the reader at this point.
+
+Added lead-in:
+"The cloud's density is the key parameter we aim to measure, so we first
+determine the cloud-averaged properties based on \thirteenco 1-0.  "
+
+> Sec 3:
+> - p3:  Ok.  Why not use both lines of sight in the analysis later in the paper?
+
+Added:
+From this point on, we discuss only the \north line of sight, since it is
+well-fit by a single component and has high signal-to-noise.  Since both lines
+of sight sample the same CO cloud, all of the measurements below are most
+strongly constrained by the \north line of sight and the \south line of sight
+provides no additional information.
+
+
+> - define MCMC
+√
+
+> - The last  sentence is incomplete --- how much did I miss here?
+
+This sentence should have been excised in its entirety; you didn't miss
+anything.  Thanks for catching it, though.
+
+> Fig 2:  
+> - Is the H2CO beam size smaller than the circles?
+
+It is the size of the circle.  Added a note.
+
+> - Add reference for 13CO data
+√
+
+> - How about adding to the last sentence "with 2 pc separation."
+
+Added:
+" They are separated by
+about 1 pc at the distance to the 40 \kms cloud."
+
+> Fig 3:
+> - Which "temperature"?  
+
+I'm not sure I understand this point; put "gas temperature"
+
+> Sec 4:
+>
+> - What is rho_o?  Some kind of average density (and averaged by mass, volume, ...?)?
+>> CHRISTOPH: It should be the volume-weighted volumetric (not column) mean density.
+
+This is now explicitly defined & stated.
+
+> - the subscript "s" on c_s is different from the subscript on sigma_s, and has nothing to do with the density contrast.
+>> CHRISTOPH: Subscript s here for "sound". I don't think this should lead to confusion, if we write that c_s is the sound speed.
+
+In both definitions of Eqn 3, I explicitly state that the $s$ in $c_s$ is for "sound".
+
+> - Is b exactly 1/3 or 1 for the two pure modes or is it only roughly 1/3 or 1?  What are typical values for sigma_s?
+>> CHRISTOPH:
+>> I came up with this in Federrath et al. (2008;
+>> http://adsabs.harvard.edu/abs/2008ApJ...688L..79F), so I'm to be blamed. It
+>> is originally a measurement and thus not exact. But we motivate the
+>> simulation measurements of b~1/3 (with solenoidal driving) and b~1 (with
+>> compressive driving) with a simple theoretical model that yields b=1/3 and
+>> b=1, simply based on the number of degrees of freedom for compression. For
+>> solenoidal driving, only 1 of the 3 available spatial directions (x,y,z) is
+>> directly compressed (a longitudinal wave) and thus b=1/3. For compressive
+>> driving, the driving compresses gas in all three spatial directions, which
+>> gives b=3/3=1. This is a bit hand-wavy, I know. We then came up with a more
+>> sophisticated model in Federrath et al. (2010,
+>> http://adsabs.harvard.edu/abs/2010A%26A...512A..81F), which also describes
+>> all the mixtures in between the extreme, limiting cases of b=1/3 (purely
+>> sol.) and b=1 (purely comp.) quite well. It is shown in Figure 8 in that
+>> paper and shows that b varies smoothly from b=1/3 to 1 for increasing levels
+>> of compressibility. I think we should simply define here b=1/3 (solenoidal,
+>> divergence-free) driving and b=1 (compressive, rotation-free driving).
+
+A paragraph borrowing from Christoph's explanation has been added to the intro.
+
+I don't think typical values for sigma_s are particularly well-known; in
+Perseus they may have been measured to be ~0.5 once.
+
+
+> - P_V seems to be unitless, but P_M is unit-full?  
+>> CHRISTOPH: No. Actually P_V(rho) = 1/V_tot * d(V) / d(rho) has units of
+>> 1/rho such that the integral \int P_V(rho) d(rho) gives a probability
+>> (unit-less).  The same must hold for P_M(rho) = 1/M_tot * d(M) / d(rho) also
+>> has units of 1/rho.
+
+Hmm, actually, I would say P_V *is* unitless: P_V is a probability, after all.
+The integral is not d(rho), but d(rho/rho_0), such that the integral is over a
+unitless parameter.
+
+> Are you sure about P_M = rho P_V?  Also, rho is still actually n?
+>> CHRISTOPH: 
+>> ...and thus P_M(rho) is *not* equal to rho P_V(rho), but only proportional.
+>> The exact relation is (using the definitions above):
+>> 
+>> P_M(rho) = 1/M_tot * d(M) / d(rho) = 1/M_tot * d(M) / d(V) * d(V) / d(rho) =
+>> 1/M_tot * rho * d(V) / d(rho) = 1/M_tot * rho * p_V(rho) * V_tot = V_tot /
+>> M_tot * rho * p_V(rho) = rho / rho_0 * p_V(rho)
+>> 
+>> ..., because dM / dV = rho and the mean density rho_0 = V_tot / M_tot for a
+>> region with total volume V_tot and total mass M_tot, for which the PDFs are
+>> to be computed.
+>> 
+>> So, P_M(rho) = rho / rho_0 * p_V(rho) have the same units (1/rho), as they
+>> should.
+
+This is an important point; when I define P_M I now appropriately divide rho/rho_0
+
+> - Eqn 5 may be missing a factor of ln(rho_o)?
+>> CHRISTOPH: 
+>> Yes, I thought so too, but needs to be worked through actually in detail
+>> with the definitions above. Note also that P_V(s) is actually unit-less
+>> (because s=ln(rho/rho_0) is unit-less), again because \int p_V(s) ds = 1 is
+>> a probability (unit-less). As a general guide, if properly normalized, a PDF
+>> of a variable Q always has units of 1/Q, because \int P(Q) dQ must be
+>> unit-less (a probability).
+>> 
+>> I should say that I also had to get my head around this again when I wrote
+>> this email. It's not as simple as it may seem first.
+
+As Christoph says, it's not trivial.  I may add another appendix with these
+calculations.
+
+> - I'm not sure that you are "averaging over the mass-weighted density
+> distribution" --- or maybe you are if P_M is properly normalized (not sure it
+> is).
+
+I think that's what this is: a weighted average over a given distribution
+
+weighted_x = int( x p(x) dx )
+
+> - What do you mean by "'smoothed' versions of the model?  Do you mean mass-weighted tau's?
+
+Yes, rephrased.
+
+> - last par:  "...line requires a higher density..."  than the 1-1 line.  This
+> is a nice point, but somewhat unclear in how it is written/presented.
+
+I have separated this into its own PP and rephrased.
+
+> Sec 4.1:
+> - p1:  How about "The observed _line_ ratio for ..."  
+√
+
+> - p1:  What about 43.16-0.03 sightline?
+Now discussed earlier
+
+> - How can one interpret the sigma_s value obtained from Fig 4?
+
+I don't think I understand this question; are you asking what the meaning of
+sigma_s is or what conclusions should be drawn from this particular measurement
+of sigma_s?
+
+> - How exactly did you impose the constraint on M in your second M-b plot?
+
+This was in an earlier draft and removed, so it's good that you picked up on it.
+The number is halfway between the naive 1D Mach numbers inferred from 13co and H2CO;
+this has been noted.
+
+> Tab 1:
+> - The "Ratio" entry is...?  Maybe put this value in the middle of the two columns?
+
+Ratio 1-1/2-2; good idea
+
+> Tab 2:
+> -  Why not include M in your table?  If not, how about listing constraints on M in the table notes?
+
+Added to the caption.
+
+> Fig 4:  
+> - I can't see the sigma = 0.5 loci in these plots.
+
+They overlap with each other; I'll need to find a better way to represent them.
+
+> - Top Right:  Optical depth is ~1 above about 10^2 per cc?!  Does this seem high?  
+
+Hmm... I see tau ~1 (10^0) at ~10^4 per CC; did I misplot something?
+
+> - I'm not sure that "smoothing" is a good word here.  You're assuming various
+> density distributions and adding the contribution of each density to the
+> total optical depth.
+
+Fair enough; changed to "averaging over..."
+
+> - A very clear explanation of the _measurement_ method for the x-axis value
+> would be helpful.  The reader needs to know that the x-axis value for the
+> point is not H2CO-related in any way and does not represent the mass-weighted
+> density that would be obtained from the observed line ratio.  Likewise, make
+> clear that the solid line is the H2CO-derived density from the measured line
+> ratio and that the two densities do not agree thanks to the volume weighting
+> done with CO.  Also include more on this in the text.  Does this make sense?
+
+1. Added "13CO-derived volume-weighted density" to the caption
+2. added text explicitly stating how the x/y positions are derived at the end of 4.1pp1.
+
+> Sec 4.1.1:
+> - p2: how about listing the range of T values that are incompatible?
+
+Rephrased.
+
+> - What if X = 10^-9.5?  Does this radically alter sigma_s?  How sensitive is your result to the abundance assumption?
+
+Not radically, since Table 2 shows that sigma_s is about the same for 0.5 dex
+change for the lognormal distribution.  However, I really ought to free
+abundance as a parameter...  chalk that up as Future Work.
+
+> - What is M_c?
+
+Compressive Mach number.  This is now described.
+
+> - The inferred sigma_s and b seem poorly motivated.  It would be nice to see something like Fig 4d for Hopkins.
+
+This is something I could probably do, but I'm going to put it off til I hear
+similar from the referee.  You're right, though, a parameter space plot would
+be more convincing.
+
+> Sec 4.2:
+> - This would be a good place to reference the Appendix.
+
+Good idea, done.
+
+> Fig 6:  
+> - sigma=2.0 shows a Hopkins P_M that is incompatible with the H2CO density.
+> I understand why, but it will be confusing to the reader --- why not show the
+> best fit value?
+
+It's a little more complicated than that - the "formaldehyde-derived density"
+will never correspond to a peak in the PDF, so it will never look like a good
+fit.
+
+> - Should P(rho_V) be P_V(rho)?
+
+yes
+
+> Acknowledgements:  
+> - Please add "JD acknowledges the support of the NSF through the grant AST-0707713."
+> 
+> Appendix:
+> - penultimate par:  this is why you should use the second line of sight if possible.
+
+I think we discussed this - since we rely on having the same volume-averaged
+density measurement for both lines of sight (same cloud), using both doesn't
+help.
