@@ -1,0 +1,62 @@
+\input{preface}
+\begin{document}
+
+\textbf{Math related to Optical Depth computation}
+
+$\tau_{LVG}(\rho)$ is computed from the LVG computations.  It is the optical
+depth for a given column $N_p$ of \formaldehyde molecules assuming a velocity
+difference along the line of sight of 1 km/s per pc.
+The optical depth per particle is therefore the LVG $\tau$ divided by the column
+density.
+\begin{equation}
+    \tau_p(\rho) = (\tau_{LVG}(\rho)/N_{LVG})_p
+\end{equation}
+
+Holding the volume fixed and increasing in density either implies a
+corresponding increase in column density or in abundance.
+
+Assuming we can compute this optical depth per particle in hand as variable
+$\tau_p(\rho)$, we can then compute the average optical depth per particle for
+the full density distribution.
+The probability distribution $P(\rho)$ is the probability of finding a given
+particle at a given density, i.e. it is the \emph{mass-weighted} distribution $P_M$.
+
+\begin{equation}
+    \label{eqn:tau1}
+    \tau_p(\larrow\rho\rarrow_V) \equiv \tau_p(\rho_0) = \int_0^\infty \tau_p(\rho) P_M(\rho) d\rho
+\end{equation}
+
+However, we are dealing with a lognormal distribution $P_M(s)$, so it is
+convenient to recast Equation \ref{eqn:tau1} in terms of $\ln(\rho)$.
+Below are three equivalent ways of writing this equation, though the first
+mixes variables ($s$ depends on $\rho$: $s\equiv \ln(\rho/\rho_0)$, or $\rho = \rho_0 e^s$).
+
+\begin{eqnarray}
+    \label{eqn:tau2}
+    \tau_p(\rho_0) & = & \int_{-\infty}^\infty \tau_p(\rho) P_M(s) d s \\
+                 & = & \int_{-\infty}^\infty \tau_p(\rho) P_M(\ln (\rho/\rho_0)) d\ln (\rho/\rho_0) \\
+                 & = & \int_{-\infty}^\infty \tau_p(\rho_0 e^s) P_M(s) d s 
+\end{eqnarray}
+
+The quantity we actually want to model, though, is the total optical depth observed,
+\begin{equation}
+    \label{eqn:totaltau1}
+    \tau_\nu(\rho,N) = N \tau_p(\rho)
+\end{equation}
+
+As long as we operate in the optically thin regime, such that $\tau_p$ is independent of $N$,
+we can use the average density on both sides of Equation \ref{eqn:totaltau1}.
+
+\begin{equation}
+    \label{eqn:totaltau2}
+    \tau_\nu(\rho_0,N) = N \tau_p(\rho_0)
+\end{equation}
+
+Putting this all together, the observed optical depth $\tau_\nu(\rho_0)$ is given by
+
+\begin{eqnarray}
+    \tau_\nu(\rho_0) & = & N \int_{-\infty}^\infty \tau_p(\rho_0 e^s) P_M(s) d s \\
+    \tau_\nu(\rho_0) & = & X \rho_0 \int_{-\infty}^\infty \tau_p(\rho_0 e^s) P_M(s) d s 
+\end{eqnarray}
+
+\end{document}
