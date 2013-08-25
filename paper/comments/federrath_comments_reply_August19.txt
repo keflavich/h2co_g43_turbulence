@@ -1,8 +1,10 @@
+Christoph:
 I incorporated most of your comments directly.
 
 On standard deviation vs line width: I replaced "width" with std. dev when
 describing distributions, but kept width when it actually referred to the width
-of a spectral line.
+of a spectral line.  However, I'm not certain I've caught all, or even most,
+cases.
 
 On upper vs lower limits: Thanks for catching my errors.
 
@@ -10,6 +12,6 @@ Regarding parentheses around eqn #'s: I'll leave that up to the Editor
 
 Re: Figure 6 - added discussion involving this figure.  It is relatively
 low-impact, so Figure 6b could be removed without much loss, but I think figure
-6a is very illustrative.
+6a at least is very illustrative.
 
 b>0.4 or b>0.6?  b>0.4 is the more conservative limit that accounts for both abundance assumptions.

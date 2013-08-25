@@ -1,3 +1,4 @@
+Jeremy:
 > The main issue for me is why omit the second sightline in the analysis --- this
 > is an important check on the method and results.  Even if the second sightline
 > is not as constraining, it can at least be a confirming sanity check.  If you
