@@ -14,7 +14,7 @@ for abundance in [-9,-8.5,-8.25,-8.0]:
     pl.figure(30)
     pl.clf()
     ax = pl.gca()
-    ax.plot(dens,tau1x/tau2x,'k',linewidth=3.0,label=r'Dirac $\delta$',alpha=0.75)
+    ax.plot(dens,tau1x/tau2x,'k',linewidth=4.0,label=r'Dirac $\delta$',alpha=0.75)
 
     logmeandens = np.linspace(-2,7,300)
     meandens = 10**logmeandens
@@ -27,11 +27,11 @@ for abundance in [-9,-8.5,-8.25,-8.0]:
 
     dashcycle = itertools.cycle(((None,None),(6,2),(10,4),(2,2),(5,5)))
     for sigma in np.arange(0.5,4.0,1):
-        ax.plot(logmeandens,tauratio_hopkins(meandens,sigma=sigma),color='orange', label='$\\sigma_s=%0.1f$ Hopkins' % sigma, linewidth=2, alpha=0.5, dashes=dashcycle.next())
+        ax.plot(logmeandens,tauratio_hopkins(meandens,sigma=sigma),color='orange', label='$\\sigma_s=%0.1f$ Hopkins' % sigma, linewidth=3, alpha=0.8, dashes=dashcycle.next())
 
     ax.legend(loc='best',prop={'size':18})
     ax.axis([-1,7,0,15])
-    ax.set_xlabel('$\\log_{10}$($\\rho($H$_2)$ [cm$^{-3}$])',fontsize=24)
+    ax.set_xlabel('$\\log_{10}\\left(\\langle\\rho\\rangle_V(\\mathrm{H}_2) [\\mathrm{cm}^{-3}]\\right)$',fontsize=24)
     ax.set_ylabel('$\\tau_{1-1}/\\tau_{2-2}$',fontsize=24)
     savefig(savepath+'lognormalsmooth_density_ratio_massweight_withhopkins_logopr%0.1f_abund%s.png' % (np.log10(opr),str(abundance)),bbox_inches='tight')
 
@@ -55,7 +55,7 @@ for abundance in [-9,-8.5,-8.25,-8.0]:
         pl.figure(31+ii)
         pl.clf()
         ax = pl.gca()
-        ax.semilogy(dens,taux,'k',linewidth=3.0,label=r'Dirac $\delta$',alpha=0.75)
+        ax.semilogy(dens,taux,'k',linewidth=4.0,label=r'Dirac $\delta$',alpha=0.75)
 
         logmeandens = np.linspace(-2,7,300)
         meandens = 10**logmeandens
@@ -68,11 +68,11 @@ for abundance in [-9,-8.5,-8.25,-8.0]:
 
         dashcycle = itertools.cycle(((None,None),(6,2),(10,4),(2,2),(5,5)))
         for sigma in np.arange(0.5,4.0,1):
-            ax.semilogy(logmeandens,tau_hopkins(meandens,sigma=sigma,line=taux),color='orange', label='$\\sigma_s=%0.1f$ Hopkins' % sigma, linewidth=2, alpha=0.5, dashes=dashcycle.next())
+            ax.semilogy(logmeandens,tau_hopkins(meandens,sigma=sigma,line=taux),color='orange', label='$\\sigma_s=%0.1f$ Hopkins' % sigma, linewidth=3, alpha=0.8, dashes=dashcycle.next())
 
         ax.legend(loc='best',prop={'size':18})
         ax.axis([-2,7,1e-3,10])
-        ax.set_xlabel('$\\log_{10}$($\\rho($H$_2)$ [cm$^{-3}$])',fontsize=24)
+        ax.set_xlabel('$\\log_{10}\\left(\\langle\\rho\\rangle_V(\\mathrm{H}_2) [\mathrm{cm}^{-3}]\\right)$',fontsize=24)
         linelabel = {'oneone':'1-1','twotwo':'2-2'}[line]
         ax.set_ylabel('$\\tau_{%s}$' % linelabel,fontsize=24)
         savefig(savepath+'lognormalsmooth_density_tau_%s_massweight_withhopkins_logopr%0.1f_abund%s.png' % (line, np.log10(opr),str(abundance)),bbox_inches='tight')
