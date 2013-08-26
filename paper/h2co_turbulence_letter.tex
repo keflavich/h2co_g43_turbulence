@@ -19,7 +19,7 @@ of the Initial Mass Function \citep[IMF;][]{Padoan2002a, Padoan2007a, Hennebelle
 Elmegreen2011a, Hopkins2012b, Hennebelle2013a} and the star
 formation rate
 \citep[SFR;][]{Krumholz2005c,  Hennebelle2011a,
-Padoan2011b, Krumholz2012b, Federrath2012a, Padoan2012a}.
+Padoan2011b, Krumholz2012b, Federrath2012a, Padoan2012a, Federrath2013a}.
 The distribution of stellar masses and the overall star formation rate depend
 critically on the \rhoPDF established by turbulence.  It is therefore essential to
 measure the \rhoPDF in the molecular clouds that produce stars.
@@ -32,16 +32,16 @@ Recent works have used simulations to characterize the density distribution
 from different driving modes of turbulence
 \citep{Federrath2008a,Federrath2009a,Federrath2010a,Federrath2011a,Price2011b,Federrath2013a}.
 These studies determined that there is a relation between the mode of turbulent driving and the width
-of the lognormal density distribution, with the lognormal width $\sigma_{s}^2 = \ln\left(1+b^2
+of the lognormal density distribution, with the lognormal width (variance) $\sigma_{s}^2 = \ln\left(1+b^2
 \mathcal{M}^2 \frac{\beta}{\beta+1}\right)$, where $\beta=2 (\mathcal{M}_A /
 \mathcal{M})^2 = 2 (c_s/v_A)^2$ with sound speed $c_s$ and Alfven speed $v_A$,
 and the logarithmic density contrast $s\equiv\ln(\rho/\rho_0)$ 
-\citep[the $s$ in $c_s$ is unrelated; ][]{Padoan2011b,Molina2012a}.
+\citep[][]{Padoan2011b,Molina2012a}.
 
 The parameter $b$ describes the coupling between the density contrast and the
 Mach number \citep{Federrath2008a,Federrath2010a}.  A conceptual justification
 for the parameter is that for solenoidal (curly) driving, only 1 of the 3
-available spatial directions is directly compressed (a longitudinal wave) and
+available spatial directions is directly compressed (longitudinal waves) and
 thus $b=1/3$. Under compressive (convergent or divergent) driving, the gas is
 compressed in all three spatial directions, which gives $b=3/3=1$.
 \citet{Federrath2008a} and \citet{Federrath2010a} showed that simulations
@@ -63,7 +63,7 @@ driven with these modes achieve $b$ values consistent with this interpretation.
 
 All of the above turbulence-based theories of star formation explicitly assume a
 lognormal form for the density probability distribution $P_V(s)$ of the gas. %, with $s\equiv\ln (\rho/\rho_0)$.
-However, recent simulations \citep{Kritsuk2007a, Schmidt2009a, Federrath2010a, Federrath2013a, Federrath2013b} and theoretical work
+However, recent simulations \citep{Kritsuk2007a, Schmidt2009a, Federrath2010a, Konstandin2012a, Federrath2013a, Federrath2013b} and theoretical work
 \citep{Hopkins2013a} have shown that the assumption of a
 lognormal distribution is often very poor; theoretical intermittent distributions and 
 simulated \rhoPDF s deviate from lognormal by orders of magnitude
@@ -79,7 +79,7 @@ studies of turbulence focus on clouds that are not yet dominated by
 gravitational collapse (such as the cloud selected for this study) in order to study the initial conditions of star formation.
 
 While simulations are powerful probes of wide ranges of parameter space, no
-simulation is capable of including all of the physical processes and spatial
+simulation to date is capable of including all of the physical processes and spatial
 scales relevant to turbulence and star formation.  Observations are required to provide additional
 constraints on properties of interstellar turbulence and guide simulators
 toward the most useful conditions and processes to include.
@@ -236,7 +236,7 @@ largest scales in the cloud.  The \thirteenco lines are 50--100\% wider than the
 The highest \thirteenco contours are observed as a modest infrared dark cloud
 in Spitzer 8 \um images, but no dust emission peaks are observed at 500 \um
 \citep[Herschel;][]{Traficante2011a} or 1.1 mm
-\citep[Bolocam;][]{Aguirre2011a,Ginsburg2013b} associated with the dark gas.
+\citep[Bolocam;][]{Aguirre2011a,Ginsburg2013a} associated with the dark gas.
 This is an indication that the cloud is not dominated by gravity -- no
 massive dense clumps are present within this cloud.
 
@@ -597,7 +597,7 @@ density (\perkmspc) from the LVG model.
 We assume a fixed abundance of \ortho relative to \hh
 (i.e., the \formaldehyde perfectly traces the \hh).\footnote{While there is
 building evidence that there is \hh not traced by CO
-\citep{Shetty2011b,Shetty2011a}, the \formaldehyde and CO should be tracing the
+\citep{Glover2010a,Shetty2011b,Shetty2011a}, the \formaldehyde and CO should be tracing the
 same gas, as \formaldehyde abundances have typically been observed to be
 consistent with CO abundances.  \formaldehyde deficiency is also most likely to
 occur on the optically thin surfaces of clouds where the total gas density is
@@ -779,7 +779,7 @@ larger.
 \FigureTwo{figures/mach_vs_b_lognormal_mcmc_contours_freemach_abundance-8.5.pdf}
           {figures/mach_vs_b_lognormal_mcmc_contours_withmach_abundance-8.5.pdf}
 {Contours of the MCMC fit to the \formaldehyde optical depths with the cloud
-mean density restricted to $10~\percc < \rho_V < 200~\percc$.  The contour
+mean density restricted to $10~\percc < \meanrho_V < 200~\percc$.  The contour
 levels indicate the regions in which 25, 50, 68, 95, and 99.7\% of the MCMC
 samples are included. The left plot shows the parameter space allowed with no
 constraints on the Mach number, indicating the mild degeneracy between Mach and
@@ -795,12 +795,12 @@ constrain $b$ with Equation \ref{eqn:sigmas}.  Figure \ref{fig:lognormalmcmc} sh
 parameter space allowed by the observed volume density and \formaldehyde lines
 both with and without the Mach number constraint imposed.  If we assume the Mach number
 is approximately halfway between the \formaldehyde and CO based measurements, with
-a dispersion that includes both, we can constrain $b>0.66$ (see Table \ref{tab:datafits}).
+a dispersion that includes both, we can constrain $b>0.56$ (see Table \ref{tab:datafits}).
 % In principle, we should be able to then measure the compressibility coefficient
 % $b$ using our constraints on $\mathcal{M}$ and Equation \ref{eqn:sigmas}.
 % However, even if we select the low end of the $\sigma_s$ values $\sigma_s=2.2$
 % and the highest Mach number $\mathcal{M} = 6.6$, the $b$ values are
-% unrealistic: we have measured a lower-limit $b>1.7$.  This measurement indicates
+% unrealistic: we have measured a lower limit $b>1.7$.  This measurement indicates
 % that the lognormal density distribution is inadequate to describe the cloud.
 % Since there is no allowed parameter space, the fitted parameters are left
 % blank in Table \ref{tab:datafits}.
@@ -897,7 +897,7 @@ directly indicate what is driving the turbulence.
 % Crutcher & others seem not to have detected Zeeman splitting in this cloud
 
 Most of the systematic uncertainties tend to require a \emph{greater} $b$
-value, while we have already inferred a lower-limit
+value, while we have already inferred a lower limit
 that is moderately higher than others have observed \citep{Brunt2010c,Kainulainen2013a}.
 Temperatures in GMCs are typically 10-20 K, and we assumed 10 K: warmer
 temperatures increase the sound speed and therefore decrease the Mach number. If
@@ -1044,7 +1044,7 @@ AST-0100793.
 This research made use of Astropy, a community-developed core Python package
 for Astronomy \citep{Astropy2013a}.  It also made use of \texttt{pyspeckit}, an
 open source python-based package for spectroscopic data analysis
-\citep[\url{http://pyspeckit.bitbucket.org}][]{Ginsburg2011c}.
+\citep[\url{http://pyspeckit.bitbucket.org}; ][]{Ginsburg2011c}.
 The dendrogramming was performed using the python dendrogram package described at
 \url{http://dendrograms.readthedocs.org}.
 JD acknowledges the support of the NSF through the grant AST-0707713.

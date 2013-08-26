@@ -4,7 +4,7 @@
 \textbf{Math related to Optical Depth computation}
 
 $\tau_{LVG}(\rho)$ is computed from the LVG computations.  It is the optical
-depth for a given column $N_p$ of \formaldehyde molecules assuming a velocity
+depth for a given column $N_{LVG}$ of \formaldehyde molecules assuming a velocity
 difference along the line of sight of 1 km/s per pc.
 The optical depth per particle is therefore the LVG $\tau$ divided by the column
 density.
@@ -12,8 +12,8 @@ density.
     \tau_p(\rho) = (\tau_{LVG}(\rho)/N_{LVG})_p
 \end{equation}
 
-Holding the volume fixed and increasing in density either implies a
-corresponding increase in column density or in abundance.
+Holding the volume fixed and increasing in density $n(\hh)$ either implies a
+corresponding increase in column density $N_{LVG}$ or in abundance $X$.
 
 Assuming we can compute this optical depth per particle in hand as variable
 $\tau_p(\rho)$, we can then compute the average optical depth per particle for
