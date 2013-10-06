@@ -4,6 +4,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--reconvert",default=False,action='store_true')
 parser.add_argument("--arxiv",default=False,action='store_true')
+parser.add_argument("--texit",default=False,action='store_true')
 args = parser.parse_args()
 print "ARGS: ",args
 
@@ -28,7 +29,7 @@ emulateapjre = re.compile("documentclass{emulateapj}")
 beginre = re.compile('\\begin{document}')
 endre = re.compile('\\end{document}')
 prefacere = re.compile('\\input{preface.*}')
-solobibre = re.compile("\\input{solobib}")
+solobibre = re.compile("\\input{(solobib)}")
 
 def strip_input(list_of_lines):
     # strip out preface, solobib, end{doc}
@@ -36,11 +37,17 @@ def strip_input(list_of_lines):
     return "".join(
             [line for line in list_of_lines 
             if not prefacere.search(line)
-            and not solobibre.search(line)
+            #and not solobibre.search(line)
             and not endre.search(line)
             and not beginre.search(line)]
             )
 
+def dobib(bib, outf):
+    #bn = bib.groups()[0] + '.bbl'
+    bn = paper_name+".bbl"
+    print "Doing bibliography " + bn
+    with open(ppath+bn,'r') as f:
+        print >>outf,strip_input(f.readlines()),
 
 for line in file.readlines():
     if line[0] == "%":
@@ -48,7 +55,17 @@ for line in file.readlines():
     input = inputre.search(line)
     include = includere.search(line)
     bib = bibre.search(line)
-    if input is not None:
+    solobib = solobibre.search(line)
+    if solobib is not None:
+        fn = solobib.groups()[0] + ".tex"
+        print "Doing solobib " + fn
+        with open(ppath+fn,'r') as f:
+            solobib = f.readlines()
+            for ln in solobib:
+                bib = bibre.search(ln)
+                if bib is not None:
+                    dobib(bib,outf)
+    elif input is not None:
         fn = input.groups()[0] + ".tex"
         print "Doing input " + fn
         f = open(ppath+fn,'r')
@@ -67,11 +84,7 @@ for line in file.readlines():
             print >>outf,strip_input(f.readlines()),
         f.close()
     elif bib is not None:
-        bn = bib.groups()[0] + '.bbl'
-        print "Doing bibliography " + bn
-        f = open(ppath+bn,'r')
-        print >>outf,strip_input(f.readlines()),
-        f.close()
+        dobib(bib,outf)
     else:
         print >>outf,line,
 
@@ -220,6 +233,21 @@ if os.path.exists(outdir+'/Makefile'):
     os.system('rm ms.log')
     os.chdir(ppath)
     os.system('mv %s/ms.pdf %s_draft%s.pdf' % (outdir,paper_name,time.strftime("%m%d",time.localtime())))
+if args.texit:
+    os.chdir(outdir)
+    os.system('pdflatex ms.tex')
+    os.system('pdflatex ms.tex')
+    for junk in 'dvi','ps','aux','log':
+        try:
+            os.system('rm ms.'+junk)
+        except IOError:
+            pass
+    os.chdir(ppath)
+    if args.arxiv:
+        os.system('mv %s/ms.pdf %s_draft%s_arxiv.pdf' % (outdir,paper_name,time.strftime("%m%d",time.localtime())))
+    else:
+        os.system('mv %s/ms.pdf %s_draft%s_apj.pdf' % (outdir,paper_name,time.strftime("%m%d",time.localtime())))
+
 os.system('tar --exclude Makefile -czf Ginsburg_H2COTurbulence_%s_%s.tar.gz %s/ ' % (time.strftime("%m%d",time.localtime()),outtype,outdir))
 
 

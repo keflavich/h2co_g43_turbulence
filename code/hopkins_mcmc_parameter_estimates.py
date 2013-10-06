@@ -9,8 +9,10 @@ import hopkins_pdf
 
 if 'abundance' not in locals():
     from measure_tau import abundance
+if 'opr' not in locals():
+    from measure_tau import opr
 
-print "Beginning Hopkins parameter estimation using abundance=",abundance
+print "Beginning Hopkins parameter estimation using abundance=",abundance,' opr=',opr
 
 # Hopkins - NO Mach number restrictions
 d = mcmc_sampler_dict(tauoneone=tauoneone_hopkins,tautwotwo=tautwotwo_hopkins)
@@ -75,16 +77,16 @@ graph_hopkins.write_png(savepath+"mc_hopkins_graph.png")
 
 
 def docontours_all(mc_hopkins_freemach,mc_hopkins,mc_hopkins_simple):
-    docontours_multi(mc_hopkins_freemach,start=10000,savename=savepath+"mc_hopkins_freemach_multipanel_abundance%s.pdf" % abundance, dosave=True,
+    docontours_multi(mc_hopkins_freemach,start=10000,savename=savepath+"mc_hopkins_freemach_multipanel_abundance%s_opr%s.pdf" % (abundance,opr), dosave=True,
                      parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','mach','Tval','b'))
     #docontours_multi(mc_hopkins_freemach,start=10000,savename=savepath+"mc_hopkins_freemach_multipanel_deviance.pdf", dosave=True,
     #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','mach','Tval','b','deviance'))
 
-    docontours_multi(mc_hopkins,start=10000,savename=savepath+"mc_hopkins_withmach_multipanel_abundance%s.pdf" % abundance, dosave=True,
+    docontours_multi(mc_hopkins,start=10000,savename=savepath+"mc_hopkins_withmach_multipanel_abundance%s_opr%s.pdf" % (abundance,opr), dosave=True,
                      parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','b'))
     #docontours_multi(mc_hopkins,start=10000,savename=savepath+"mc_hopkins_withmach_multipanel_deviance.pdf", dosave=True,
     #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','b','deviance'))
-    docontours_multi(mc_hopkins_simple,start=10000,savename=savepath+"mc_hopkins_justtau_multipanel_abundance%s.pdf" % abundance, dosave=True,
+    docontours_multi(mc_hopkins_simple,start=10000,savename=savepath+"mc_hopkins_justtau_multipanel_abundance%s_opr%s.pdf" % (abundance,opr), dosave=True,
                      parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval'))
     #docontours_multi(mc_hopkins_simple,start=10000,savename=savepath+"mc_hopkins_justtau_multipanel_deviance.pdf", dosave=True,
     #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio','Tval','deviance'))
@@ -94,13 +96,13 @@ docontours_all(mc_hopkins_freemach,mc_hopkins,mc_hopkins_simple)
 if domillion:
     print "\nsimple hopkins sampling 1 million"
     mc_hopkins_simple.sample(1e6)
-    save_traces(mc_hopkins_simple, trace_data_path+"mc_hopkins_simple_traces%s.fits" % abundance, clobber=True)
+    save_traces(mc_hopkins_simple, trace_data_path+"mc_hopkins_simple_traces_abundance%s_opr%s.fits" % (abundance,opr), clobber=True)
     print "\nhopkins sampling 1 million"
     mc_hopkins.sample(1e6)
-    save_traces(mc_hopkins, trace_data_path+"mc_hopkins_withmach_traces_abundance%s.fits" % abundance, clobber=True)
+    save_traces(mc_hopkins, trace_data_path+"mc_hopkins_withmach_traces_abundance%s_opr%s.fits" % (abundance,opr), clobber=True)
     print "\nhopkins freemach sampling 1 million"
     mc_hopkins_freemach.sample(1e6)
-    save_traces(mc_hopkins_freemach, trace_data_path+"mc_hopkins_freemach_traces%s.fits" %abundance, clobber=True)
+    save_traces(mc_hopkins_freemach, trace_data_path+"mc_hopkins_freemach_traces_abundance%s_opr%s.fits" %(abundance,opr), clobber=True)
 
     docontours_all(mc_hopkins_freemach,mc_hopkins,mc_hopkins_simple)
 
@@ -127,11 +129,11 @@ print 'mc_hopkins_freemach b: ',mc_hopkins_freemach.stats(quantiles=(0.1,1,2.5,5
 print 'mc_hopkins_freemach m: ',mc_hopkins_freemach.stats()['mach']['quantiles']
 
 hopkins_statstable = pymc_tools.stats_table(mc_hopkins)
-hopkins_statstable.write(trace_data_path+'hopkins_statstable_abundance%s.fits' % abundance, overwrite=True)
+hopkins_statstable.write(trace_data_path+'hopkins_statstable_abundance%s_opr%s.fits' % (abundance,opr), overwrite=True)
 hopkins_simple_statstable = pymc_tools.stats_table(mc_hopkins_simple)
-hopkins_simple_statstable.write(trace_data_path+'hopkins_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
+hopkins_simple_statstable.write(trace_data_path+'hopkins_simple_statstable_abundance%s_opr%s.fits' % (abundance,opr), overwrite=True)
 hopkins_freemach_statstable = pymc_tools.stats_table(mc_hopkins_freemach)
-hopkins_freemach_statstable.write(trace_data_path+'hopkins_freemach_statstable_abundance%s.fits' % abundance, overwrite=True)
+hopkins_freemach_statstable.write(trace_data_path+'hopkins_freemach_statstable_abundance%s_opr%s.fits' % (abundance,opr), overwrite=True)
 
 
 pl.figure(32)

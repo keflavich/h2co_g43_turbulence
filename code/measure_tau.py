@@ -8,6 +8,8 @@ savepath = "/Users/adam/work/h2co/lowdens/figures/"
 # load defaults by default
 abundance = -8.5
 #abundance = -9.0
+opr = 1 # default
+opr = 0 # Faure suggestion
 
 # the observed values.  f=tau ratio = 6.65 (6.99?).  tau might be too high, but the "best fits" were tau=9 before, which is just not possible
 tau11 = 0.1072     # 0.0846168    "total tau" version.  WRONG.
@@ -17,7 +19,7 @@ etau22 = 0.0009   # 0.000723822
 ratio = 6.5171576487145408
 eratio = 0.38657654404132163
 
-tauratio,tauratio_hopkins,tau,tau_hopkins = generate_simpletools(abundance=abundance)
+tauratio,tauratio_hopkins,tau,tau_hopkins = generate_simpletools(abundance=abundance,opr=opr)
 tau1x,tau2x,dens,col = select_data(abundance=abundance)
 
 def tauoneone(meandens, sigma):
@@ -78,7 +80,7 @@ def savefig(savename, **kwargs):
     pl.savefig(savename.replace("png","pdf"), **kwargs)
 
 T,F = True,False
-domillion=T
+domillion=F
 dothousand=T
 
 if __name__ == "__main__":

@@ -1,12 +1,12 @@
 import pymc
 import numpy as np
 import pylab as pl
-from measure_tau import mcmc_sampler_dict,tauoneone,tautwotwo,savepath,domillion,abundance,savefig,trace_data_path
+from measure_tau import mcmc_sampler_dict,tauoneone,tautwotwo,savepath,domillion,abundance,opr,savefig,trace_data_path
 from mcmc_tools import docontours_multi,save_traces
 from agpy import pymc_plotting
 import pymc_tools
 
-print "Beginning Lognormal parameter estimation using abundance=",abundance
+print "Beginning Lognormal parameter estimation using abundance=",abundance,' opr= ',opr
 
 mc_simple = pymc.MCMC(mcmc_sampler_dict(tauoneone=tauoneone,tautwotwo=tautwotwo))
 
@@ -63,7 +63,7 @@ print "\nlognormal (freemach) sampling"
 mc_lognormal_freemach.sample(100000)
 
 def docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach):
-    docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_abundance%s.pdf" % abundance, dosave=True,
+    docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_abundance%s_opr%s.pdf" % (abundance,opr), dosave=True,
                      parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio'))
     #docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_deviance.pdf", dosave=True,
     #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
@@ -71,10 +71,10 @@ def docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach):
     #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','Metropolis_sigma_adaptive_scale_factor','Metropolis_b_adaptive_scale_factor','Metropolis_meandens_adaptive_scale_factor','deviance'))
     #docontours_multi(mc_lognormal,start=10000,savename=savepath+"mc_lognormal_withmach_multipanel_deviance.pdf", dosave=True,
     #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
-    docontours_multi(mc_simple,start=10000,savename=savepath+"mc_lognormal_justtau_multipanel_abundance%s.pdf" % abundance, dosave=True,
+    docontours_multi(mc_simple,start=10000,savename=savepath+"mc_lognormal_justtau_multipanel_abundance%s_opr%s.pdf" % (abundance,opr), dosave=True,
                      parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','tau_ratio'))
 
-    docontours_multi(mc_lognormal_freemach,start=10000,savename=savepath+"mc_lognormal_freemach_multipanel_abundance%s.pdf" % abundance, dosave=True,
+    docontours_multi(mc_lognormal_freemach,start=10000,savename=savepath+"mc_lognormal_freemach_multipanel_abundance%s_opr%s.pdf" % (abundance,opr), dosave=True,
                      parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio'))
     #docontours_multi(mc_lognormal_freemach,start=10000,savename=savepath+"mc_lognormal_freemach_multipanel_deviance.pdf", dosave=True,
     #                 parnames=('tauoneone_mu','tautwotwo_mu','meandens','sigma','mach','b','tau_ratio','deviance'))
@@ -96,22 +96,22 @@ docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach)
 if domillion:
     print "\nSimple sampling 1 million"
     mc_simple.sample(1e6)
-    mc_lognormal_simple_traces = save_traces(mc_simple, trace_data_path+"mc_lognormal_simple_traces%s.fits" % abundance, clobber=True)
+    mc_lognormal_simple_traces = save_traces(mc_simple, trace_data_path+"mc_lognormal_simple_traces%s_opr%s.fits" % (abundance,opr), clobber=True)
     print "\nlognormal sampling 1 million"
     mc_lognormal.sample(1e6)
-    mc_lognormal_traces = save_traces(mc_lognormal, trace_data_path+"mc_lognormal_withmach_traces%s.fits" % abundance, clobber=True)
+    mc_lognormal_traces = save_traces(mc_lognormal, trace_data_path+"mc_lognormal_withmach_traces%s_opr%s.fits" % (abundance,opr), clobber=True)
     print "\nlognormal (freemach) sampling 1 million"
     mc_lognormal_freemach.sample(1e6)
-    mc_lognormal_freemach_traces = save_traces(mc_lognormal_freemach, trace_data_path+"mc_lognormal_freemach_traces%s.fits" % abundance, clobber=True)
+    mc_lognormal_freemach_traces = save_traces(mc_lognormal_freemach, trace_data_path+"mc_lognormal_freemach_traces%s_opr%s.fits" % (abundance,opr), clobber=True)
 
     docontours_all(mc_lognormal,mc_simple,mc_lognormal_freemach)
 
 lognormal_statstable = pymc_tools.stats_table(mc_lognormal)
-lognormal_statstable.write(trace_data_path+'lognormal_statstable_abundance%s.fits' % abundance, overwrite=True)
+lognormal_statstable.write(trace_data_path+'lognormal_statstable_abundance%s_opr%s.fits' % (abundance,opr), overwrite=True)
 lognormal_simple_statstable = pymc_tools.stats_table(mc_simple)
-lognormal_simple_statstable.write(trace_data_path+'lognormal_simple_statstable_abundance%s.fits' % abundance, overwrite=True)
+lognormal_simple_statstable.write(trace_data_path+'lognormal_simple_statstable_abundance%s_opr%s.fits' % (abundance,opr), overwrite=True)
 lognormal_freemach_statstable = pymc_tools.stats_table(mc_lognormal_freemach)
-lognormal_freemach_statstable.write(trace_data_path+'lognormal_freemach_statstable_abundance%s.fits' % abundance, overwrite=True)
+lognormal_freemach_statstable.write(trace_data_path+'lognormal_freemach_statstable_abundance%s_opr%s.fits' % (abundance,opr), overwrite=True)
 
 
 pl.figure(33)
